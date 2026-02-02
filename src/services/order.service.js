@@ -209,12 +209,20 @@ class OrderService {
 
   async deleteOrder(id) {
     try {
-      const { data, error } = await supabase
+      // First mark the order as cancelled/refunded for auditability
+      await supabase
+        .from('orders')
+        .update({
+          status: 'cancelled',
+          payment_status: 'refunded',
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id);
+
+      const { error } = await supabase
         .from('orders')
         .delete()
-        .eq('id', id)
-        .select()
-        .single();
+        .eq('id', id);
 
       if (error) {
         if (error.code === 'PGRST116') {

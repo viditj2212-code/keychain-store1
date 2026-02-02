@@ -80,6 +80,40 @@ export default function AdminOrdersPage() {
     }
   }
 
+  const handleDelete = async (orderId) => {
+    const confirmed = await showConfirm({
+      title: 'Delete Order',
+      message: 'This will cancel and remove the order. Proceed?',
+      confirmText: 'Delete',
+      cancelText: 'Keep Order',
+      type: 'danger'
+    })
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      if (response.ok) {
+        showToast('Order cancelled and deleted', 'success')
+        loadOrders()
+      } else {
+        throw new Error('Failed to delete')
+      }
+    } catch (error) {
+      console.error('Error deleting order:', error)
+      showToast('Failed to delete order', 'error')
+    }
+  }
+
   const getStatusBadge = (status) => {
     const variants = {
       pending: 'warning',
@@ -220,11 +254,18 @@ export default function AdminOrdersPage() {
                       </select>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <Link href={`/admin/orders/${order.id}`}>
-                        <button className="text-primary-600 hover:text-primary-700 font-medium text-sm">
-                          View Details →
+                      <div className="flex items-center gap-4 justify-end">
+                        <Link href={`/admin/orders/${order.id}`}>
+                          <button className="text-primary-600 hover:text-primary-700 font-medium text-sm">
+                            View Details ->
+                          </button>
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(order.id)}
+                          className="text-red-600 hover:text-red-700 font-medium text-sm">
+                          Delete
                         </button>
-                      </Link>
+                      </div>
                     </td>
                   </tr>
                 ))
