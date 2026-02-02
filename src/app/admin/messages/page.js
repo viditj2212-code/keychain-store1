@@ -245,7 +245,10 @@ export default function AdminMessagesPage() {
                 </button>
                 <button
                   onClick={() => {
-                    window.location.href = `mailto:${selectedMessage.email}`
+                    if (typeof window !== 'undefined') {
+                      window.location.href = `mailto:${selectedMessage.email}`
+                    }
+
                   }}
                   className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                 >

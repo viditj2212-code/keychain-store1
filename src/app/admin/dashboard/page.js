@@ -30,7 +30,10 @@ export default function AdminDashboardPage() {
 
       if (statsRes.status === 401) {
         localStorage.removeItem('adminToken')
-        window.location.href = '/admin/login'
+        if (typeof window !== 'undefined') {
+          window.location.href = '/admin/login'
+        }
+
         return
       }
 
