@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 const productsRoutes = require('./src/routes/products.routes');
 const ordersRoutes = require('./src/routes/orders.routes');
@@ -15,10 +16,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  // Allow images to be requested from the Next.js domain (localhost:3000 in dev)
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static assets (including uploaded images) from /public
+const staticPath = path.join(process.cwd(), 'public');
+logger.info(`Serving static files from: ${staticPath}`);
+app.use(express.static(staticPath));
 
 // Rate limiting
 const limiter = rateLimit({
