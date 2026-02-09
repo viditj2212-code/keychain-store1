@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = async () => {
     const redirectUrl = typeof window !== 'undefined'
       ? `${window.location.origin}/auth/callback`
-      : `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+      : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
