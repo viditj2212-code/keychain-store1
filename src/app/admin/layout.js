@@ -112,7 +112,7 @@ export default function AdminLayout({ children }) {
   const innerContent = (isLoginPage || !user) ? (
     <>{children}</>
   ) : (
-    <div className="flex h-screen bg-gray-100 flex flex-col w-full">
+    <div className="flex min-h-screen bg-gray-100 flex flex-col w-full">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div

@@ -82,6 +82,40 @@ export default function OrderDetailPage() {
     }
   }
 
+  const handleDelete = async () => {
+    const confirmed = await showConfirm({
+      title: 'Delete Order',
+      message: 'This will permanently delete this order. This action cannot be undone.',
+      confirmText: 'Delete Order',
+      cancelText: 'Cancel',
+      type: 'danger'
+    })
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${params.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      if (response.ok) {
+        showToast('Order deleted successfully', 'success')
+        router.push('/admin/orders')
+      } else {
+        throw new Error('Failed to delete order')
+      }
+    } catch (error) {
+      console.error('Error deleting order:', error)
+      showToast('Failed to delete order', 'error')
+    }
+  }
+
   if (loading) {
     return <Loading />
   }
@@ -216,6 +250,13 @@ export default function OrderDetailPage() {
                 disabled={order.status === 'cancelled'}
               >
                 Cancel Order
+              </Button>
+              <Button
+                onClick={handleDelete}
+                variant="danger"
+                className="w-full mt-4"
+              >
+                Delete Order
               </Button>
             </div>
           </div>

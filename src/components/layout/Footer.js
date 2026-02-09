@@ -41,7 +41,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="bg-white border-t-2 border-gray-900/5 text-gray-900 pb-20 relative overflow-hidden">
+    <footer className="bg-white border-t-2 border-gray-900/5 text-gray-900 relative overflow-hidden">
       {/* Heavy Technical Grid Accent */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
 

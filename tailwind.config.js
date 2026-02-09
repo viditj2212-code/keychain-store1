@@ -11,6 +11,8 @@ module.exports = {
         space: ['var(--font-space)', 'sans-serif'],
         outfit: ['var(--font-outfit)', 'sans-serif'],
         inter: ['var(--font-inter)', 'sans-serif'],
+        poppins: ['var(--font-poppins)', 'sans-serif'],
+        slab: ['var(--font-slab)', 'serif'],
       },
       colors: {
         primary: {

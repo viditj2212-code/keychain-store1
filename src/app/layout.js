@@ -1,4 +1,4 @@
-import { Inter, Outfit, Space_Grotesk } from 'next/font/google'
+import { Inter, Outfit, Space_Grotesk, Poppins, Roboto_Slab } from 'next/font/google'
 import '../styles/globals.css'
 import LayoutWrapper from '@/components/layout/LayoutWrapper'
 import { CartProvider } from '@/context/CartContext'
@@ -22,6 +22,20 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
+
+const robotoSlab = Roboto_Slab({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-slab',
+  display: 'swap',
+})
+
 export const metadata = {
   title: 'KeyChain Collective - Elite Daily Carry',
   description: 'Precision-engineered minimalist keychains for the modern collector.',
@@ -30,8 +44,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} ${spaceGrotesk.variable}`}>
-      <body className="font-outfit bg-white text-gray-900">
+    <html lang="en" className={`${inter.variable} ${outfit.variable} ${spaceGrotesk.variable} ${poppins.variable} ${robotoSlab.variable}`}>
+      <body className="font-poppins bg-white text-gray-900">
         <AuthProvider>
           <CartProvider>
             <div className="flex flex-col min-h-screen">

@@ -5,6 +5,7 @@ import { useCart } from '@/context/CartContext'
 import Button from '@/components/common/Button'
 import Badge from '@/components/common/Badge'
 import { getImageUrl } from '@/utils/imageUrl'
+import { useNotification } from '@/contexts/NotificationContext'
 
 /**
  * Detailed product view component
@@ -13,6 +14,7 @@ export default function ProductDetail({ product }) {
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
   const { addToCart } = useCart()
+  const { showToast } = useNotification()
 
   // Ensure we have an array of images, falling back to the main image if secondary images are missing
   const images = (product.images && product.images.length > 0)
@@ -21,6 +23,31 @@ export default function ProductDetail({ product }) {
 
   const handleAddToCart = () => {
     addToCart(product, quantity)
+    showToast(`Added ${quantity} ${product.name} to cart!`, 'success')
+  }
+
+  const handleShare = async () => {
+    const url = window.location.href
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: product.name,
+          text: product.description,
+          url: url
+        })
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          copyToClipboard(url)
+        }
+      }
+    } else {
+      copyToClipboard(url)
+    }
+  }
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+    showToast('Link copied to clipboard!', 'success')
   }
 
   const incrementQuantity = () => {
@@ -171,20 +198,31 @@ export default function ProductDetail({ product }) {
             </div>
           </div>
 
-          <button
-            onClick={handleAddToCart}
-            disabled={product.stock === 0}
-            className="font-space w-full bg-gray-900 text-white h-24 rounded-[2.5rem] font-extrabold text-[15px] uppercase tracking-[0.35em] italic flex items-center justify-center gap-6 hover:bg-black hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] disabled:bg-gray-100 disabled:text-gray-300 shadow-2xl shadow-gray-200"
-          >
-            {product.stock === 0 ? 'Out of Inventory' : (
-              <>
-                Add to Collection
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
-                </svg>
-              </>
-            )}
-          </button>
+          <div className="grid grid-cols-3 gap-4">
+            <button
+              onClick={handleAddToCart}
+              disabled={product.stock === 0}
+              className="col-span-2 font-space bg-gray-900 text-white h-24 rounded-[2.5rem] font-extrabold text-[15px] uppercase tracking-[0.35em] italic flex items-center justify-center gap-6 hover:bg-black hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] disabled:bg-gray-100 disabled:text-gray-300 shadow-2xl shadow-gray-200"
+            >
+              {product.stock === 0 ? 'Out of Inventory' : (
+                <>
+                  Add to Cart
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
+                  </svg>
+                </>
+              )}
+            </button>
+            <button
+              onClick={handleShare}
+              className="font-space bg-white border-2 border-gray-900 text-gray-900 h-24 rounded-[2.5rem] font-extrabold text-[15px] uppercase tracking-[0.35em] italic flex items-center justify-center hover:bg-gray-900 hover:text-white hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] shadow-lg"
+              title="Share Product"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Feature List - Tactical Hardware style */}

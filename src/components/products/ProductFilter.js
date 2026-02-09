@@ -29,9 +29,9 @@ export default function ProductFilter({ filters, onFilterChange }) {
   ]
 
   return (
-    <div className="bg-white rounded-[3rem] border-2 border-gray-900 p-10 space-y-12 shadow-2xl shadow-gray-200/50 relative overflow-hidden">
+    <div className="bg-white rounded-[3rem] border-2 border-gray-900 p-10 space-y-12 shadow-2xl shadow-gray-200/50 relative overflow-hidden max-h-[80vh] overflow-y-auto">
       {/* Technical Grid Accent */}
-      <div className="absolute top-0 right-0 w-32 h-32 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '15px 15px' }}></div>
+      <div className="absolute top-0 right-0 w-32 h-32 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '15px 15px' }}></div>
 
       <div className="space-y-4 relative z-10">
         <p className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.5em] italic">Refinement / Filter</p>
