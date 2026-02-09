@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 import Button from '@/components/common/Button'
 import Badge from '@/components/common/Badge'
+import { getImageUrl } from '@/utils/imageUrl'
 
 /**
  * Product card component for displaying individual products
@@ -21,7 +22,7 @@ export default function ProductCard({ product }) {
         {/* Product Image Section */}
         <div className="relative aspect-square overflow-hidden bg-gray-50">
           <img
-            src={product.image || 'https://via.placeholder.com/400x400?text=Keychain'}
+            src={getImageUrl(product.image) || 'https://via.placeholder.com/400x400?text=Keychain'}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
           />

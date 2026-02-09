@@ -1,3 +1,5 @@
+import { getImageUrl } from '@/utils/imageUrl'
+
 /**
  * Order summary component for checkout page
  */
@@ -26,7 +28,7 @@ export default function OrderSummary({ cart }) {
           <div key={item.id} className="flex gap-6 group">
             <div className="w-16 h-16 rounded-xl bg-gray-800 overflow-hidden flex-shrink-0 border border-white/5">
               <img
-                src={item.image || 'https://via.placeholder.com/60x60?text=Keychain'}
+                src={getImageUrl(item.image) || 'https://via.placeholder.com/60x60?text=Keychain'}
                 alt={item.name}
                 className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
               />

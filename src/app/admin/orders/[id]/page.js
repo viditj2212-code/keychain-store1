@@ -6,6 +6,7 @@ import Loading from '@/components/common/Loading'
 import Badge from '@/components/common/Badge'
 import Button from '@/components/common/Button'
 import { useNotification } from '@/contexts/NotificationContext'
+import { getImageUrl } from '@/utils/imageUrl'
 
 /**
  * Order details page
@@ -138,7 +139,7 @@ export default function OrderDetailPage() {
               {order.items?.map((item, index) => (
                 <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                   <img
-                    src={item.image}
+                    src={getImageUrl(item.image)}
                     alt={item.name}
                     className="w-20 h-20 object-cover rounded-lg"
                   />

@@ -1,4 +1,5 @@
 import { useCart } from '@/context/CartContext'
+import { getImageUrl } from '@/utils/imageUrl'
 
 /**
  * Individual cart item component
@@ -19,7 +20,7 @@ export default function CartItem({ item }) {
       {/* Heavy Technical Container */}
       <div className="relative w-full sm:w-40 aspect-square flex-shrink-0 overflow-hidden rounded-[2rem] bg-gray-900 border-2 border-transparent group-hover:border-gray-900 transition-all duration-700 shadow-2xl">
         <img
-          src={item.image || 'https://via.placeholder.com/100x100?text=Keychain'}
+          src={getImageUrl(item.image) || 'https://via.placeholder.com/100x100?text=Keychain'}
           alt={item.name}
           className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 opacity-80 group-hover:opacity-100"
         />

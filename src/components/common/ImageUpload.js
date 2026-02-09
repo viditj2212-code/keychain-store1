@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { getImageUrl } from '@/utils/imageUrl'
 
 /**
  * Image upload component with multiple file support and preview
@@ -79,7 +80,7 @@ export default function ImageUpload({ images = [], onChange, maxImages = 10 }) {
             <div key={index} className="relative group">
               <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 border-2 border-gray-200">
                 <img
-                  src={preview.url || preview}
+                  src={getImageUrl(preview.url || preview)}
                   alt={`Preview ${index + 1}`}
                   className="w-full h-full object-cover"
                 />

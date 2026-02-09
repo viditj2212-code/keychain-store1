@@ -7,6 +7,7 @@ import Input from '@/components/common/Input'
 import Loading from '@/components/common/Loading'
 import ImageUpload from '@/components/common/ImageUpload'
 import { useNotification } from '@/contexts/NotificationContext'
+import { getImageUrl } from '@/utils/imageUrl'
 
 /**
  * Edit product page

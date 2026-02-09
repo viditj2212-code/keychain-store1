@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useCart } from '@/context/CartContext'
 import Button from '@/components/common/Button'
 import Badge from '@/components/common/Badge'
+import { getImageUrl } from '@/utils/imageUrl'
 
 /**
  * Detailed product view component
@@ -15,8 +16,8 @@ export default function ProductDetail({ product }) {
 
   // Ensure we have an array of images, falling back to the main image if secondary images are missing
   const images = (product.images && product.images.length > 0)
-    ? product.images
-    : [product.image || 'https://via.placeholder.com/600x600?text=Keychain']
+    ? product.images.map(img => getImageUrl(img))
+    : [getImageUrl(product.image) || 'https://via.placeholder.com/600x600?text=Keychain']
 
   const handleAddToCart = () => {
     addToCart(product, quantity)

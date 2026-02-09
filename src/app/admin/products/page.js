@@ -6,6 +6,7 @@ import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import Badge from '@/components/common/Badge'
 import { useNotification } from '@/contexts/NotificationContext'
+import { getImageUrl } from '@/utils/imageUrl'
 
 /**
  * Admin products management page
@@ -186,7 +187,7 @@ export default function AdminProductsPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <img
-                          src={product.image}
+                          src={getImageUrl(product.image)}
                           alt={product.name}
                           className="w-12 h-12 rounded-lg object-cover"
                         />
