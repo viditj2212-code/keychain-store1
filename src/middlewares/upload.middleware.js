@@ -1,19 +1,8 @@
 const multer = require('multer');
-const path = require('path');
 
-// Configure storage
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // Save to public/images folder
-    // Note: In production, this should ideally be an S3 bucket or Supabase Storage
-    cb(null, path.join(process.cwd(), 'public', 'images'));
-  },
-  filename: function (req, file, cb) {
-    // Create unique filename: timestamp-originalName
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
-});
+// Configure memory storage for Supabase upload
+// Files are kept in memory as buffers and uploaded to Supabase Storage
+const storage = multer.memoryStorage();
 
 // File filter
 const fileFilter = (req, file, cb) => {

@@ -10,6 +10,7 @@ const {
 } = require('../validators/product.validator');
 
 const upload = require('../middlewares/upload.middleware');
+const { uploadMultipleImages } = require('../services/supabase-storage.service');
 
 // Public routes
 router.get('/', productsController.getAllProducts);
@@ -19,36 +20,57 @@ router.get('/:id', validate(productIdValidator), productsController.getProductBy
 router.post(
   '/',
   authenticateAdmin,
-  upload.array('images', 10), // Allow up to 10 images
-  (req, res, next) => {
-    if (req.files && req.files.length > 0) {
-      // First image becomes the main image
-      req.body.image = `/images/${req.files[0].filename}`;
+  upload.array('images', 10),
+  async (req, res, next) => {
+    try {
+      if (req.files && req.files.length > 0) {
+        // Upload images to Supabase Storage
+        const imageUrls = await uploadMultipleImages(req.files, 'products');
 
-      // All images become gallery images
-      const imageUrls = req.files.map(file => `/images/${file.filename}`);
-      req.body.images = JSON.stringify(imageUrls);
+        // First image becomes the main image
+        req.body.image = imageUrls[0];
+
+        // All images become gallery images
+        req.body.images = JSON.stringify(imageUrls);
+      }
+      next();
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      return res.status(500).json({
+        message: 'Failed to upload images',
+        error: error.message
+      });
     }
-    next();
   },
   validate(createProductValidator),
   productsController.createProduct
 );
 
+
 router.put(
   '/:id',
   authenticateAdmin,
-  upload.array('images', 10), // Allow up to 10 images
-  (req, res, next) => {
-    if (req.files && req.files.length > 0) {
-      // First image becomes the main image
-      req.body.image = `/images/${req.files[0].filename}`;
+  upload.array('images', 10),
+  async (req, res, next) => {
+    try {
+      if (req.files && req.files.length > 0) {
+        // Upload images to Supabase Storage
+        const imageUrls = await uploadMultipleImages(req.files, 'products');
 
-      // All images become gallery images
-      const imageUrls = req.files.map(file => `/images/${file.filename}`);
-      req.body.images = JSON.stringify(imageUrls);
+        // First image becomes the main image
+        req.body.image = imageUrls[0];
+
+        // All images become gallery images
+        req.body.images = JSON.stringify(imageUrls);
+      }
+      next();
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      return res.status(500).json({
+        message: 'Failed to upload images',
+        error: error.message
+      });
     }
-    next();
   },
   validate(productIdValidator),
   validate(updateProductValidator),
