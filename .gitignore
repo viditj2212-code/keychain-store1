@@ -6,3 +6,4 @@ build/
 .env.local
 changes.txt
 vidit.py
+.env.example

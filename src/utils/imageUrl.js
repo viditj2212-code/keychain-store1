@@ -8,12 +8,22 @@ export function getImageUrl(imagePath) {
     return imagePath;
   }
 
-  // If it's a relative path (starts with /images/), prepend the API base URL
+  // If it's a relative path (starts with /images/), prepend the backend base URL
   if (imagePath.startsWith('/images/')) {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-    // Remove /api from the end to get the base URL
-    const baseUrl = apiUrl.replace('/api', '');
-    return `${baseUrl}${imagePath}`;
+    // First priority: use explicit backend URL if set
+    let backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    
+    // Second priority: derive from API URL
+    if (!backendUrl) {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      // Remove /api from the end to get the base URL
+      backendUrl = apiUrl.replace('/api', '').replace(/\/$/, '');
+    }
+    
+    // Ensure no trailing slash
+    backendUrl = backendUrl.replace(/\/$/, '');
+    
+    return `${backendUrl}${imagePath}`;
   }
 
   // Otherwise return as is
