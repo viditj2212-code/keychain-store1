@@ -65,12 +65,34 @@ export const AuthProvider = ({ children }) => {
       options: {
         data: {
           first_name: firstName,
-          last_name: lastName
+          last_name: lastName,
+          role: 'user'
         }
       }
     })
 
     if (error) throw error
+
+    // Create user record in database
+    if (data.user) {
+      const { error: dbError } = await supabase
+        .from('users')
+        .insert([
+          {
+            id: data.user.id,
+            email: data.user.email,
+            first_name: firstName,
+            last_name: lastName,
+            role: 'user'
+          }
+        ])
+
+      if (dbError) {
+        console.error('Error creating user record:', dbError)
+        // Don't throw here - auth user is created, we can retry DB insert later
+      }
+    }
+
     return data
   }
 

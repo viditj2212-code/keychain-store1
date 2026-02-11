@@ -34,10 +34,10 @@ export default function Header() {
           <div className="flex items-center justify-between">
             {/* Technical Logo */}
             <Link href="/" className="group flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-space font-extrabold italic text-xl group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
+              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-poppins font-bold italic text-xl group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
                 K
               </div>
-              <span className="font-space text-2xl font-extrabold text-gray-900 tracking-tighter uppercase italic group-hover:tracking-normal transition-all duration-500">
+              <span className="font-poppins text-2xl font-bold text-gray-900 tracking-tighter uppercase italic group-hover:tracking-normal transition-all duration-500">
                 Keychain<span className="text-gray-300">.</span>
               </span>
             </Link>
@@ -48,7 +48,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-space text-[11px] font-extrabold text-gray-400 hover:text-gray-900 uppercase tracking-[0.4em] italic transition-all duration-300 hover:tracking-[0.5em]"
+                  className="font-poppins text-[11px] font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-[0.4em] italic transition-all duration-300 hover:tracking-[0.5em]"
                 >
                   {link.label}
                 </Link>
@@ -63,18 +63,18 @@ export default function Header() {
                   <div className="flex items-center gap-8">
                     <button
                       onClick={() => logout()}
-                      className="font-outfit text-[9px] font-bold text-gray-300 hover:text-gray-900 uppercase tracking-widest italic transition-colors"
+                      className="font-poppins text-[9px] font-semibold text-gray-300 hover:text-gray-900 uppercase tracking-widest italic transition-colors"
                     >
                       Logout_
                     </button>
-                    <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center text-white font-space font-extrabold text-lg italic shadow-xl shadow-gray-900/10">
+                    <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center text-white font-poppins font-bold text-lg italic shadow-xl shadow-gray-900/10">
                       {profile?.first_name?.[0] || user.email[0].toUpperCase()}
                     </div>
                   </div>
                 ) : (
                   <Link
                     href="/auth"
-                    className="font-space text-[11px] font-extrabold text-gray-900 uppercase tracking-[0.3em] italic hover:opacity-50 transition-all border-b-2 border-gray-900 pb-1"
+                    className="font-poppins text-[11px] font-semibold text-gray-900 uppercase tracking-[0.3em] italic hover:opacity-50 transition-all border-b-2 border-gray-900 pb-1"
                   >
                     Access_
                   </Link>
@@ -91,7 +91,7 @@ export default function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
                 {cartItemsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-[10px] font-extrabold rounded-lg h-6 w-6 flex items-center justify-center shadow-xl shadow-gray-900/20 border-2 border-white group-hover:bg-red-600 transition-colors">
+                  <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-[10px] font-semibold rounded-lg h-6 w-6 flex items-center justify-center shadow-xl shadow-gray-900/20 border-2 border-white group-hover:bg-red-600 transition-colors">
                     {cartItemsCount}
                   </span>
                 )}

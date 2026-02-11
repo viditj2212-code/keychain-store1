@@ -16,7 +16,7 @@ export default function Loading({ size = 'md', text = 'Loading...' }) {
       </div>
       {text && (
         <div className="mt-8 flex flex-col items-center gap-2">
-          <p className="font-outfit text-[10px] font-bold text-gray-900 uppercase tracking-[0.5em] italic animate-pulse">{text !== 'Loading...' ? text : 'INITIALISING SYSTEMS'}</p>
+          <p className="font-poppins text-[10px] font-semibold text-gray-900 uppercase tracking-[0.5em] italic animate-pulse">{text !== 'Loading...' ? text : 'INITIALISING SYSTEMS'}</p>
           <div className="w-24 h-0.5 bg-gray-900/10 rounded-full overflow-hidden">
             <div className="w-full h-full bg-gray-900 origin-left animate-loading-bar"></div>
           </div>

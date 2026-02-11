@@ -25,7 +25,7 @@ export default function CustomDropdown({ label, options, value, onChange, classN
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       {label && (
-        <label className="block text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-[0.4em] italic ml-1">
+        <label className="block text-[10px] font-semibold text-gray-400 mb-3 uppercase tracking-[0.4em] italic ml-1 font-poppins">
           {label}
         </label>
       )}
@@ -37,7 +37,7 @@ export default function CustomDropdown({ label, options, value, onChange, classN
           : 'border-gray-100 hover:border-gray-300'
           }`}
       >
-        <span className={`font-outfit font-bold uppercase tracking-widest text-xs italic truncate transition-colors ${isOpen ? 'text-gray-900' : 'text-gray-400'}`}>
+        <span className={`font-poppins font-semibold uppercase tracking-widest text-xs italic truncate transition-colors ${isOpen ? 'text-gray-900' : 'text-gray-400'}`}>
           {selectedOption.label}
         </span>
 
@@ -54,7 +54,7 @@ export default function CustomDropdown({ label, options, value, onChange, classN
       {/* Options Dropdown / Sequence Matrix */}
       <div className={`absolute z-[100] w-full mt-4 bg-white/98 backdrop-blur-xl border-2 border-gray-900 rounded-[2rem] shadow-2xl overflow-hidden transition-all duration-500 origin-top transform ${isOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
         }`}>
-        <div className="py-4 max-h-[300px] overflow-y-auto custom-scrollbar">
+        <div className="pt-4 max-h-[300px] overflow-y-auto custom-scrollbar">
           {options.map((option) => (
             <div
               key={option.value}
@@ -62,9 +62,9 @@ export default function CustomDropdown({ label, options, value, onChange, classN
                 onChange(option.value)
                 setIsOpen(false)
               }}
-              className={`px-10 py-5 font-outfit font-bold uppercase tracking-widest text-[10px] italic cursor-pointer transition-all flex items-center justify-between ${value === option.value
+              className={`px-10 py-5 font-poppins font-semibold uppercase tracking-widest text-[10px] italic cursor-pointer transition-all flex items-center justify-between ${value === option.value
                 ? 'bg-gray-900 text-white'
-                : 'text-gray-400 hover:bg-gray-50 hover:text-gray-900'
+                : 'bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-900'
                 }`}
             >
               <span>{option.label}</span>

@@ -53,11 +53,11 @@ export default function Footer() {
               <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-space font-extrabold italic text-xl group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
                 K
               </div>
-              <span className="font-space text-2xl font-extrabold text-gray-900 tracking-tighter uppercase italic">
+              <span className="font-poppins text-2xl font-bold text-gray-900 tracking-tighter uppercase italic">
                 Keychain<span className="text-gray-300">.</span>
               </span>
             </Link>
-            <p className="font-outfit text-[11px] font-bold text-gray-400 uppercase tracking-[0.3em] leading-relaxed italic max-w-xs">
+            <p className="font-poppins text-[11px] font-semibold text-gray-400 uppercase tracking-[0.3em] leading-relaxed italic max-w-xs">
               Engineering essential carriers through material integrity and industrial precision.
             </p>
             {/* Social Protocols */}
@@ -94,16 +94,16 @@ export default function Footer() {
               <h3 className="font-space text-[10px] font-extrabold text-gray-900 uppercase tracking-[0.5em] italic">{section.title} Matrix</h3>
               <ul className="space-y-4">
                 {section.links.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        prefetch={false}
-                        href={link.href}
-                        className="font-outfit text-xs font-bold text-gray-400 hover:text-gray-900 uppercase tracking-widest italic transition-all duration-300 hover:pl-2"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
+                  <li key={link.href}>
+                    <Link
+                      prefetch={false}
+                      href={link.href}
+                      className="font-poppins text-xs font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-widest italic transition-all duration-300 hover:pl-2"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
@@ -111,14 +111,14 @@ export default function Footer() {
 
         {/* System Terminal Bar */}
         <div className="border-t-2 border-gray-900/5 mt-12 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p className="font-outfit text-[10px] font-bold text-gray-300 uppercase tracking-widest italic leading-relaxed text-center md:text-left">
+          <p className="font-poppins text-[10px] font-semibold text-gray-300 uppercase tracking-widest italic leading-relaxed text-center md:text-left">
             Acquisition Portal Protocol 1.0 <br />
             © {currentYear} Industrial Bureau. Secure Transmission.
           </p>
           <div className="flex items-center gap-10">
-            <Link prefetch={false} href="/privacy" className="font-outfit text-[9px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Privacy_Protocol</Link>
-            <Link prefetch={false} href="/terms" className="font-outfit text-[9px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Terms_Sequence</Link>
-            <p className="font-space text-[12px] font-extrabold text-gray-900 uppercase italic tracking-tighter hidden lg:block">Material Integrity_</p>
+            <Link prefetch={false} href="/privacy" className="font-poppins text-[9px] font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Privacy_Protocol</Link>
+            <Link prefetch={false} href="/terms" className="font-poppins text-[9px] font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Terms_Sequence</Link>
+            <p className="font-poppins text-[12px] font-bold text-gray-900 uppercase italic tracking-tighter hidden lg:block">Material Integrity_</p>
           </div>
         </div>
       </div>

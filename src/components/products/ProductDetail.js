@@ -80,13 +80,13 @@ export default function ProductDetail({ product }) {
           <div className="absolute bottom-10 left-10 z-10">
             <div className="glass p-8 rounded-[2.5rem] flex items-center gap-8">
               <div className="space-y-1">
-                <p className="font-outfit text-[9px] font-bold text-gray-400 uppercase tracking-[0.3em] italic">Current Spec</p>
-                <h3 className="font-space text-2xl font-extrabold text-gray-900 uppercase italic tracking-tighter">{product.name}</h3>
+                <p className="font-poppins text-[9px] font-semibold text-gray-400 uppercase tracking-[0.3em] italic">Current Spec</p>
+                <h3 className="font-poppins text-2xl font-bold text-gray-900 uppercase italic tracking-tighter">{product.name}</h3>
               </div>
               <div className="w-px h-12 bg-gray-900/10"></div>
               <div className="space-y-1">
-                <p className="font-outfit text-[9px] font-bold text-gray-400 uppercase tracking-[0.3em] italic">Validation</p>
-                <span className="font-outfit text-sm font-extrabold text-gray-900 flex items-center gap-3 uppercase italic tracking-widest">
+                <p className="font-poppins text-[9px] font-semibold text-gray-400 uppercase tracking-[0.3em] italic">Validation</p>
+                <span className="font-poppins text-sm font-semibold text-gray-900 flex items-center gap-3 uppercase italic tracking-widest">
                   <span className="w-2.5 h-2.5 rounded-full bg-gray-900 animate-pulse"></span>
                   Verified
                 </span>
@@ -95,8 +95,8 @@ export default function ProductDetail({ product }) {
           </div>
 
           <div className="absolute top-10 left-10 z-10 flex flex-col gap-4">
-            {product.isNew && <Badge variant="primary" className="shadow-2xl px-6 py-2.5 font-space italic">N° SERIES-X</Badge>}
-            {product.isFeatured && <Badge variant="secondary" className="shadow-2xl px-6 py-2.5 font-space italic">CORE-EDITION</Badge>}
+            {product.isNew && <Badge variant="primary" className="shadow-2xl px-6 py-2.5 font-poppins italic">N° SERIES-X</Badge>}
+            {product.isFeatured && <Badge variant="secondary" className="shadow-2xl px-6 py-2.5 font-poppins italic">CORE-EDITION</Badge>}
           </div>
         </div>
 
@@ -127,17 +127,17 @@ export default function ProductDetail({ product }) {
       <div className="w-full xl:w-[40%] space-y-16 py-10">
         <div className="space-y-8">
           <div className="flex items-center gap-6">
-            <span className="font-outfit px-5 py-2 bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] rounded-lg italic">
+            <span className="font-poppins px-5 py-2 bg-gray-900 text-white text-[9px] font-semibold uppercase tracking-[0.4em] rounded-lg italic">
               Serial ID: {product.id.split('-')[0]}
             </span>
             <div className="h-0.5 flex-1 bg-gray-900/5"></div>
           </div>
 
-          <h1 className="font-space text-5xl md:text-[6.5rem] font-extrabold text-gray-900 leading-[0.85] tracking-tighter uppercase italic">
+          <h1 className="font-poppins text-5xl md:text-[6.5rem] font-bold text-gray-900 leading-[0.85] tracking-tighter uppercase italic">
             {product.name}
           </h1>
 
-          <p className="font-outfit text-lg md:text-xl text-gray-400 font-bold uppercase tracking-[0.2em] leading-tight max-w-xl italic">
+          <p className="font-poppins text-lg md:text-xl text-gray-400 font-semibold uppercase tracking-[0.2em] leading-tight max-w-xl italic">
             {product.description}
           </p>
         </div>
@@ -147,31 +147,31 @@ export default function ProductDetail({ product }) {
           <div className="flex items-baseline gap-8">
             {product.salePrice ? (
               <>
-                <span className="font-space text-7xl font-extrabold text-gray-900 tracking-tighter uppercase italic">${product.salePrice.toFixed(2)}</span>
-                <span className="font-space text-3xl text-gray-200 line-through font-bold tracking-tighter uppercase italic">${product.price.toFixed(2)}</span>
+                <span className="font-poppins text-7xl font-bold text-gray-900 tracking-tighter uppercase italic">${product.salePrice.toFixed(2)}</span>
+                <span className="font-poppins text-3xl text-gray-200 line-through font-semibold tracking-tighter uppercase italic">${product.price.toFixed(2)}</span>
               </>
             ) : (
-              <span className="font-space text-7xl font-extrabold text-gray-900 tracking-tighter uppercase italic">${product.price.toFixed(2)}</span>
+              <span className="font-poppins text-7xl font-bold text-gray-900 tracking-tighter uppercase italic">${product.price.toFixed(2)}</span>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="p-1 items-center bg-gray-50/50 rounded-[2rem] border border-gray-100 flex gap-6 pr-8 transition-all hover:bg-white hover:shadow-xl duration-500">
-              <div className="w-16 h-16 bg-gray-900 rounded-2xl shadow-xl flex items-center justify-center text-white font-space font-bold italic">
+              <div className="w-16 h-16 bg-gray-900 rounded-2xl shadow-xl flex items-center justify-center text-white font-poppins font-bold italic">
                 STR
               </div>
               <div className="space-y-0.5">
-                <p className="font-outfit text-[9px] font-bold text-gray-400 uppercase tracking-[0.3em] italic">Strength</p>
-                <p className="font-outfit text-sm font-bold text-gray-900 uppercase tracking-widest italic">Industrial</p>
+                <p className="font-poppins text-[9px] font-semibold text-gray-400 uppercase tracking-[0.3em] italic">Strength</p>
+                <p className="font-poppins text-sm font-semibold text-gray-900 uppercase tracking-widest italic">Industrial</p>
               </div>
             </div>
             <div className="p-1 items-center bg-gray-50/50 rounded-[2rem] border border-gray-100 flex gap-6 pr-8 transition-all hover:bg-white hover:shadow-xl duration-500">
-              <div className="w-16 h-16 bg-gray-900 rounded-2xl shadow-xl flex items-center justify-center text-white font-space font-bold italic">
+              <div className="w-16 h-16 bg-gray-900 rounded-2xl shadow-xl flex items-center justify-center text-white font-poppins font-bold italic">
                 MAT
               </div>
               <div className="space-y-0.5">
-                <p className="font-outfit text-[9px] font-bold text-gray-400 uppercase tracking-[0.3em] italic">Material</p>
-                <p className="font-outfit text-sm font-bold text-gray-900 uppercase tracking-widest italic">Aerospace</p>
+                <p className="font-poppins text-[9px] font-semibold text-gray-400 uppercase tracking-[0.3em] italic">Material</p>
+                <p className="font-poppins text-sm font-semibold text-gray-900 uppercase tracking-widest italic">Aerospace</p>
               </div>
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function ProductDetail({ product }) {
               >
                 -
               </button>
-              <span className="font-space text-2xl font-extrabold text-white w-8 text-center">{quantity}</span>
+              <span className="font-poppins text-2xl font-bold text-white w-8 text-center">{quantity}</span>
               <button
                 onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                 className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-white hover:bg-white hover:text-gray-900 transition-all active:scale-90"
@@ -202,7 +202,7 @@ export default function ProductDetail({ product }) {
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="col-span-2 font-space bg-gray-900 text-white h-24 rounded-[2.5rem] font-extrabold text-[15px] uppercase tracking-[0.35em] italic flex items-center justify-center gap-6 hover:bg-black hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] disabled:bg-gray-100 disabled:text-gray-300 shadow-2xl shadow-gray-200"
+              className="col-span-2 font-poppins bg-gray-900 text-white h-24 rounded-[2.5rem] font-bold text-[15px] uppercase tracking-[0.35em] italic flex items-center justify-center gap-6 hover:bg-black hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] disabled:bg-gray-100 disabled:text-gray-300 shadow-2xl shadow-gray-200"
             >
               {product.stock === 0 ? 'Out of Inventory' : (
                 <>
@@ -215,7 +215,7 @@ export default function ProductDetail({ product }) {
             </button>
             <button
               onClick={handleShare}
-              className="font-space bg-white border-2 border-gray-900 text-gray-900 h-24 rounded-[2.5rem] font-extrabold text-[15px] uppercase tracking-[0.35em] italic flex items-center justify-center hover:bg-gray-900 hover:text-white hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] shadow-lg"
+              className="font-poppins bg-white border-2 border-gray-900 text-gray-900 h-24 rounded-[2.5rem] font-bold text-[15px] uppercase tracking-[0.35em] italic flex items-center justify-center hover:bg-gray-900 hover:text-white hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] shadow-lg"
               title="Share Product"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,7 +232,7 @@ export default function ProductDetail({ product }) {
             <div className="grid grid-cols-1 gap-6">
               {product.features.map((feature, index) => (
                 <div key={index} className="group flex items-center justify-between p-8 rounded-[1.8rem] bg-white border border-gray-100 hover:border-gray-900 transition-all duration-500">
-                  <span className="font-outfit text-gray-900 font-bold text-sm tracking-widest uppercase italic">{feature}</span>
+                  <span className="font-poppins text-gray-900 font-semibold text-sm tracking-widest uppercase italic">{feature}</span>
                   <div className="w-1.5 h-1.5 rounded-full bg-gray-900 scale-0 group-hover:scale-100 transition-transform"></div>
                 </div>
               ))}

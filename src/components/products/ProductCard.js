@@ -116,28 +116,28 @@ export default function ProductCard({ product }) {
         {/* Product Information */}
         <div className="p-8 flex flex-col space-y-6">
           <div className="space-y-2">
-            <p className="font-outfit text-[9px] font-bold text-gray-400 uppercase tracking-[0.3em] italic">
+            <p className="font-poppins text-[9px] font-semibold text-gray-400 uppercase tracking-[0.3em] italic">
               {product.category || 'Essential'} Series
             </p>
-            <h3 className="font-space text-2xl font-extrabold text-gray-900 group-hover:text-gray-900 transition-colors truncate uppercase italic tracking-tighter">
+            <h3 className="font-poppins text-2xl font-bold text-gray-900 group-hover:text-gray-900 transition-colors truncate uppercase italic tracking-tighter">
               {product.name}
             </h3>
           </div>
 
           <div className="flex items-center justify-between pt-6 border-t border-gray-50">
             <div className="flex flex-col">
-              <p className="font-outfit text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1 italic">Unit Cost</p>
+              <p className="font-poppins text-[8px] font-semibold text-gray-400 uppercase tracking-widest mb-1 italic">Unit Cost</p>
               {product.salePrice ? (
                 <div className="flex items-center gap-3">
-                  <span className="font-space text-2xl font-extrabold text-gray-900 tracking-tighter">
+                  <span className="font-poppins text-2xl font-bold text-gray-900 tracking-tighter">
                     ${product.salePrice.toFixed(2)}
                   </span>
-                  <span className="font-space text-sm text-gray-300 line-through font-bold tracking-tighter">
+                  <span className="font-poppins text-sm text-gray-300 line-through font-semibold tracking-tighter">
                     ${product.price.toFixed(2)}
                   </span>
                 </div>
               ) : (
-                <span className="font-space text-2xl font-extrabold text-gray-900 tracking-tighter">
+                <span className="font-poppins text-2xl font-bold text-gray-900 tracking-tighter">
                   ${product.price.toFixed(2)}
                 </span>
               )}

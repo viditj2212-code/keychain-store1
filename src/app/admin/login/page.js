@@ -70,13 +70,13 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary-600 mb-2">KeyChain</h1>
-          <p className="text-gray-600">Admin Dashboard</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2 font-poppins italic tracking-tighter uppercase">KeyChain<span className="text-gray-300">.</span></h1>
+          <p className="text-gray-400 font-poppins font-semibold uppercase tracking-[0.4em] text-[10px] italic">Admin Dashboard</p>
         </div>
 
         {/* Login form */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign In</h2>
+        <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 font-poppins uppercase italic tracking-tight">Sign In_</h2>
 
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg text-sm">

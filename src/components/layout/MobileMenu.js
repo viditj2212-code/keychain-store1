@@ -46,7 +46,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
           <div className="relative flex flex-col h-full z-10">
             {/* Header / Protocol Entry */}
             <div className="flex items-center justify-between p-12 border-b-2 border-gray-900/5">
-              <div className="font-space font-extrabold text-2xl tracking-tighter uppercase italic">
+              <div className="font-poppins font-bold text-2xl tracking-tighter uppercase italic">
                 Terminal<span className="text-gray-300">.</span>
               </div>
               <button
@@ -67,12 +67,12 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                   <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
                   <div className="relative flex items-center justify-between">
                     <div className="flex items-center gap-5">
-                      <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-gray-900 font-space font-extrabold text-xl italic shadow-xl">
+                      <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-gray-900 font-poppins font-bold text-xl italic shadow-xl">
                         {profile?.first_name?.[0] || user.email[0].toUpperCase()}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-outfit text-[9px] font-bold uppercase tracking-[0.4em] text-white/40 italic">ID_MEMBER</p>
-                        <p className="font-space text-lg font-extrabold text-white uppercase italic tracking-tighter truncate max-w-[140px]">
+                        <p className="font-poppins text-[9px] font-semibold uppercase tracking-[0.4em] text-white/40 italic">ID_MEMBER</p>
+                        <p className="font-poppins text-lg font-bold text-white uppercase italic tracking-tighter truncate max-w-[140px]">
                           {profile?.first_name || user.email.split('@')[0]}
                         </p>
                       </div>
@@ -91,7 +91,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                 <Link
                   href="/auth"
                   onClick={onClose}
-                  className="w-full h-20 bg-gray-900 flex items-center justify-center text-white rounded-[2rem] font-space font-extrabold text-[12px] uppercase tracking-[0.5em] italic hover:bg-black transition-all active:scale-[0.98] shadow-2xl shadow-gray-900/20"
+                  className="w-full h-20 bg-gray-900 flex items-center justify-center text-white rounded-[2rem] font-poppins font-bold text-[12px] uppercase tracking-[0.5em] italic hover:bg-black transition-all active:scale-[0.98] shadow-2xl shadow-gray-900/20"
                 >
                   Access_System
                 </Link>
@@ -108,7 +108,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                   onClick={onClose}
                   className="group flex items-center justify-between py-4 text-gray-400 hover:text-gray-900 transition-all"
                 >
-                  <span className="font-space text-3xl font-extrabold uppercase italic tracking-tighter group-hover:tracking-normal transition-all duration-500">{link.label}</span>
+                  <span className="font-poppins text-3xl font-bold uppercase italic tracking-tighter group-hover:tracking-normal transition-all duration-500">{link.label}</span>
                   <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
                     <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -120,7 +120,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
 
             {/* Footer / Copyright Protocol */}
             <div className="p-12 border-t-2 border-gray-900/5">
-              <p className="font-outfit text-[10px] font-bold text-gray-300 uppercase tracking-[0.4em] italic leading-relaxed">
+              <p className="font-poppins text-[10px] font-semibold text-gray-300 uppercase tracking-[0.4em] italic leading-relaxed">
                 Industrial Noir Bureau <br />
                 All Rights Reserved. © 2026.
               </p>

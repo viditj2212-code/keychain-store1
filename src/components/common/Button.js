@@ -24,7 +24,7 @@ export default function Button({
   return (
     <button
       className={`
-        relative overflow-hidden font-space font-extrabold uppercase tracking-[0.3em] italic transition-all duration-500 flex items-center justify-center gap-2
+        relative overflow-hidden font-poppins font-bold uppercase tracking-[0.3em] italic transition-all duration-500 flex items-center justify-center gap-2
         disabled:opacity-30 disabled:cursor-not-allowed active:scale-95
         ${variants[variant]} ${sizes[size]} ${className}
       `}

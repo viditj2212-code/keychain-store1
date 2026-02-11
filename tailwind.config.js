@@ -8,11 +8,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        space: ['var(--font-space)', 'sans-serif'],
-        outfit: ['var(--font-outfit)', 'sans-serif'],
-        inter: ['var(--font-inter)', 'sans-serif'],
+        space: ['var(--font-poppins)', 'sans-serif'],
+        outfit: ['var(--font-poppins)', 'sans-serif'],
+        inter: ['var(--font-poppins)', 'sans-serif'],
         poppins: ['var(--font-poppins)', 'sans-serif'],
-        slab: ['var(--font-slab)', 'serif'],
+        slab: ['var(--font-poppins)', 'sans-serif'],
       },
       colors: {
         primary: {

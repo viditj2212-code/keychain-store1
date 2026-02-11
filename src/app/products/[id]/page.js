@@ -71,14 +71,14 @@ export default function ProductPage() {
         <div className="container-custom">
           <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-10">
             <div className="space-y-4">
-              <div className="font-outfit inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-gray-900 text-[10px] font-bold uppercase tracking-[0.25em] border border-gray-100 shadow-xl shadow-gray-100/50">
+              <div className="font-poppins inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-gray-900 text-[10px] font-semibold uppercase tracking-[0.25em] border border-gray-100 shadow-xl shadow-gray-100/50">
                 Discovery
               </div>
-              <h2 className="font-space text-4xl md:text-[5rem] font-extrabold text-gray-900 tracking-tighter leading-none">
+              <h2 className="font-poppins text-4xl md:text-[5rem] font-bold text-gray-900 tracking-tighter leading-none">
                 More to <span className="text-primary-600 italic">Explore.</span>
               </h2>
             </div>
-            <p className="font-outfit text-gray-500 font-medium max-w-xs leading-relaxed">
+            <p className="font-poppins text-gray-500 font-semibold max-w-xs leading-relaxed">
               Curated objects from the same collection that complement your current selection. Engineered for the same legacy.
             </p>
           </div>
@@ -99,7 +99,7 @@ export default function ProductPage() {
           <div className="mt-24 text-center">
             <a
               href="/products"
-              className="font-outfit inline-flex items-center gap-4 bg-gray-900 text-white px-12 py-5 rounded-[2.5rem] font-bold text-[11px] uppercase tracking-[0.2em] hover:bg-primary-600 transition-all shadow-2xl shadow-gray-200 active:scale-95 group"
+              className="font-poppins inline-flex items-center gap-4 bg-gray-900 text-white px-12 py-5 rounded-[2.5rem] font-bold text-[11px] uppercase tracking-[0.2em] hover:bg-primary-600 transition-all shadow-2xl shadow-gray-200 active:scale-95 group"
             >
               Browse Full Catalog
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
