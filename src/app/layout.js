@@ -4,6 +4,8 @@ import LayoutWrapper from '@/components/layout/LayoutWrapper'
 import { CartProvider } from '@/context/CartContext'
 import { AuthProvider } from '@/context/AuthContext'
 
+import { NotificationProvider } from '@/contexts/NotificationContext'
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -47,11 +49,13 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${inter.variable} ${outfit.variable} ${spaceGrotesk.variable} ${poppins.variable} ${robotoSlab.variable}`}>
       <body className="font-poppins bg-white text-gray-900">
         <AuthProvider>
-          <CartProvider>
-            <div className="flex flex-col min-h-screen">
-              <LayoutWrapper>{children}</LayoutWrapper>
-            </div>
-          </CartProvider>
+          <NotificationProvider>
+            <CartProvider>
+              <div className="flex flex-col min-h-screen">
+                <LayoutWrapper>{children}</LayoutWrapper>
+              </div>
+            </CartProvider>
+          </NotificationProvider>
         </AuthProvider>
       </body>
     </html>

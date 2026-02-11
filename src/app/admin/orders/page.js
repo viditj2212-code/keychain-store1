@@ -257,7 +257,7 @@ export default function AdminOrdersPage() {
                       <div className="flex items-center gap-4 justify-end">
                         <Link href={`/admin/orders/${order.id}`}>
                           <button className="text-primary-600 hover:text-primary-700 font-medium text-sm">
-                            View Details ->
+                            View Details &rarr;
                           </button>
                         </Link>
                         <button

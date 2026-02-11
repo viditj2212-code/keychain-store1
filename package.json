@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:all": "concurrently \"npm run server\" \"npm run dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -27,6 +28,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "autoprefixer": "^10.4.23",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.1.0",

@@ -45,11 +45,11 @@ export default function Footer() {
       {/* Heavy Technical Grid Accent */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
 
-      <div className="container-custom py-24 relative z-10">
+      <div className="container-custom py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-16 lg:gap-24">
           {/* Brand Technical Section */}
           <div className="md:col-span-1 space-y-8">
-            <Link href="/" className="group flex items-center gap-3">
+            <Link prefetch={false} href="/" className="group flex items-center gap-3">
               <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-space font-extrabold italic text-xl group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
                 K
               </div>
@@ -65,6 +65,7 @@ export default function Footer() {
               {socialLinks.map((social) => (
                 <Link
                   key={social.name}
+                  prefetch={false}
                   href={social.href}
                   className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-300 hover:text-white hover:bg-gray-900 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-gray-900/20"
                   aria-label={social.name}
@@ -93,29 +94,30 @@ export default function Footer() {
               <h3 className="font-space text-[10px] font-extrabold text-gray-900 uppercase tracking-[0.5em] italic">{section.title} Matrix</h3>
               <ul className="space-y-4">
                 {section.links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="font-outfit text-xs font-bold text-gray-400 hover:text-gray-900 uppercase tracking-widest italic transition-all duration-300 hover:pl-2"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                    <li key={link.href}>
+                      <Link
+                        prefetch={false}
+                        href={link.href}
+                        className="font-outfit text-xs font-bold text-gray-400 hover:text-gray-900 uppercase tracking-widest italic transition-all duration-300 hover:pl-2"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
               </ul>
             </div>
           ))}
         </div>
 
         {/* System Terminal Bar */}
-        <div className="border-t-2 border-gray-900/5 mt-24 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="border-t-2 border-gray-900/5 mt-12 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="font-outfit text-[10px] font-bold text-gray-300 uppercase tracking-widest italic leading-relaxed text-center md:text-left">
             Acquisition Portal Protocol 1.0 <br />
             © {currentYear} Industrial Bureau. Secure Transmission.
           </p>
           <div className="flex items-center gap-10">
-            <Link href="/privacy" className="font-outfit text-[9px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Privacy_Protocol</Link>
-            <Link href="/terms" className="font-outfit text-[9px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Terms_Sequence</Link>
+            <Link prefetch={false} href="/privacy" className="font-outfit text-[9px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Privacy_Protocol</Link>
+            <Link prefetch={false} href="/terms" className="font-outfit text-[9px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Terms_Sequence</Link>
             <p className="font-space text-[12px] font-extrabold text-gray-900 uppercase italic tracking-tighter hidden lg:block">Material Integrity_</p>
           </div>
         </div>

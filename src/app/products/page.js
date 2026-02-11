@@ -103,7 +103,7 @@ export default function ProductsPage() {
         <div className="flex flex-col lg:flex-row gap-20 items-start">
           {/* Tactical Filter Sidebar */}
           <aside className="w-full lg:w-80 lg:sticky lg:top-28 space-y-8 animate-fade-in">
-            <div className="bg-gray-50/50 rounded-[3rem] p-2 border border-gray-100">
+            <div className="bg-white/95 rounded-[3rem] p-4 border border-gray-100 max-h-[calc(100vh-10rem)] overflow-y-auto">
               <ProductFilter filters={filters} onFilterChange={handleFilterChange} />
             </div>
           </aside>
