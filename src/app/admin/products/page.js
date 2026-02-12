@@ -89,8 +89,8 @@ export default function AdminProductsPage() {
       {/* Page header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 font-poppins">Products</h1>
-          <p className="text-gray-600 mt-2 font-poppins">{products.length} total products</p>
+          <h1 className="text-3xl font-bold text-gray-900 font-sans">Products</h1>
+          <p className="text-gray-600 mt-2 font-sans">{products.length} total products</p>
         </div>
         <Link href="/admin/products/new">
           <Button variant="primary" size="lg">

@@ -34,10 +34,10 @@ export default function Header() {
           <div className="flex items-center justify-between">
             {/* Technical Logo */}
             <Link href="/" className="group flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-poppins font-bold italic text-xl group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
+              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-display font-bold text-lg group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
                 K
               </div>
-              <span className="font-poppins text-2xl font-bold text-gray-900 tracking-tighter uppercase italic group-hover:tracking-normal transition-all duration-500">
+              <span className="font-display text-xl font-bold text-gray-900 tracking-tighter group-hover:tracking-normal transition-all duration-500">
                 Keychain<span className="text-gray-300">.</span>
               </span>
             </Link>
@@ -48,7 +48,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-poppins text-[11px] font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-[0.4em] italic transition-all duration-300 hover:tracking-[0.5em]"
+                  className="font-sans text-sm font-semibold text-gray-400 hover:text-gray-900 tracking-[0.25em] transition-all duration-300"
                 >
                   {link.label}
                 </Link>
@@ -63,18 +63,18 @@ export default function Header() {
                   <div className="flex items-center gap-8">
                     <button
                       onClick={() => logout()}
-                      className="font-poppins text-[9px] font-semibold text-gray-300 hover:text-gray-900 uppercase tracking-widest italic transition-colors"
+                      className="font-sans text-xs font-semibold text-gray-300 hover:text-gray-900 tracking-widest transition-colors"
                     >
                       Logout_
                     </button>
-                    <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center text-white font-poppins font-bold text-lg italic shadow-xl shadow-gray-900/10">
+                    <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center text-white font-sans font-bold text-lg shadow-xl shadow-gray-900/10">
                       {profile?.first_name?.[0] || user.email[0].toUpperCase()}
                     </div>
                   </div>
                 ) : (
                   <Link
                     href="/auth"
-                    className="font-poppins text-[11px] font-semibold text-gray-900 uppercase tracking-[0.3em] italic hover:opacity-50 transition-all border-b-2 border-gray-900 pb-1"
+                    className="font-sans text-[11px] font-semibold text-gray-900 tracking-[0.3em] hover:opacity-50 transition-all border-b-2 border-gray-900 pb-1"
                   >
                     Access_
                   </Link>

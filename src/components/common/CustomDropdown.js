@@ -25,7 +25,7 @@ export default function CustomDropdown({ label, options, value, onChange, classN
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       {label && (
-        <label className="block text-[10px] font-semibold text-gray-400 mb-3 uppercase tracking-[0.4em] italic ml-1 font-poppins">
+        <label className="block text-[10px] font-semibold text-gray-400 mb-3 uppercase tracking-[0.4em] italic ml-1 font-sans">
           {label}
         </label>
       )}
@@ -37,7 +37,7 @@ export default function CustomDropdown({ label, options, value, onChange, classN
           : 'border-gray-100 hover:border-gray-300'
           }`}
       >
-        <span className={`font-poppins font-semibold uppercase tracking-widest text-xs italic truncate transition-colors ${isOpen ? 'text-gray-900' : 'text-gray-400'}`}>
+        <span className={`font-sans font-semibold uppercase tracking-widest text-xs italic truncate transition-colors ${isOpen ? 'text-gray-900' : 'text-gray-400'}`}>
           {selectedOption.label}
         </span>
 
@@ -62,7 +62,7 @@ export default function CustomDropdown({ label, options, value, onChange, classN
                 onChange(option.value)
                 setIsOpen(false)
               }}
-              className={`px-10 py-5 font-poppins font-semibold uppercase tracking-widest text-[10px] italic cursor-pointer transition-all flex items-center justify-between ${value === option.value
+              className={`px-10 py-5 font-sans font-semibold uppercase tracking-widest text-[10px] italic cursor-pointer transition-all flex items-center justify-between ${value === option.value
                 ? 'bg-gray-900 text-white'
                 : 'bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-900'
                 }`}

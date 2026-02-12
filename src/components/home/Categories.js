@@ -44,11 +44,11 @@ export default function Categories() {
           <div className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] italic shadow-xl shadow-gray-900/10 mb-8">
             Catalogue / Series
           </div>
-          <h2 className="font-space text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-none mb-8">
+          <h2 className="font-display text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-none mb-8">
             Curated <br />
             <span className="text-gray-300">Collections.</span>
           </h2>
-          <p className="font-outfit text-lg text-gray-400 font-bold uppercase tracking-widest leading-relaxed italic">
+          <p className="font-sans text-lg text-gray-400 font-bold uppercase tracking-widest leading-relaxed italic">
             Explore our specialized categories, each defined by material excellence and tactical utility.
           </p>
         </div>
@@ -67,8 +67,8 @@ export default function Categories() {
 
               <div className="absolute inset-x-0 bottom-0 p-12 translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-2">Series {index + 1}</p>
-                <h3 className="font-space text-4xl font-extrabold text-white tracking-tighter uppercase italic">{category.name}</h3>
-                <p className="font-outfit text-white/70 font-bold text-[10px] uppercase tracking-widest mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 italic">
+                <h3 className="font-display text-4xl font-extrabold text-white tracking-tighter uppercase italic">{category.name}</h3>
+                <p className="font-sans text-white/70 font-bold text-[10px] uppercase tracking-widest mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 italic">
                   — {category.description}
                 </p>
               </div>
@@ -90,7 +90,7 @@ export default function Categories() {
             <div className="absolute inset-0 flex items-center justify-between px-12 md:px-20 z-10">
               <div className="space-y-2">
                 <p className="text-[10px] font-bold text-white/80 uppercase tracking-[0.4em] italic">Department</p>
-                <h3 className="font-space text-4xl md:text-6xl font-extrabold text-white tracking-tighter uppercase italic">{categories[3].name}</h3>
+                <h3 className="font-display text-2xl md:text-3xl font-extrabold text-white tracking-tighter uppercase italic">{categories[3].name}</h3>
               </div>
               <Button variant="secondary" size="lg" className="hidden sm:flex min-w-[200px]">Define Series</Button>
             </div>

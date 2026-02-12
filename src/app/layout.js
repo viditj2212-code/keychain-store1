@@ -1,4 +1,4 @@
-import { Poppins } from 'next/font/google'
+import { Inter, Poppins as QueraSub } from 'next/font/google'
 import '../styles/globals.css'
 import LayoutWrapper from '@/components/layout/LayoutWrapper'
 import { CartProvider } from '@/context/CartContext'
@@ -6,10 +6,19 @@ import { AuthProvider } from '@/context/AuthContext'
 
 import { NotificationProvider } from '@/contexts/NotificationContext'
 
-const poppins = Poppins({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
-  variable: '--font-poppins',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+// Using Poppins as a stand-in for Quera (Quera not on Google Fonts, using Poppins as display font)
+// If you want to use custom Quera, replace with local font-face
+const quera = QueraSub({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-quera',
   display: 'swap',
 })
 
@@ -21,8 +30,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={poppins.variable}>
-      <body className="font-poppins bg-white text-gray-900">
+    <html lang="en" className={`${inter.variable} ${quera.variable}`}>
+      <body className="font-sans bg-white text-gray-900">
         <AuthProvider>
           <NotificationProvider>
             <CartProvider>

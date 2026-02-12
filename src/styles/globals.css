@@ -33,11 +33,83 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
 }
 
 body {
-  @apply bg-white text-gray-900 font-poppins;
+  @apply bg-white text-gray-900;
   position: relative;
+  font-family: var(--font-inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Normalize text casing and style across the site per request */
+/* Use sentence case instead of forced uppercase and remove italics globally */
+body, body * {
+  text-transform: none !important;
+  font-style: normal !important;
+}
+
+/* Restore small-caps-ish visual for intentional headings if needed via a class */
+.meta-upper {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+}
+
+/* Headings use Quera font */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-quera, var(--font-inter, system-ui, sans-serif));
+  font-weight: 700;
+  color: inherit;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+  line-height: 1.15;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+
+h4 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+h5 {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+h6 {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Form elements: inherit Inter by default */
+input, textarea, select, button, optgroup {
+  font-family: var(--font-inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+  font-size: inherit;
+  font-weight: 400;
+}
+
+/* Placeholders use Inter and appropriate weight */
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  font-family: var(--font-inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
+  font-weight: 400;
+  opacity: 0.6;
 }
 
 /* Industrial Grid Background */
@@ -105,19 +177,23 @@ body::before {
 /* Component styles - Industrial Noir */
 @layer components {
   .btn-primary {
-    @apply bg-gray-900 text-white px-10 py-4 rounded-xl font-bold uppercase tracking-[0.2em] italic hover:bg-black transition-all duration-500 hover:shadow-2xl hover:shadow-gray-900/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-[11px];
+    @apply bg-gray-900 text-white px-10 py-4 rounded-xl font-bold tracking-normal hover:bg-black transition-all duration-500 hover:shadow-2xl hover:shadow-gray-900/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm;
+    font-family: var(--font-inter);
   }
 
   .btn-secondary {
-    @apply bg-white text-gray-900 px-10 py-4 rounded-xl font-bold uppercase tracking-[0.2em] italic hover:bg-gray-50 transition-all duration-500 active:scale-95 text-[11px] border border-gray-100 shadow-sm hover:shadow-md;
+    @apply bg-white text-gray-900 px-10 py-4 rounded-xl font-bold tracking-normal hover:bg-gray-50 transition-all duration-500 active:scale-95 text-sm border border-gray-100 shadow-sm hover:shadow-md;
+    font-family: var(--font-inter);
   }
 
   .btn-outline {
-    @apply border-2 border-gray-900 text-gray-900 px-10 py-4 rounded-xl font-bold uppercase tracking-[0.2em] italic hover:bg-gray-900 hover:text-white transition-all duration-500 active:scale-95 text-[11px];
+    @apply border-2 border-gray-900 text-gray-900 px-10 py-4 rounded-xl font-bold tracking-normal hover:bg-gray-900 hover:text-white transition-all duration-500 active:scale-95 text-sm;
+    font-family: var(--font-inter);
   }
 
   .input-field {
-    @apply w-full px-6 py-5 border-2 border-gray-100 bg-white rounded-xl font-poppins font-semibold uppercase tracking-widest text-[10px] focus:outline-none focus:border-gray-900 transition-all duration-300;
+    @apply w-full px-6 py-5 border-2 border-gray-100 bg-white rounded-xl font-semibold tracking-widest text-xs focus:outline-none focus:border-gray-900 transition-all duration-300;
+    font-family: var(--font-inter);
   }
 
   .card-premium {

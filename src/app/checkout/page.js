@@ -47,7 +47,7 @@ export default function CheckoutPage() {
         <div className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] mb-8 shadow-xl shadow-gray-900/10 italic">
           Terminal / Acquisition / Secure
         </div>
-        <h1 className="font-space text-5xl md:text-8xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-[0.85]">
+        <h1 className="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-tight">
           Logistics <br />
           <span className="text-gray-300">Protocol.</span>
         </h1>

@@ -97,30 +97,30 @@ export default function CheckoutForm({ onSubmit }) {
       <section className="space-y-8">
         <div className="flex items-center gap-4">
           <div className="w-10 h-px bg-gray-900"></div>
-          <h2 className="font-space text-2xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Contact Index</h2>
+          <h2 className="font-display text-2xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Contact Index</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-3">
-            <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Email Address</label>
+            <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Email Address</label>
             <input
               type="email"
               name="email"
               placeholder="NAME@DOMAIN.COM"
               value={formData.email}
               onChange={handleChange}
-              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
               required
             />
           </div>
           <div className="space-y-3">
-            <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Phone Line</label>
+            <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Phone Line</label>
             <input
               type="tel"
               name="phone"
               placeholder="+00 (000) 000-0000"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
             />
           </div>
         </div>
@@ -130,75 +130,75 @@ export default function CheckoutForm({ onSubmit }) {
       <section className="space-y-8">
         <div className="flex items-center gap-4">
           <div className="w-10 h-px bg-gray-900"></div>
-          <h2 className="font-space text-2xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Tactical Coordinates</h2>
+          <h2 className="font-display text-2xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Tactical Coordinates</h2>
         </div>
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">First Name</label>
+              <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">First Name</label>
               <input
                 name="firstName"
                 placeholder="ID_01"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                 required
               />
             </div>
             <div className="space-y-3">
-              <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Last Name</label>
+              <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Last Name</label>
               <input
                 name="lastName"
                 placeholder="ID_02"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                 required
               />
             </div>
           </div>
           <div className="space-y-3">
-            <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Address Matrix</label>
+            <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Address Matrix</label>
             <input
               name="address"
               placeholder="STREET, BUILDING, LAB"
               value={formData.address}
               onChange={handleChange}
-              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
               required
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-3">
-              <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">City</label>
+              <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">City</label>
               <input
                 name="city"
                 placeholder="SECTOR"
                 value={formData.city}
                 onChange={handleChange}
-                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                 required
               />
             </div>
             <div className="space-y-3">
-              <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">State</label>
+              <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">State</label>
               <input
                 name="state"
                 placeholder="PROVINCE"
                 value={formData.state}
                 onChange={handleChange}
-                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                 required
               />
             </div>
             <div className="space-y-3">
-              <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">ZIP Code</label>
+              <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">ZIP Code</label>
               <input
                 name="zipCode"
                 placeholder="000000"
                 value={formData.zipCode}
                 onChange={handleChange}
-                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                 required
               />
             </div>
@@ -210,51 +210,51 @@ export default function CheckoutForm({ onSubmit }) {
       <section className="space-y-8">
         <div className="flex items-center gap-4">
           <div className="w-10 h-px bg-gray-900"></div>
-          <h2 className="font-space text-2xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Acquisition Data</h2>
+          <h2 className="font-display text-2xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Acquisition Data</h2>
         </div>
         <div className="space-y-6">
           <div className="space-y-3">
-            <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Card Identifier</label>
+            <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Card Identifier</label>
             <input
               name="cardNumber"
               placeholder="0000 0000 0000 0000"
               value={formData.cardNumber}
               onChange={handleChange}
-              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
               required
             />
           </div>
           <div className="space-y-3">
-            <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Cardholder Protocol</label>
+            <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Cardholder Protocol</label>
             <input
               name="cardName"
               placeholder="FULL_NAME"
               value={formData.cardName}
               onChange={handleChange}
-              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+              className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
               required
             />
           </div>
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Expiration</label>
+              <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Expiration</label>
               <input
                 name="expiryDate"
                 placeholder="MM / YY"
                 value={formData.expiryDate}
                 onChange={handleChange}
-                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                 required
               />
             </div>
             <div className="space-y-3">
-              <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Security Code</label>
+              <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">Security Code</label>
               <input
                 name="cvv"
                 placeholder="000"
                 value={formData.cvv}
                 onChange={handleChange}
-                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                 required
               />
             </div>
@@ -266,7 +266,7 @@ export default function CheckoutForm({ onSubmit }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-gray-900 text-white h-20 rounded-[2.5rem] font-space font-extrabold text-[14px] uppercase tracking-[0.5em] italic flex items-center justify-center gap-6 hover:bg-black transition-all active:scale-[0.98] disabled:opacity-30 shadow-2xl shadow-gray-900/20"
+        className="w-full bg-gray-900 text-white h-20 rounded-[2.5rem] font-display font-extrabold text-[14px] uppercase tracking-[0.5em] italic flex items-center justify-center gap-6 hover:bg-black transition-all active:scale-[0.98] disabled:opacity-30 shadow-2xl shadow-gray-900/20"
       >
         {loading ? (
           'EXECUTING...'

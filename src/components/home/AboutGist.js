@@ -20,8 +20,8 @@ export default function AboutGist() {
           />
           <div className="absolute inset-x-12 bottom-12 z-20">
             <div className="glass p-8 rounded-[2rem] inline-block">
-              <p className="font-space text-gray-900 text-3xl font-extrabold tracking-tighter uppercase italic">Since 2024</p>
-              <p className="font-outfit text-gray-400 text-[10px] font-bold uppercase tracking-[0.4em] mt-2 italic">The Collective / Lab</p>
+              <p className="font-display text-gray-900 text-3xl font-extrabold tracking-tighter uppercase italic">Since 2024</p>
+              <p className="font-sans text-gray-400 text-[10px] font-bold uppercase tracking-[0.4em] mt-2 italic">The Collective / Lab</p>
             </div>
           </div>
 
@@ -36,23 +36,23 @@ export default function AboutGist() {
               <div className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] italic shadow-xl shadow-gray-900/10">
                 Foundational / Vision
               </div>
-              <h2 className="font-space text-4xl md:text-7xl font-extrabold text-gray-900 leading-[0.9] tracking-tighter uppercase italic">
+              <h2 className="font-display text-4xl md:text-7xl font-extrabold text-gray-900 leading-[0.9] tracking-tighter uppercase italic">
                 Daily <br />
                 <span className="text-gray-300">Engineering.</span>
               </h2>
-              <p className="font-outfit text-xl text-gray-500 font-bold uppercase tracking-widest leading-tight italic max-w-lg">
+              <p className="font-sans text-xl text-gray-500 font-bold uppercase tracking-widest leading-tight italic max-w-lg">
                 We define the standard for daily carry. Every object is a testament to longevity, material science, and pure industrial intent.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 pt-8 border-t border-gray-100">
               <div className="space-y-4">
-                <h4 className="font-space text-sm font-extrabold text-gray-900 uppercase tracking-widest italic">Atomic Integrity</h4>
-                <p className="font-outfit text-[11px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed italic">Precision fits and industrial tolerances in every single component of our keychain systems.</p>
+                <h4 className="font-display text-sm font-extrabold text-gray-900 uppercase tracking-widest italic">Atomic Integrity</h4>
+                <p className="font-sans text-[11px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed italic">Precision fits and industrial tolerances in every single component of our keychain systems.</p>
               </div>
               <div className="space-y-4">
-                <h4 className="font-space text-sm font-extrabold text-gray-900 uppercase tracking-widest italic">Enduring Grade</h4>
-                <p className="font-outfit text-[11px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed italic">Titanium and full-grain surfaces that age with character and survive the test of eternity.</p>
+                <h4 className="font-display text-sm font-extrabold text-gray-900 uppercase tracking-widest italic">Enduring Grade</h4>
+                <p className="font-sans text-[11px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed italic">Titanium and full-grain surfaces that age with character and survive the test of eternity.</p>
               </div>
             </div>
 

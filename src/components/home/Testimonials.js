@@ -37,7 +37,7 @@ export default function Testimonials() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-50 text-gray-400 text-[10px] font-medium uppercase tracking-widest border border-gray-100 mb-8">
             Testimonials
           </div>
-          <h2 className="font-poppins text-4xl md:text-6xl font-semibold text-gray-900 tracking-tight leading-tight mb-8">
+          <h2 className="font-sans text-2xl md:text-3xl font-semibold text-gray-900 tracking-tight leading-tight mb-8">
             Voices of the <br />
             <span className="text-gray-400">Collective.</span>
           </h2>

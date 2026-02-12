@@ -142,8 +142,8 @@ export default function AdminDashboardPage() {
     <div className="space-y-6">
       {/* Page header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 font-poppins">Dashboard</h1>
-        <p className="text-gray-600 mt-2 font-poppins">Welcome back! Here's what's happening today.</p>
+        <h1 className="text-3xl font-bold text-gray-900 font-sans">Dashboard</h1>
+        <p className="text-gray-600 mt-2 font-sans">Welcome back! Here's what's happening today.</p>
       </div>
 
       {/* Stats grid */}
@@ -183,8 +183,8 @@ export default function AdminDashboardPage() {
       {/* Recent activities */}
       <div className="bg-white rounded-xl shadow-md p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900 font-poppins">Recent Activity</h2>
-          <Link href="/admin/orders" className="text-sm text-primary-600 hover:text-primary-700 font-semibold font-poppins">
+          <h2 className="text-xl font-bold text-gray-900 font-sans">Recent Activity</h2>
+          <Link href="/admin/orders" className="text-sm text-primary-600 hover:text-primary-700 font-semibold font-sans">
             View all →
           </Link>
         </div>

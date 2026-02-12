@@ -20,8 +20,8 @@ export default function CartPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
         </div>
-        <h1 className="font-space text-4xl font-extrabold text-gray-900 mb-4 tracking-tighter uppercase italic">Your Cart is Empty</h1>
-        <p className="font-outfit text-gray-500 mb-10 font-medium text-lg">Your collection is currently empty. Add some masterpieces to get started.</p>
+        <h1 className="font-display text-4xl font-extrabold text-gray-900 mb-4 tracking-tighter uppercase italic">Your Cart is Empty</h1>
+        <p className="font-sans text-gray-500 mb-10 font-medium text-lg">Your collection is currently empty. Add some masterpieces to get started.</p>
         <Link href="/products">
           <Button variant="primary" size="lg" className="px-12 py-5 rounded-[2rem] font-bold text-[11px] uppercase tracking-[0.25em]">
             Browse Collection
@@ -38,7 +38,7 @@ export default function CartPage() {
         <div className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] mb-8 shadow-xl shadow-gray-900/10 italic">
           Terminal / Manifest / Pending
         </div>
-        <h1 className="font-space text-5xl md:text-8xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-[0.85]">
+        <h1 className="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-tight">
           Inventory <br />
           <span className="text-gray-300">Archive.</span>
         </h1>

@@ -54,11 +54,11 @@ export default function ContactPage() {
               <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.45em] shadow-2xl shadow-gray-900/20 italic">
                 Communications / Protocol
               </div>
-              <h1 className="font-space text-6xl md:text-8xl lg:text-[10rem] font-extrabold text-gray-900 leading-[0.85] tracking-tighter uppercase italic">
+              <h1 className="font-display text-3xl md:text-4xl lg:text-[2.5rem] font-extrabold text-gray-900 leading-tight tracking-tighter uppercase italic">
                 Initialise <br />
                 <span className="text-gray-300">Contact.</span>
               </h1>
-              <p className="font-outfit text-xl md:text-2xl text-gray-400 font-bold uppercase tracking-widest leading-tight italic max-w-md mx-auto lg:mx-0">
+              <p className="font-sans text-base md:text-lg text-gray-400 font-medium uppercase tracking-widest leading-tight italic max-w-md mx-auto lg:mx-0">
                 Whether you have a technical query or a bespoke request, our bureau is active and ready.
               </p>
             </div>
@@ -71,8 +71,8 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-1">Electronic Mail</h3>
-                  <p className="font-space text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter">support@collective.io</p>
+                  <h3 className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-1">Electronic Mail</h3>
+                  <p className="font-display text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter">support@collective.io</p>
                 </div>
               </div>
 
@@ -84,8 +84,8 @@ export default function ContactPage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-1">Headquarters</h3>
-                  <p className="font-space text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Archive 1 / Lab 001</p>
+                  <h3 className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-1">Headquarters</h3>
+                  <p className="font-display text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Archive 1 / Lab 001</p>
                 </div>
               </div>
             </div>
@@ -107,14 +107,14 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div className="space-y-4">
-                    <h3 className="font-space text-3xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Packet Delivered</h3>
-                    <p className="font-outfit text-gray-400 font-bold uppercase tracking-widest leading-tight max-w-xs mx-auto italic">
+                    <h3 className="font-display text-3xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Packet Delivered</h3>
+                    <p className="font-sans text-gray-400 font-bold uppercase tracking-widest leading-tight max-w-xs mx-auto italic">
                       Transmission received. Our bureau will respond within 24 standard hours.
                     </p>
                   </div>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="font-outfit text-gray-900 font-bold text-xs uppercase tracking-widest hover:underline transition-all italic"
+                    className="font-sans text-gray-900 font-bold text-xs uppercase tracking-widest hover:underline transition-all italic"
                   >
                     Initiate New Transmission
                   </button>
@@ -123,7 +123,7 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-10">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <div className="space-y-3">
-                      <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
+                      <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
                         Full Identifier
                       </label>
                       <input
@@ -131,12 +131,12 @@ export default function ContactPage() {
                         placeholder="ID"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                        className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                         required
                       />
                     </div>
                     <div className="space-y-3">
-                      <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
+                      <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
                         Comms Address
                       </label>
                       <input
@@ -145,14 +145,14 @@ export default function ContactPage() {
                         placeholder="NAME@DOMAIN.COM"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                        className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                         required
                       />
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
+                    <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
                       Subject Matter
                     </label>
                     <input
@@ -160,13 +160,13 @@ export default function ContactPage() {
                       placeholder="CUSTOM_SPEC_001"
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                      className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
                       required
                     />
                   </div>
 
                   <div className="space-y-3">
-                    <label className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
+                    <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
                       Transmission Narrative
                     </label>
                     <textarea
@@ -175,7 +175,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       rows={5}
                       placeholder="ENTER SPECIFICATIONS OR QUERIES..."
-                      className="w-full rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 p-8 transition-all resize-none font-outfit font-bold uppercase tracking-widest text-gray-900 text-xs leading-relaxed italic"
+                      className="w-full rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 p-8 transition-all resize-none font-sans font-bold uppercase tracking-widest text-gray-900 text-xs leading-relaxed italic"
                       required
                     />
                   </div>
@@ -183,7 +183,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-gray-900 text-white h-20 rounded-[2rem] font-space font-extrabold text-[13px] uppercase tracking-[0.4em] italic flex items-center justify-center gap-6 hover:bg-black transition-all active:scale-[0.98] disabled:opacity-30 shadow-2xl shadow-gray-900/20"
+                    className="w-full bg-gray-900 text-white h-20 rounded-[2rem] font-display font-extrabold text-[13px] uppercase tracking-[0.4em] italic flex items-center justify-center gap-6 hover:bg-black transition-all active:scale-[0.98] disabled:opacity-30 shadow-2xl shadow-gray-900/20"
                   >
                     {loading ? (
                       'TRANSMITTING...'

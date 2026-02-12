@@ -6,11 +6,11 @@ export default function FAQPage() {
       <section className="relative pt-40 pb-32 overflow-hidden mesh-gradient">
         <div className="container-custom relative z-10">
           <div className="max-w-4xl mx-auto space-y-12 animate-fade-in">
-            <div className="font-outfit inline-flex items-center gap-3 px-6 py-2.5 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.45em] shadow-2xl shadow-gray-900/20 italic">
+            <div className="font-sans inline-flex items-center gap-3 px-6 py-2.5 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.45em] shadow-2xl shadow-gray-900/20 italic">
               Support / FAQ / Database
             </div>
 
-            <h1 className="font-space text-6xl md:text-[8rem] font-extrabold text-gray-900 leading-[0.8] tracking-tighter uppercase italic">
+            <h1 className="font-display text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-gray-900 leading-tight tracking-tighter uppercase italic">
               Questions <br />
               <span className="text-gray-300">Answered.</span>
             </h1>
@@ -43,10 +43,10 @@ export default function FAQPage() {
             }
           ].map((faq, i) => (
             <div key={i} className="bg-white rounded-[2rem] border-2 border-gray-900/10 p-8 shadow-lg hover:border-gray-900 transition-all">
-              <h3 className="font-space text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter mb-4">
+              <h3 className="font-display text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter mb-4">
                 {faq.q}
               </h3>
-              <p className="font-outfit text-gray-700">{faq.a}</p>
+              <p className="font-sans text-gray-700">{faq.a}</p>
             </div>
           ))}
         </div>

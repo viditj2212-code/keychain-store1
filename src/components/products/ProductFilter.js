@@ -33,7 +33,7 @@ export default function ProductFilter({ filters, onFilterChange }) {
       <div className="flex flex-col lg:flex-row lg:items-center gap-6">
         {/* Filter Header */}
         <div className="flex-shrink-0">
-          <p className="font-poppins text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Filter Products</p>
+          <p className="font-sans text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Filter Products</p>
         </div>
 
         {/* Filter Controls - Horizontal */}

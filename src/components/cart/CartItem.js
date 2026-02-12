@@ -32,8 +32,8 @@ export default function CartItem({ item }) {
       <div className="flex-1 min-w-0 flex flex-col justify-between py-2">
         <div className="flex justify-between items-start gap-6">
           <div className="space-y-2">
-            <h3 className="font-space font-extrabold text-gray-900 text-xl sm:text-2xl line-clamp-1 leading-none tracking-tighter uppercase italic">{item.name}</h3>
-            <p className="font-outfit text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic">
+            <h3 className="font-display font-extrabold text-gray-900 text-xl sm:text-2xl line-clamp-1 leading-none tracking-tighter uppercase italic">{item.name}</h3>
+            <p className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic">
               Unit Rate / ${(item.salePrice || item.price).toFixed(2)}
             </p>
           </div>
@@ -57,22 +57,22 @@ export default function CartItem({ item }) {
               aria-label="Decrease quantity"
               disabled={item.quantity <= 1}
             >
-              <span className="font-space font-extrabold text-lg">-</span>
+              <span className="font-display font-extrabold text-lg">-</span>
             </button>
-            <span className="w-10 text-center font-space font-extrabold text-white text-sm italic">{item.quantity}</span>
+            <span className="w-10 text-center font-display font-extrabold text-white text-sm italic">{item.quantity}</span>
             <button
               onClick={() => handleQuantityChange(item.quantity + 1)}
               className="w-12 h-full flex items-center justify-center text-white/40 hover:text-white hover:bg-black transition-all disabled:opacity-10"
               aria-label="Increase quantity"
               disabled={item.quantity >= item.stock}
             >
-              <span className="font-space font-extrabold text-lg">+</span>
+              <span className="font-display font-extrabold text-lg">+</span>
             </button>
           </div>
 
           <div className="text-right">
-            <p className="font-outfit text-[9px] font-bold text-gray-400 uppercase tracking-[0.3em] italic mb-1">Index Sum</p>
-            <p className="font-space text-2xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-none">${itemTotal.toFixed(2)}</p>
+            <p className="font-sans text-[9px] font-bold text-gray-400 uppercase tracking-[0.3em] italic mb-1">Index Sum</p>
+            <p className="font-display text-2xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-none">${itemTotal.toFixed(2)}</p>
           </div>
         </div>
       </div>

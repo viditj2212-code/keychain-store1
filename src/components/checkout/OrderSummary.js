@@ -15,8 +15,8 @@ export default function OrderSummary({ cart }) {
   return (
     <div className="bg-transparent space-y-10">
       <div className="space-y-4">
-        <p className="font-outfit text-[10px] font-bold text-white/40 uppercase tracking-[0.5em] italic">Unit / Summary</p>
-        <h3 className="font-space text-3xl font-extrabold text-white tracking-tighter uppercase italic leading-none">
+        <p className="font-sans text-[10px] font-bold text-white/40 uppercase tracking-[0.5em] italic">Unit / Summary</p>
+        <h3 className="font-display text-3xl font-extrabold text-white tracking-tighter uppercase italic leading-none">
           Manifest <br />
           <span className="text-white/30">Index.</span>
         </h3>
@@ -34,10 +34,10 @@ export default function OrderSummary({ cart }) {
               />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="font-space font-extrabold text-white text-xs uppercase italic tracking-tighter truncate">{item.name}</h4>
-              <p className="font-outfit text-[9px] font-bold text-white/40 uppercase tracking-widest mt-1">QTY: {item.quantity}</p>
+              <h4 className="font-display font-extrabold text-white text-xs uppercase italic tracking-tighter truncate">{item.name}</h4>
+              <p className="font-sans text-[9px] font-bold text-white/40 uppercase tracking-widest mt-1">QTY: {item.quantity}</p>
             </div>
-            <p className="font-space font-extrabold text-white text-sm italic">
+            <p className="font-display font-extrabold text-white text-sm italic">
               ${((item.salePrice || item.price) * item.quantity).toFixed(2)}
             </p>
           </div>
@@ -62,8 +62,8 @@ export default function OrderSummary({ cart }) {
         </div>
 
         <div className="pt-8 border-t border-white/10 flex justify-between items-baseline">
-          <span className="font-outfit text-[10px] font-bold text-white/30 uppercase tracking-[0.5em] italic">Index Total</span>
-          <span className="font-space text-4xl font-extrabold text-white tracking-tighter uppercase italic">${total.toFixed(2)}</span>
+          <span className="font-sans text-[10px] font-bold text-white/30 uppercase tracking-[0.5em] italic">Index Total</span>
+          <span className="font-display text-4xl font-extrabold text-white tracking-tighter uppercase italic">${total.toFixed(2)}</span>
         </div>
       </div>
 
@@ -71,11 +71,11 @@ export default function OrderSummary({ cart }) {
       <div className="space-y-4 pt-4">
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10">
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-          <p className="font-outfit text-[9px] font-bold text-white/60 uppercase tracking-widest italic">Transmission Encrypted</p>
+          <p className="font-sans text-[9px] font-bold text-white/60 uppercase tracking-widest italic">Transmission Encrypted</p>
         </div>
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10">
           <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-          <p className="font-outfit text-[9px] font-bold text-white/60 uppercase tracking-widest italic">30-Day Guarantee Protocol</p>
+          <p className="font-sans text-[9px] font-bold text-white/60 uppercase tracking-widest italic">30-Day Guarantee Protocol</p>
         </div>
       </div>
     </div>

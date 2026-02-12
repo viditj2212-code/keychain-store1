@@ -8,11 +8,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        space: ['var(--font-poppins)', 'sans-serif'],
-        outfit: ['var(--font-poppins)', 'sans-serif'],
-        inter: ['var(--font-poppins)', 'sans-serif'],
-        poppins: ['var(--font-poppins)', 'sans-serif'],
-        slab: ['var(--font-poppins)', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
+        display: ['var(--font-quera)', 'var(--font-inter)', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
+        // Legacy support - map old names to new fonts
+        space: ['var(--font-quera)', 'var(--font-inter)', 'sans-serif'],
+        outfit: ['var(--font-inter)', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
+        poppins: ['var(--font-inter)', 'sans-serif'],
+        slab: ['var(--font-quera)', 'var(--font-inter)', 'sans-serif'],
       },
       colors: {
         primary: {

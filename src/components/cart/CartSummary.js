@@ -17,8 +17,8 @@ export default function CartSummary({ cart }) {
   return (
     <div className="bg-transparent space-y-10">
       <div className="space-y-4">
-        <p className="font-outfit text-[10px] font-bold text-white/40 uppercase tracking-[0.5em] italic">Unit / Analytics</p>
-        <h3 className="font-space text-3xl font-extrabold text-white tracking-tighter uppercase italic leading-none">
+        <p className="font-sans text-[10px] font-bold text-white/40 uppercase tracking-[0.5em] italic">Unit / Analytics</p>
+        <h3 className="font-display text-3xl font-extrabold text-white tracking-tighter uppercase italic leading-none">
           Logistics <br />
           <span className="text-white/30">Matrix.</span>
         </h3>
@@ -43,9 +43,9 @@ export default function CartSummary({ cart }) {
         </div>
 
         <div className="pt-8 border-t border-white/10 space-y-2">
-          <p className="font-outfit text-[9px] font-bold text-white/30 uppercase tracking-[0.4em] italic leading-none text-right">Unit Total</p>
+          <p className="font-sans text-[9px] font-bold text-white/30 uppercase tracking-[0.4em] italic leading-none text-right">Unit Total</p>
           <div className="flex justify-between items-baseline">
-            <span className="font-space text-4xl font-extrabold text-white tracking-tighter uppercase italic">${total.toFixed(2)}</span>
+            <span className="font-display text-4xl font-extrabold text-white tracking-tighter uppercase italic">${total.toFixed(2)}</span>
           </div>
         </div>
       </div>
@@ -60,12 +60,12 @@ export default function CartSummary({ cart }) {
 
       <div className="space-y-4">
         <Link href="/checkout" className="block">
-          <button className="w-full bg-white text-gray-900 h-20 rounded-[2rem] font-space font-extrabold text-[12px] uppercase tracking-[0.4em] italic hover:bg-black hover:text-white transition-all active:scale-[0.95] shadow-2xl">
+          <button className="w-full bg-white text-gray-900 h-20 rounded-[2rem] font-display font-extrabold text-[12px] uppercase tracking-[0.4em] italic hover:bg-black hover:text-white transition-all active:scale-[0.95] shadow-2xl">
             Execute Checkout
           </button>
         </Link>
         <Link href="/products" className="block">
-          <button className="w-full bg-transparent border-2 border-white/20 text-white h-20 rounded-[2rem] font-space font-extrabold text-[12px] uppercase tracking-[0.4em] italic hover:border-white transition-all active:scale-[0.95]">
+          <button className="w-full bg-transparent border-2 border-white/20 text-white h-20 rounded-[2rem] font-display font-extrabold text-[12px] uppercase tracking-[0.4em] italic hover:border-white transition-all active:scale-[0.95]">
             Re-access Bureau
           </button>
         </Link>
