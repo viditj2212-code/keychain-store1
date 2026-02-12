@@ -11,6 +11,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const isCallbackRoute = typeof window !== 'undefined' && window.location.pathname === '/auth/callback'
+    if (isCallbackRoute) {
+      // Avoid concurrent auth operations while OAuth callback is exchanging code.
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()
@@ -48,13 +55,18 @@ export const AuthProvider = ({ children }) => {
         .from('users')
         .select('*')
         .eq('id', userId)
-        .single()
+        .limit(1)
 
-      if (data) {
-        setProfile(data)
+      if (error) {
+        console.error('Error fetching profile:', error)
+        setProfile(null)
+        return
       }
+
+      setProfile(Array.isArray(data) && data.length > 0 ? data[0] : null)
     } catch (error) {
       console.error('Error fetching profile:', error)
+      setProfile(null)
     }
   }
 

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
 /**
@@ -9,7 +8,6 @@ import { supabase } from '@/lib/supabase'
  * Handles Supabase OAuth redirects and session synchronization
  */
 export default function AuthCallbackPage() {
-  const router = useRouter()
   const handledRef = useRef(false)
 
   useEffect(() => {
@@ -17,55 +15,56 @@ export default function AuthCallbackPage() {
     handledRef.current = true
 
     const handleCallback = async () => {
+      let fallbackTimer
+      const withTimeout = (promise, ms) =>
+        Promise.race([
+          promise,
+          new Promise((_, reject) => {
+            window.setTimeout(() => reject(new Error('auth_timeout')), ms)
+          }),
+        ])
+
       try {
+        fallbackTimer = window.setTimeout(() => {
+          window.location.replace('/products')
+        }, 8000)
+
         const url = new URL(window.location.href)
         const code = url.searchParams.get('code')
 
         if (!code) {
           console.error('Auth callback missing authorization code')
-          router.push('/auth?error=callback_failed')
+          window.location.replace('/auth?error=callback_failed')
           return
         }
 
-        // PKCE flow only: exchange auth code for a session.
-        const { error } = await supabase.auth.exchangeCodeForSession(code)
-        if (error) {
-          console.error('Error exchanging auth code:', error)
-          router.push('/auth?error=callback_failed')
-          return
+        // Don't let lock/contention issues trap users on callback screen.
+        try {
+          const { data: { session } } = await withTimeout(supabase.auth.getSession(), 2500)
+
+          if (!session) {
+            const { error } = await withTimeout(supabase.auth.exchangeCodeForSession(code), 4000)
+            if (error) {
+              console.error('Error exchanging auth code:', error)
+            }
+          }
+        } catch (authError) {
+          console.error('OAuth callback non-blocking warning:', authError)
         }
 
-        // Supabase can consume hash/query params; always verify active session.
-        const { data: { user }, error: userError } = await supabase.auth.getUser()
-        if (userError || !user) {
-          console.error('Auth callback user error:', userError)
-          router.push('/auth?error=callback_failed')
-          return
-        }
-
-        // Ensure OAuth users always have a profile row.
-        await supabase
-          .from('users')
-          .upsert(
-            {
-              id: user.id,
-              email: user.email,
-              first_name: user.user_metadata?.full_name?.split(' ')[0] || user.user_metadata?.name || '',
-              last_name: user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '',
-              role: 'user'
-            },
-            { onConflict: 'id' }
-          )
-
-        router.replace('/products')
+        window.location.replace('/products')
       } catch (error) {
         console.error('Callback error:', error)
-        router.push('/auth?error=callback_failed')
+        window.location.replace('/auth?error=callback_failed')
+      } finally {
+        if (fallbackTimer) {
+          clearTimeout(fallbackTimer)
+        }
       }
     }
 
     handleCallback()
-  }, [router])
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
