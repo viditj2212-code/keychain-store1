@@ -44,6 +44,7 @@ if (!isValidUrl(supabaseUrl) || !supabaseAnonKey) {
     auth: {
       getSession: async () => ({ data: { session: null }, error: null }),
       getUser: async () => ({ data: { user: null }, error: null }),
+      exchangeCodeForSession: async () => ({ data: null, error: new Error('Supabase not configured') }),
       onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => { } } } }),
       signUp: async () => ({ data: null, error: new Error('Supabase not configured') }),
       signInWithPassword: async () => ({ data: null, error: new Error('Supabase not configured') }),
@@ -59,9 +60,10 @@ if (!isValidUrl(supabaseUrl) || !supabaseAnonKey) {
 } else {
   supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
+      flowType: 'pkce',
       persistSession: true,
       autoRefreshToken: true,
-      detectSessionInUrl: true
+      detectSessionInUrl: false
     }
   })
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
@@ -10,67 +10,54 @@ import { supabase } from '@/lib/supabase'
  */
 export default function AuthCallbackPage() {
   const router = useRouter()
+  const handledRef = useRef(false)
 
   useEffect(() => {
+    if (handledRef.current) return
+    handledRef.current = true
+
     const handleCallback = async () => {
       try {
-        // Check if we have hash parameters (OAuth callback)
-        const hashParams = new URLSearchParams(window.location.hash.substring(1))
-        const accessToken = hashParams.get('access_token')
-        const refreshToken = hashParams.get('refresh_token')
+        const url = new URL(window.location.href)
+        const code = url.searchParams.get('code')
 
-        if (accessToken && refreshToken) {
-          // Set the session with the tokens from the hash
-          const { error } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken
-          })
-
-          if (error) {
-            console.error('Error setting session:', error)
-            router.push('/auth?error=callback_failed')
-            return
-          }
-
-          // Get the user data to create database record if needed
-          const { data: { user } } = await supabase.auth.getUser()
-
-          if (user) {
-            // Check if user exists in database, if not create them
-            const { data: existingUser } = await supabase
-              .from('users')
-              .select('*')
-              .eq('id', user.id)
-              .single()
-
-            if (!existingUser) {
-              // Create user record for OAuth users
-              await supabase
-                .from('users')
-                .insert([
-                  {
-                    id: user.id,
-                    email: user.email,
-                    first_name: user.user_metadata?.full_name?.split(' ')[0] || user.user_metadata?.name || '',
-                    last_name: user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '',
-                    role: 'user'
-                  }
-                ])
-            }
-          }
-
-          // Redirect to homepage
-          router.push('/')
-        } else {
-          // Fallback to regular session check
-          const { error } = await supabase.auth.getSession()
-          if (!error) {
-            router.push('/')
-          } else {
-            console.error('Auth callback error:', error)
-            router.push('/auth?error=callback_failed')
-          }
+        if (!code) {
+          console.error('Auth callback missing authorization code')
+          router.push('/auth?error=callback_failed')
+          return
         }
+
+        // PKCE flow only: exchange auth code for a session.
+        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        if (error) {
+          console.error('Error exchanging auth code:', error)
+          router.push('/auth?error=callback_failed')
+          return
+        }
+
+        // Supabase can consume hash/query params; always verify active session.
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
+        if (userError || !user) {
+          console.error('Auth callback user error:', userError)
+          router.push('/auth?error=callback_failed')
+          return
+        }
+
+        // Ensure OAuth users always have a profile row.
+        await supabase
+          .from('users')
+          .upsert(
+            {
+              id: user.id,
+              email: user.email,
+              first_name: user.user_metadata?.full_name?.split(' ')[0] || user.user_metadata?.name || '',
+              last_name: user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || '',
+              role: 'user'
+            },
+            { onConflict: 'id' }
+          )
+
+        router.replace('/products')
       } catch (error) {
         console.error('Callback error:', error)
         router.push('/auth?error=callback_failed')
