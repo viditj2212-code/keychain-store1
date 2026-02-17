@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ProductGrid from '@/components/products/ProductGrid'
 import ProductFilter from '@/components/products/ProductFilter'
@@ -8,9 +8,9 @@ import Loading from '@/components/common/Loading'
 import { fetchProducts } from '@/lib/api'
 
 /**
- * Shop page / Products listing
+ * Product listing logic that uses searchParams
  */
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -28,9 +28,6 @@ export default function ProductsPage() {
   const loadProducts = async () => {
     setLoading(true)
     try {
-      // In a real app, we would pass filters to the API
-      // For this demo, we'll fetch all and filter client-side if needed, 
-      // or the mock API handles it
       const data = await fetchProducts(filters)
       setProducts(data)
     } catch (error) {
@@ -60,7 +57,7 @@ export default function ProductsPage() {
 
       <div className="container-custom py-12">
         <ProductFilter filters={filters} onFilterChange={handleFilterChange} />
-        
+
         {loading ? (
           <div className="py-20">
             <Loading />
@@ -74,3 +71,19 @@ export default function ProductsPage() {
     </div>
   )
 }
+
+/**
+ * Main Shop page component with Suspense boundary
+ */
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="py-20 min-h-screen bg-gray-50/50">
+        <Loading />
+      </div>
+    }>
+      <ProductsContent />
+    </Suspense>
+  )
+}
+
