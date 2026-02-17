@@ -50,7 +50,15 @@ export default function AdminMessagesPage() {
           'Authorization': `Bearer ${token}`,
         },
       })
-      loadMessages()
+
+      // Update local state immediately
+      setMessages(prev => prev.map(msg =>
+        msg.id === messageId ? { ...msg, is_read: true } : msg
+      ))
+
+      if (selectedMessage?.id === messageId) {
+        setSelectedMessage(prev => ({ ...prev, is_read: true }))
+      }
     } catch (error) {
       console.error('Error marking message as read:', error)
     }

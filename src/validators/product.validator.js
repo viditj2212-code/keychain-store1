@@ -79,7 +79,7 @@ const createProductValidator = [
   body('category')
     .trim()
     .notEmpty().withMessage('Category is required')
-    .isIn(['Minimalist', 'Leather', 'Metal', 'Custom']).withMessage('Invalid category'),
+    .isIn(['Birthday', 'Anniversary', 'Romantic', 'Sympathy', 'Celebration', 'Seasonal', 'Just Because']).withMessage('Invalid category'),
 
   body('stock')
     .notEmpty().withMessage('Stock is required')
@@ -200,7 +200,7 @@ const updateProductValidator = [
   body('category')
     .optional()
     .trim()
-    .isIn(['Minimalist', 'Leather', 'Metal', 'Custom']).withMessage('Invalid category'),
+    .isIn(['Birthday', 'Anniversary', 'Romantic', 'Sympathy', 'Celebration', 'Seasonal', 'Just Because']).withMessage('Invalid category'),
 
   body('stock')
     .optional()

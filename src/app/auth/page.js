@@ -17,6 +17,7 @@ export default function AuthPage() {
   const [lastName, setLastName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
 
   const { signup, login, loginWithGoogle } = useAuth()
@@ -32,12 +33,16 @@ export default function AuthPage() {
         await login({ email, password })
         router.push('/products')
       } else {
-        // Sign up the user
+        // Sign up the user (now purely creates account without auto-login)
         await signup({ email, password, firstName, lastName })
 
-        // Auto-login after successful signup
-        await login({ email, password })
-        router.push('/products')
+        // Show success message and switch to login
+        setSuccessMessage('Account created successfully! You can now sign in with your credentials.')
+        setIsLogin(true)
+        setPassword('')
+        setFirstName('')
+        setLastName('')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     } catch (err) {
       setError(err.message)
@@ -85,6 +90,16 @@ export default function AuthPage() {
             </p>
           </div>
         </div>
+
+        {/* Success Message */}
+        {successMessage && (
+          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-600 text-sm flex items-center gap-3 animate-fade-in">
+            <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 9a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-1-1a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+            <span>{successMessage}</span>
+          </div>
+        )}
 
         {/* Error Message */}
         {error && (
@@ -225,7 +240,11 @@ export default function AuthPage() {
         <div className="mt-8 text-center">
           <button
             type="button"
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => {
+              setIsLogin(!isLogin)
+              setSuccessMessage(null)
+              setError(null)
+            }}
             className="text-sm text-gray-600 hover:text-primary-600 transition-colors"
           >
             {isLogin ? (

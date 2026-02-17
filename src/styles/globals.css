@@ -142,7 +142,7 @@ body::before {
 /* Component styles - Premium Flower Store */
 @layer components {
   .btn-primary {
-    @apply bg-primary-500 text-white px-8 py-3.5 rounded-full font-semibold tracking-tight hover:bg-primary-600 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-primary-500 text-white px-8 py-3.5 rounded-full font-semibold tracking-tight hover:bg-primary-600 transition-all duration-300 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
     font-family: var(--font-inter);
   }
 
@@ -167,7 +167,7 @@ body::before {
   }
 
   .card-premium {
-    @apply bg-white rounded-2xl border border-gray-100 overflow-hidden hover:border-primary-300 transition-all duration-500 hover:shadow-xl hover:shadow-primary-100/50;
+    @apply bg-white rounded-2xl border border-gray-100 overflow-hidden hover:border-primary-300 transition-all duration-500 hover:shadow-xl;
   }
 
   .badge-occasion {

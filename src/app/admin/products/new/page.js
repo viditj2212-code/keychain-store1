@@ -16,9 +16,9 @@ export default function AdminNewProductPage() {
     name: '',
     description: '',
     price: '',
-    sale_price: '',
+    salePrice: '',
     category: 'Birthday',
-    stock_quantity: '',
+    stock: '',
     image: null,
   })
 
@@ -47,11 +47,22 @@ export default function AdminNewProductPage() {
 
       // Create FormData for file upload
       const data = new FormData()
-      Object.keys(formData).forEach(key => {
-        if (formData[key] !== null && formData[key] !== '') {
-          data.append(key, formData[key])
-        }
-      })
+
+      // Append basic fields
+      data.append('name', formData.name)
+      data.append('description', formData.description)
+      data.append('price', formData.price)
+      data.append('category', formData.category)
+      data.append('stock', formData.stock)
+
+      if (formData.salePrice) {
+        data.append('salePrice', formData.salePrice)
+      }
+
+      if (formData.image) {
+        // Backend expects 'images' (plural) as an array for the upload middleware
+        data.append('images', formData.image)
+      }
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
         method: 'POST',
@@ -64,11 +75,16 @@ export default function AdminNewProductPage() {
       if (response.ok) {
         router.push('/admin/products')
       } else {
-        throw new Error('Failed to create bouquet')
+        const errorData = await response.json()
+        if (errorData.errors) {
+          const errorMsg = errorData.errors.map(err => `${err.field}: ${err.message}`).join('\n')
+          throw new Error(`Validation failed:\n${errorMsg}`)
+        }
+        throw new Error(errorData.message || 'Failed to create bouquet')
       }
     } catch (error) {
       console.error('Error creating product:', error)
-      alert('Failed to create bouquet. Please try again.')
+      alert(error.message || 'Failed to create bouquet. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -137,8 +153,8 @@ export default function AdminNewProductPage() {
           <Input
             label="Sale Price (Optional)"
             type="number"
-            name="sale_price"
-            value={formData.sale_price}
+            name="salePrice"
+            value={formData.salePrice}
             onChange={handleChange}
             placeholder="39.99"
             step="0.01"
@@ -164,8 +180,8 @@ export default function AdminNewProductPage() {
           <Input
             label="Stock Quantity"
             type="number"
-            name="stock_quantity"
-            value={formData.stock_quantity}
+            name="stock"
+            value={formData.stock}
             onChange={handleChange}
             placeholder="20"
             required

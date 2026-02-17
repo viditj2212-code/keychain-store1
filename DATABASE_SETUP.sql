@@ -61,9 +61,9 @@ CREATE TABLE order_items (
 CREATE INDEX idx_order_items_order_id ON order_items(order_id);
 CREATE INDEX idx_order_items_product_id ON order_items(product_id);
 
--- Users Table
-CREATE TABLE users (
-  id UUID PRIMARY KEY,
+-- Profiles Table
+CREATE TABLE profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email VARCHAR(255) UNIQUE NOT NULL,
   first_name VARCHAR(100),
   last_name VARCHAR(100),
@@ -72,8 +72,8 @@ CREATE TABLE users (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_users_role ON users(role);
+CREATE INDEX idx_profiles_email ON profiles(email);
+CREATE INDEX idx_profiles_role ON profiles(role);
 
 -- Contact Messages Table
 CREATE TABLE contact_messages (
@@ -83,6 +83,7 @@ CREATE TABLE contact_messages (
   subject VARCHAR(200) NOT NULL,
   message TEXT NOT NULL,
   status VARCHAR(50) DEFAULT 'new',
+  is_read BOOLEAN DEFAULT false,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );

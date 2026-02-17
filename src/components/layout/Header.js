@@ -15,7 +15,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
   const { cart } = useCart()
-  const { user, profile, logout } = useAuth()
+  const { user, profile, logout, loading } = useAuth()
 
   // Calculate total items in cart
   const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0)
@@ -63,7 +63,12 @@ export default function Header() {
             <div className="flex items-center space-x-3 lg:space-x-4">
               {/* User Account */}
               <div className="hidden md:block">
-                {user ? (
+                {loading ? (
+                  <div className="flex items-center gap-3">
+                    <div className="w-20 h-4 bg-gray-100 animate-pulse rounded"></div>
+                    <div className="w-9 h-9 rounded-full bg-gray-100 animate-pulse"></div>
+                  </div>
+                ) : user ? (
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => logout()}

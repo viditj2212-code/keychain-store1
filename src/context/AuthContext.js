@@ -1,18 +1,11 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, useMemo } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { createContext, useContext, useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-  // Create a single Supabase browser client instance (cookie-based for PKCE)
-  const supabase = useMemo(() => {
-    return createBrowserClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    )
-  }, [])
 
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
@@ -42,8 +35,15 @@ export function AuthProvider({ children }) {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
         if (!isMounted) return
+
+        if (event === 'SIGNED_OUT') {
+          setUser(null)
+          setProfile(null)
+          setLoading(false)
+          return
+        }
 
         if (session?.user) {
           setUser(session.user)
@@ -68,7 +68,7 @@ export function AuthProvider({ children }) {
         .from('profiles')
         .select('*')
         .eq('id', userId)
-        .single()
+        .maybeSingle()
 
       // PGRST116 = "No rows found" (safe to ignore)
       if (error && error.code !== 'PGRST116') {
@@ -132,8 +132,11 @@ export function AuthProvider({ children }) {
           console.error('Profile creation error:', profileError)
         }
 
-        setUser(authData.user)
-        await fetchProfile(authData.user.id)
+        // If Supabase auto-logged in the user, sign them out 
+        // to force the manual login requested by the user.
+        await supabase.auth.signOut()
+        setUser(null)
+        setProfile(null)
       }
 
       return authData
@@ -163,11 +166,17 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await supabase.auth.signOut()
+      setLoading(true)
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+
       setUser(null)
       setProfile(null)
+      // Force a full page reload to clear all states and caches
+      window.location.href = '/'
     } catch (error) {
       console.error('Logout error:', error)
+      setLoading(false)
     }
   }
 

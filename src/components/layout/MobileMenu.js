@@ -9,7 +9,7 @@ import { useAuth } from '@/context/AuthContext'
  * Slides in from right on mobile devices
  */
 export default function MobileMenu({ isOpen, onClose, navLinks }) {
-  const { user, profile, logout } = useAuth()
+  const { user, profile, logout, loading } = useAuth()
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -36,16 +36,15 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
 
       {/* Menu Panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-[101] transform transition-transform duration-500 ease-out md:hidden ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-[101] transform transition-transform duration-500 ease-out md:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         <div className="flex flex-col h-full relative overflow-hidden">
           {/* Subtle background pattern */}
-          <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
-               style={{ 
-                 backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(227, 126, 175, 0.1) 0%, transparent 50%)'
-               }}>
+          <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
+            style={{
+              backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(227, 126, 175, 0.1) 0%, transparent 50%)'
+            }}>
           </div>
 
           <div className="relative flex flex-col h-full z-10">
@@ -74,7 +73,11 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
 
             {/* User Section */}
             <div className="p-8">
-              {user ? (
+              {loading ? (
+                <div className="h-24 bg-gray-50 rounded-2xl animate-pulse flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              ) : user ? (
                 <div className="bg-gradient-to-br from-primary-50 to-primary-100 p-6 rounded-2xl border border-primary-200 shadow-sm">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
