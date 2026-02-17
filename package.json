@@ -12,7 +12,9 @@
     "server:dev": "nodemon server.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.0",
+    "@supabase/auth-helpers-nextjs": "^0.15.0",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.95.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -28,8 +30,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
     "autoprefixer": "^10.4.23",
+    "concurrently": "^8.2.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.1.0",
     "nodemon": "^3.0.2",

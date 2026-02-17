@@ -38,6 +38,32 @@ class ContactController {
     }
   }
 
+  async markAsRead(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const { data, error } = await supabase
+        .from('contact_messages')
+        .update({
+          status: 'read',
+          is_read: true
+        })
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Supabase error:', error);
+        throw new Error('Failed to mark message as read');
+      }
+
+      return successResponse(res, data, 'Message marked as read');
+    } catch (error) {
+      logger.error('Mark as read error:', error);
+      next(error);
+    }
+  }
+
   async getAllMessages(req, res, next) {
     try {
       const { status, limit = 100, offset = 0 } = req.query;
@@ -79,7 +105,10 @@ class ContactController {
 
       const { data, error } = await supabase
         .from('contact_messages')
-        .update({ status })
+        .update({
+          status,
+          is_read: status === 'read' || status === 'replied'
+        })
         .eq('id', id)
         .select()
         .single();

@@ -1,124 +1,115 @@
+'use client'
+
 import Link from 'next/link'
 
 /**
- * Footer component with links and social media
+ * Footer component
+ * Premium flower store design with dark theme
  */
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
-  const footerSections = [
-    {
-      title: 'Shop',
-      links: [
-        { label: 'All Products', href: '/products' },
-        { label: 'New Arrivals', href: '/products?sort=new' },
-        { label: 'Best Sellers', href: '/products?sort=popular' },
-      ],
-    },
-    {
-      title: 'Company',
-      links: [
-        { label: 'About Us', href: '/about' },
-        { label: 'Contact', href: '/contact' },
-        { label: 'Privacy Policy', href: '/privacy' },
-        { label: 'Terms of Service', href: '/terms' },
-      ],
-    },
-    {
-      title: 'Support',
-      links: [
-        { label: 'Shipping Info', href: '/shipping' },
-        { label: 'Returns', href: '/returns' },
-        { label: 'FAQ', href: '/faq' },
-      ],
-    },
-  ]
-
-  const socialLinks = [
-    { name: 'Instagram', href: '#', icon: 'instagram' },
-    { name: 'Facebook', href: '#', icon: 'facebook' },
-    { name: 'Twitter', href: '#', icon: 'twitter' },
-  ]
-
   return (
-    <footer className="bg-white border-t-2 border-gray-900/5 text-gray-900 relative overflow-hidden">
-      {/* Heavy Technical Grid Accent */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
+    <footer className="bg-dark-950 text-white pt-20 pb-10 overflow-hidden relative">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary-500 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-primary-600 rounded-full blur-3xl"></div>
+      </div>
 
-      <div className="container-custom py-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 lg:gap-24">
-          {/* Brand Technical Section */}
-          <div className="md:col-span-1 space-y-8">
-            <Link prefetch={false} href="/" className="group flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-display font-extrabold italic text-lg group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
-                K
+      <div className="container-custom relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+          {/* Brand Column */}
+          <div className="space-y-6">
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-500/30">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m0-18c-1.5 3-4 4.5-7 5m7-5c1.5 3 4 4.5 7 5M5 8c0 7 7 13 7 13s7-6 7-13" />
+                </svg>
               </div>
-              <span className="font-sans text-xl font-bold text-gray-900 tracking-tighter uppercase italic">
-                Keychain<span className="text-gray-300">.</span>
+              <span className="font-logo text-2xl font-bold text-white tracking-tight">
+                Petal & Stem
               </span>
             </Link>
-            <p className="font-sans text-[11px] font-semibold text-gray-400 uppercase tracking-[0.3em] leading-relaxed italic max-w-xs">
-              Engineering essential carriers through material integrity and industrial precision.
+            <p className="font-sans text-gray-400 leading-relaxed max-w-xs">
+              Handcrafted bouquets made with love and the freshest blooms. Delivering happiness one arrangement at a time.
             </p>
-            {/* Social Protocols */}
-            <div className="flex space-x-6">
-              {socialLinks.map((social) => (
-                <Link
-                  key={social.name}
-                  prefetch={false}
-                  href={social.href}
-                  className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-300 hover:text-white hover:bg-gray-900 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-gray-900/20"
-                  aria-label={social.name}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    {social.icon === 'instagram' && (
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                    )}
-                    {social.icon === 'facebook' && (
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                    )}
-                    {social.icon === 'twitter' && (
-                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417a9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                    )}
-                  </svg>
-                </Link>
-              ))}
+            <div className="flex items-center gap-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary-500 hover:text-white flex items-center justify-center transition-all">
+                <span className="sr-only">Instagram</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.027 2 12.315 2zm-.962 1.833h-.677c-2.417 0-2.748.01-3.754.056-.994.045-1.536.208-1.9.35-.481.187-.825.412-1.19.777-.365.364-.59.709-.777 1.19-.142.364-.305.906-.35 1.9-.046 1.006-.056 1.338-.056 3.754v.678c0 2.417.01 2.748.056 3.754.045.994.208 1.536.35 1.9.187.481.412.825.777 1.19.364.365.709.59 1.19.777.364.142.906.305 1.9.35 1.006.046 1.338.056 3.754.056h.678c2.417 0 2.748-.01 3.754-.056.994-.045 1.536-.208 1.9-.35.481-.187.825-.412 1.19-.777.364-.365.59-.709.777-1.19.142-.364.305-.906.35-1.9.046-1.006.056-1.338.056-3.754v-.678c0-2.417-.01-2.748-.056-3.754-.045-.994-.208-1.536-.35-1.9-.187-.481-.412-.825-.777-1.19-.364-.365-.709-.59-1.19-.777-.364-.142-.906-.305-1.9-.35-1.006-.046-1.338-.056-3.754-.056z" clipRule="evenodd" />
+                  <path fillRule="evenodd" d="M12.315 6.848a5.352 5.352 0 100 10.704 5.352 5.352 0 000-10.704zm0 1.833a3.519 3.519 0 110 7.038 3.519 3.519 0 010-7.038zM17.801 5.163a1.222 1.222 0 100 2.444 1.222 1.222 0 000-2.444z" clipRule="evenodd" />
+                </svg>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary-500 hover:text-white flex items-center justify-center transition-all">
+                <span className="sr-only">Facebook</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                </svg>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary-500 hover:text-white flex items-center justify-center transition-all">
+                <span className="sr-only">Twitter</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                </svg>
+              </a>
             </div>
           </div>
 
-          {/* Infrastructure Sections */}
-          {footerSections.map((section) => (
-            <div key={section.title} className="space-y-8">
-              <h3 className="font-display text-[10px] font-extrabold text-gray-900 uppercase tracking-[0.35em] italic">{section.title} Matrix</h3>
-              <ul className="space-y-4">
-                {section.links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      prefetch={false}
-                      href={link.href}
-                      className="font-sans text-xs font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-widest italic transition-all duration-300 hover:pl-2"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Shop Links */}
+          <div>
+            <h3 className="font-display font-bold text-lg mb-6 text-white">Shop</h3>
+            <ul className="space-y-4 text-sm text-gray-400">
+              <li><Link href="/products" className="hover:text-primary-400 transition-colors">All Bouquets</Link></li>
+              <li><Link href="/products?category=Birthday" className="hover:text-primary-400 transition-colors">Birthday Flowers</Link></li>
+              <li><Link href="/products?category=Anniversary" className="hover:text-primary-400 transition-colors">Anniversary</Link></li>
+              <li><Link href="/products?category=Sympathy" className="hover:text-primary-400 transition-colors">Sympathy</Link></li>
+              <li><Link href="/products?category=Wedding" className="hover:text-primary-400 transition-colors">Wedding</Link></li>
+            </ul>
+          </div>
+
+          {/* Support Links */}
+          <div>
+            <h3 className="font-display font-bold text-lg mb-6 text-white">Support</h3>
+            <ul className="space-y-4 text-sm text-gray-400">
+              <li><Link href="/contact" className="hover:text-primary-400 transition-colors">Contact Us</Link></li>
+              <li><Link href="/faq" className="hover:text-primary-400 transition-colors">FAQs</Link></li>
+              <li><Link href="/shipping" className="hover:text-primary-400 transition-colors">Shipping Info</Link></li>
+              <li><Link href="/returns" className="hover:text-primary-400 transition-colors">Returns Policy</Link></li>
+              <li><Link href="/privacy" className="hover:text-primary-400 transition-colors">Privacy Policy</Link></li>
+            </ul>
+          </div>
+
+          {/* Newsletter */}
+          <div>
+            <h3 className="font-display font-bold text-lg mb-6 text-white">Stay in Bloom</h3>
+            <p className="font-sans text-xs text-gray-400 mb-4">
+              Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
+            </p>
+            <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all text-sm"
+              />
+              <button
+                type="submit"
+                className="w-full bg-primary-500 text-white font-semibold py-3 rounded-lg hover:bg-primary-600 transition-all text-sm"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
         </div>
 
-        {/* System Terminal Bar */}
-        <div className="border-t-2 border-gray-900/5 mt-12 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p className="font-sans text-[10px] font-semibold text-gray-300 uppercase tracking-widest italic leading-relaxed text-center md:text-left">
-            Acquisition Portal Protocol 1.0 <br />
-            © {currentYear} Industrial Bureau. Secure Transmission.
-          </p>
-          <div className="flex items-center gap-10">
-            <Link prefetch={false} href="/privacy" className="font-sans text-[9px] font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Privacy_Protocol</Link>
-            <Link prefetch={false} href="/terms" className="font-sans text-[9px] font-semibold text-gray-400 hover:text-gray-900 uppercase tracking-[0.2em] italic transition-colors">Terms_Sequence</Link>
-            <p className="font-sans text-[12px] font-bold text-gray-900 uppercase italic tracking-tighter hidden lg:block">Material Integrity_</p>
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+          <p>© {currentYear} Petal & Stem. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link href="/terms" className="hover:text-gray-300 transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
+            <Link href="/sitemap" className="hover:text-gray-300 transition-colors">Sitemap</Link>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import Button from '@/components/common/Button'
 
 /**
  * Cart summary component showing totals
+ * Flower store design
  */
 export default function CartSummary({ cart }) {
   // Calculate totals
@@ -15,67 +16,77 @@ export default function CartSummary({ cart }) {
   const total = subtotal + shipping + tax
 
   return (
-    <div className="bg-transparent space-y-10">
-      <div className="space-y-4">
-        <p className="font-sans text-[10px] font-bold text-white/40 uppercase tracking-[0.5em] italic">Unit / Analytics</p>
-        <h3 className="font-display text-3xl font-extrabold text-white tracking-tighter uppercase italic leading-none">
-          Logistics <br />
-          <span className="text-white/30">Matrix.</span>
-        </h3>
-      </div>
+    <div className="bg-gradient-to-br from-dark-950 to-dark-900 rounded-2xl p-8 shadow-2xl text-white">
+      <div className="space-y-6">
+        <div>
+          <h3 className="font-display text-2xl font-bold mb-2">
+            Order Summary
+          </h3>
+          <p className="text-sm text-gray-400">Review your bouquet selection</p>
+        </div>
 
-      <div className="space-y-8">
-        <div className="space-y-4">
-          <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em] italic text-white/50">
-            <span>Subtotal</span>
-            <span className="text-white">${subtotal.toFixed(2)}</span>
+        <div className="space-y-4 py-6 border-y border-white/10">
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-gray-400">Subtotal</span>
+            <span className="font-semibold">${subtotal.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em] italic text-white/50">
-            <span>Logistics</span>
-            <span className={`text-white ${shipping === 0 ? 'text-green-400' : ''}`}>
-              {shipping === 0 ? 'INCLUDED' : `$${shipping.toFixed(2)}`}
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-gray-400">Shipping</span>
+            <span className={`font-semibold ${shipping === 0 ? 'text-green-400' : ''}`}>
+              {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
             </span>
           </div>
-          <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.3em] italic text-white/50">
-            <span>Technical Tax</span>
-            <span className="text-white">${tax.toFixed(2)}</span>
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-gray-400">Tax</span>
+            <span className="font-semibold">${tax.toFixed(2)}</span>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/10 space-y-2">
-          <p className="font-sans text-[9px] font-bold text-white/30 uppercase tracking-[0.4em] italic leading-none text-right">Unit Total</p>
-          <div className="flex justify-between items-baseline">
-            <span className="font-display text-4xl font-extrabold text-white tracking-tighter uppercase italic">${total.toFixed(2)}</span>
+        <div className="flex justify-between items-baseline pt-2">
+          <span className="font-display text-lg font-bold">Total</span>
+          <span className="font-display text-3xl font-bold text-primary-400">${total.toFixed(2)}</span>
+        </div>
+
+        {subtotal < 50 && (
+          <div className="p-4 bg-primary-500/10 border border-primary-500/20 rounded-xl">
+            <div className="flex items-start gap-3">
+              <svg className="w-5 h-5 text-primary-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-xs text-primary-200">
+                Add <span className="font-bold">${(50 - subtotal).toFixed(2)}</span> more to qualify for free shipping!
+              </p>
+            </div>
+          </div>
+        )}
+
+        <div className="space-y-3 pt-4">
+          <Link href="/checkout" className="block">
+            <button className="w-full bg-primary-500 text-white h-14 rounded-full font-semibold hover:bg-primary-600 transition-all active:scale-95 shadow-lg shadow-primary-500/30">
+              Proceed to Checkout
+            </button>
+          </Link>
+          <Link href="/products" className="block">
+            <button className="w-full bg-transparent border-2 border-white/20 text-white h-14 rounded-full font-semibold hover:border-white/40 transition-all active:scale-95">
+              Continue Shopping
+            </button>
+          </Link>
+        </div>
+
+        {/* Trust Badges */}
+        <div className="pt-6 border-t border-white/10">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span className="text-xs text-gray-400">Secure Checkout</span>
+          </div>
+          <div className="flex justify-center gap-6 opacity-40 grayscale">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-5" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-5" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-5" />
           </div>
         </div>
-      </div>
-
-      {subtotal < 50 && (
-        <div className="p-6 bg-white/5 rounded-2xl border border-white/10">
-          <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest italic leading-tight">
-            System Alert: Allocate <span className="text-white">${(50 - subtotal).toFixed(2)}</span> additional for inclusive shipping.
-          </p>
-        </div>
-      )}
-
-      <div className="space-y-4">
-        <Link href="/checkout" className="block">
-          <button className="w-full bg-white text-gray-900 h-20 rounded-[2rem] font-display font-extrabold text-[12px] uppercase tracking-[0.4em] italic hover:bg-black hover:text-white transition-all active:scale-[0.95] shadow-2xl">
-            Execute Checkout
-          </button>
-        </Link>
-        <Link href="/products" className="block">
-          <button className="w-full bg-transparent border-2 border-white/20 text-white h-20 rounded-[2rem] font-display font-extrabold text-[12px] uppercase tracking-[0.4em] italic hover:border-white transition-all active:scale-[0.95]">
-            Re-access Bureau
-          </button>
-        </Link>
-      </div>
-
-      {/* Security Identifiers */}
-      <div className="pt-10 border-t border-white/10 flex justify-center gap-8 opacity-20 grayscale brightness-200">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-4" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-4" />
       </div>
     </div>
   )

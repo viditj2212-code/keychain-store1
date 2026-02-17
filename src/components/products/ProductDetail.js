@@ -8,18 +8,25 @@ import { getImageUrl } from '@/utils/imageUrl'
 import { useNotification } from '@/contexts/NotificationContext'
 
 /**
- * Detailed product view component
+ * Detailed product view component for flower bouquets
  */
 export default function ProductDetail({ product }) {
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
+  const [deliveryDate, setDeliveryDate] = useState('')
+  const [giftMessage, setGiftMessage] = useState('')
   const { addToCart } = useCart()
   const { showToast } = useNotification()
 
-  // Ensure we have an array of images, falling back to the main image if secondary images are missing
+  // Get tomorrow's date as minimum delivery date
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const minDate = tomorrow.toISOString().split('T')[0]
+
+  // Ensure we have an array of images
   const images = (product.images && product.images.length > 0)
     ? product.images.map(img => getImageUrl(img))
-    : [getImageUrl(product.image) || 'https://via.placeholder.com/600x600?text=Keychain']
+    : [getImageUrl(product.image) || 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&auto=format&fit=crop&q=80']
 
   const handleAddToCart = () => {
     addToCart(product, quantity)
@@ -50,72 +57,66 @@ export default function ProductDetail({ product }) {
     showToast('Link copied to clipboard!', 'success')
   }
 
-  const incrementQuantity = () => {
-    if (quantity < product.stock) {
-      setQuantity(quantity + 1)
-    }
-  }
-
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1)
-    }
-  }
-
   return (
-    <div className="flex flex-col xl:flex-row gap-20 items-start relative px-4 md:px-0">
-      {/* Background technical grid decoration */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none -z-10" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
-
-      {/* Left: Immersive Floating Gallery (60%) */}
-      <div className="w-full xl:w-[60%] xl:sticky xl:top-24 space-y-8 animate-fade-in">
-        <div className="relative group rounded-[3rem] overflow-hidden bg-gray-900 border border-gray-100 shadow-2xl transition-all duration-700">
+    <div className="flex flex-col xl:flex-row gap-12 lg:gap-16 items-start relative px-4 md:px-0">
+      {/* Left: Image Gallery (55%) */}
+      <div className="w-full xl:w-[55%] xl:sticky xl:top-24 space-y-6 animate-fade-in">
+        <div className="relative group rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 shadow-xl">
           <img
             src={images[selectedImage]}
             alt={product.name}
-            className="w-full aspect-[4/3] object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+            className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
           />
 
-          {/* Overlapping Info Badge - Industrial Noir style */}
-          <div className="absolute bottom-10 left-10 z-10">
-            <div className="glass p-8 rounded-[2.5rem] flex items-center gap-8">
-              <div className="space-y-1">
-                <p className="font-sans text-[9px] font-semibold text-gray-400 tracking-[0.3em]">Current Spec</p>
-                <h3 className="font-display text-2xl font-bold text-gray-900 tracking-tighter">{product.name}</h3>
-              </div>
-              <div className="w-px h-12 bg-gray-900/10"></div>
-              <div className="space-y-1">
-                <p className="font-sans text-[9px] font-semibold text-gray-400 tracking-[0.3em]">Validation</p>
-                <span className="font-sans text-sm font-semibold text-gray-900 flex items-center gap-3 tracking-widest">
-                  <span className="w-2.5 h-2.5 rounded-full bg-gray-900 animate-pulse"></span>
-                  Verified
-                </span>
+          {/* Floating Info Badge */}
+          <div className="absolute bottom-6 left-6 right-6 z-10">
+            <div className="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Fresh Bouquet</p>
+                  <h3 className="font-display text-xl font-bold text-gray-900">{product.name}</h3>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-green-100 rounded-full">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-xs font-semibold text-green-800">In Stock</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="absolute top-10 left-10 z-10 flex flex-col gap-4">
-            {product.isNew && <Badge variant="primary" className="shadow-2xl px-6 py-2.5 font-sans">N° SERIES-X</Badge>}
-            {product.isFeatured && <Badge variant="secondary" className="shadow-2xl px-6 py-2.5 font-sans">CORE-EDITION</Badge>}
+          {/* Badges */}
+          <div className="absolute top-6 left-6 z-10 flex flex-col gap-3">
+            {product.isNew && (
+              <span className="badge-occasion bg-primary-500 text-white shadow-lg">
+                New Arrival
+              </span>
+            )}
+            {product.isFeatured && (
+              <span className="badge-occasion bg-yellow-500 text-white shadow-lg">
+                Best Seller
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Minimalist Thumbnail Navigation */}
+        {/* Thumbnail Navigation */}
         {images.length > 1 && (
-          <div className="flex gap-8 overflow-x-auto pb-6 no-scrollbar">
+          <div className="flex gap-4 overflow-x-auto pb-4">
             {images.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedImage(index)}
-                className={`flex-shrink-0 w-32 h-32 rounded-[2rem] overflow-hidden border-2 transition-all duration-700 relative group ${selectedImage === index
-                  ? 'border-gray-900 scale-95 shadow-2xl'
-                  : 'border-transparent opacity-40 hover:opacity-100 hover:scale-105'
+                className={`flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden border-2 transition-all duration-300 ${selectedImage === index
+                    ? 'border-primary-500 scale-95 shadow-lg'
+                    : 'border-gray-200 opacity-60 hover:opacity-100 hover:scale-105'
                   }`}
               >
                 <img
                   src={image}
                   alt={`${product.name} ${index + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover"
                 />
               </button>
             ))}
@@ -123,117 +124,199 @@ export default function ProductDetail({ product }) {
         )}
       </div>
 
-      {/* Right: Technical Data Pillar (40%) */}
-      <div className="w-full xl:w-[40%] space-y-16 py-10">
-        <div className="space-y-8">
-          <div className="flex items-center gap-6">
-            <span className="font-sans px-5 py-2 bg-gray-900 text-white text-[9px] font-semibold tracking-[0.4em] rounded-lg">
-              Serial ID: {product.id.split('-')[0]}
+      {/* Right: Product Details (45%) */}
+      <div className="w-full xl:w-[45%] space-y-8">
+        {/* Header */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <span className="badge-occasion">
+              {product.category || 'Seasonal'}
             </span>
-            <div className="h-0.5 flex-1 bg-gray-900/5"></div>
+            {product.occasion && (
+              <span className="text-sm text-gray-500">For {product.occasion}</span>
+            )}
           </div>
 
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-gray-900 leading-tight tracking-tighter">
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
             {product.name}
           </h1>
 
-          <p className="font-sans text-lg md:text-xl text-gray-400 font-semibold tracking-[0.2em] leading-tight max-w-xl">
+          <p className="font-sans text-lg text-gray-600 leading-relaxed">
             {product.description}
           </p>
         </div>
 
-        {/* Dynamic Pricing Section */}
-        <div className="space-y-10 pt-12 border-t border-gray-100">
-          <div className="flex items-baseline gap-8">
+        {/* Pricing */}
+        <div className="space-y-4 pt-6 border-t border-gray-200">
+          <div className="flex items-baseline gap-4">
             {product.salePrice ? (
-                <>
-                <span className="font-sans text-3xl font-bold text-gray-900 tracking-tight">${product.salePrice.toFixed(2)}</span>
-                <span className="font-sans text-lg text-gray-400 line-through font-semibold tracking-tight">${product.price.toFixed(2)}</span>
+              <>
+                <span className="font-display text-4xl font-bold text-gray-900">${product.salePrice.toFixed(2)}</span>
+                <span className="font-sans text-xl text-gray-400 line-through">${product.price.toFixed(2)}</span>
+                <span className="badge-occasion bg-red-500 text-white">Save ${(product.price - product.salePrice).toFixed(2)}</span>
               </>
             ) : (
-              <span className="font-sans text-3xl font-bold text-gray-900 tracking-tight">${product.price.toFixed(2)}</span>
+              <span className="font-display text-4xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="p-1 items-center bg-gray-50/50 rounded-[2rem] border border-gray-100 flex gap-6 pr-8 transition-all hover:bg-white hover:shadow-xl duration-500">
-              <div className="w-16 h-16 bg-gray-900 rounded-2xl shadow-xl flex items-center justify-center text-white font-sans font-bold">
-                STR
-              </div>
-              <div className="space-y-0.5">
-                <p className="font-sans text-[9px] font-semibold text-gray-400 tracking-[0.3em]">Strength</p>
-                <p className="font-sans text-sm font-semibold text-gray-900 tracking-widest">Industrial</p>
+          {/* Trust Indicators */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center gap-2 p-4 bg-green-50 rounded-xl border border-green-200">
+              <svg className="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-green-800">7-Day Fresh</p>
+                <p className="text-xs text-green-600">Guarantee</p>
               </div>
             </div>
-            <div className="p-1 items-center bg-gray-50/50 rounded-[2rem] border border-gray-100 flex gap-6 pr-8 transition-all hover:bg-white hover:shadow-xl duration-500">
-              <div className="w-16 h-16 bg-gray-900 rounded-2xl shadow-xl flex items-center justify-center text-white font-sans font-bold">
-                MAT
-              </div>
-              <div className="space-y-0.5">
-                <p className="font-sans text-[9px] font-semibold text-gray-400 tracking-[0.3em]">Material</p>
-                <p className="font-sans text-sm font-semibold text-gray-900 tracking-widest">Aerospace</p>
+            <div className="flex items-center gap-2 p-4 bg-primary-50 rounded-xl border border-primary-200">
+              <svg className="w-5 h-5 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <p className="text-xs font-semibold text-primary-800">Same-Day</p>
+                <p className="text-xs text-primary-600">Delivery</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Purchase Interface - High Density */}
-        <div className="space-y-10 pt-12 border-t border-gray-100 mb-10">
+        {/* Delivery Date Selector */}
+        <div className="space-y-3 p-6 bg-gray-50 rounded-xl">
+          <label className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+            <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Delivery Date (Optional)
+          </label>
+          <input
+            type="date"
+            min={minDate}
+            value={deliveryDate}
+            onChange={(e) => setDeliveryDate(e.target.value)}
+            className="input-field"
+          />
+          <p className="text-xs text-gray-500">Order by 2 PM for same-day delivery</p>
+        </div>
+
+        {/* Gift Message */}
+        <div className="space-y-3">
+          <label className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+            <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+            </svg>
+            Add a Gift Message (Optional)
+          </label>
+          <textarea
+            rows="3"
+            value={giftMessage}
+            onChange={(e) => setGiftMessage(e.target.value)}
+            placeholder="Write a personal message to include with your bouquet..."
+            className="input-field resize-none"
+            maxLength={200}
+          />
+          <p className="text-xs text-gray-500">{giftMessage.length}/200 characters</p>
+        </div>
+
+        {/* Quantity & Purchase */}
+        <div className="space-y-6 pt-6 border-t border-gray-200">
           <div className="flex items-center justify-between">
-            <span className="font-sans text-[10px] font-bold text-gray-400 tracking-[0.4em]">Quantity / Units</span>
-            <div className="flex items-center gap-10 bg-gray-900 p-2 rounded-[1.8rem]">
+            <span className="text-sm font-semibold text-gray-700">Quantity</span>
+            <div className="flex items-center gap-4 bg-gray-100 p-1.5 rounded-full">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-white hover:bg-white hover:text-gray-900 transition-all active:scale-90"
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-700 hover:bg-primary-500 hover:text-white transition-all active:scale-90 shadow-sm"
               >
-                -
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M20 12H4" />
+                </svg>
               </button>
-              <span className="font-sans text-2xl font-bold text-white w-8 text-center">{quantity}</span>
+              <span className="font-display text-xl font-bold text-gray-900 w-8 text-center">{quantity}</span>
               <button
-                onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-white hover:bg-white hover:text-gray-900 transition-all active:scale-90"
+                onClick={() => setQuantity(Math.min(product.stock || 999, quantity + 1))}
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-700 hover:bg-primary-500 hover:text-white transition-all active:scale-90 shadow-sm"
               >
-                +
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
+                </svg>
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-3">
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="col-span-2 font-sans bg-gray-900 text-white h-24 rounded-[2.5rem] font-bold text-[15px] tracking-[0.35em] flex items-center justify-center gap-6 hover:bg-black hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] disabled:bg-gray-100 disabled:text-gray-300 shadow-2xl shadow-gray-200"
+              className="col-span-2 btn-primary h-14 text-base flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
-              {product.stock === 0 ? 'Out of Inventory' : (
+              {product.stock === 0 ? 'Out of Stock' : (
                 <>
-                  Add to Cart
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
+                  Add to Cart
                 </>
               )}
             </button>
             <button
               onClick={handleShare}
-              className="font-sans bg-white border-2 border-gray-900 text-gray-900 h-24 rounded-[2.5rem] font-bold text-[15px] tracking-[0.35em] flex items-center justify-center hover:bg-gray-900 hover:text-white hover:shadow-2xl hover:shadow-gray-900/20 transition-all active:scale-[0.98] shadow-lg"
-              title="Share Product"
+              className="btn-outline h-14 flex items-center justify-center"
+              title="Share"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Feature List - Tactical Hardware style */}
+        {/* Care Instructions */}
+        <div className="bg-primary-50 rounded-xl p-6 border border-primary-200">
+          <h3 className="font-display font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Care Instructions
+          </h3>
+          <ul className="space-y-2 text-sm text-gray-700">
+            <li className="flex items-start gap-2">
+              <svg className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>Keep in a cool location away from direct sunlight</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <svg className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>Change water every 2 days for maximum freshness</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <svg className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>Trim stems at an angle every few days</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <svg className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>Remove wilted petals to extend bloom life</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Features */}
         {product.features && product.features.length > 0 && (
-          <div className="space-y-8 pt-12">
-            <h4 className="font-sans text-[11px] font-bold text-gray-400 tracking-[0.4em]">— Tactical Specifications</h4>
-            <div className="grid grid-cols-1 gap-6">
+          <div className="space-y-4 pt-6">
+            <h4 className="font-display text-lg font-bold text-gray-900">What's Included</h4>
+            <div className="grid grid-cols-1 gap-3">
               {product.features.map((feature, index) => (
-                <div key={index} className="group flex items-center justify-between p-8 rounded-[1.8rem] bg-white border border-gray-100 hover:border-gray-900 transition-all duration-500">
-                  <span className="font-sans text-gray-900 font-semibold text-sm tracking-widest">{feature}</span>
-                  <div className="w-1.5 h-1.5 rounded-full bg-gray-900 scale-0 group-hover:scale-100 transition-transform"></div>
+                <div key={index} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100 hover:border-primary-300 transition-all">
+                  <div className="w-2 h-2 rounded-full bg-primary-500"></div>
+                  <span className="font-sans text-gray-700 text-sm">{feature}</span>
                 </div>
               ))}
             </div>

@@ -9,7 +9,7 @@ import CartDrawer from '@/components/cart/CartDrawer'
 
 /**
  * Header component with navigation and cart
- * Responsive with mobile menu toggle
+ * Premium flower store design
  */
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -22,89 +22,93 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/products', label: 'Store' },
+    { href: '/products', label: 'Shop' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ]
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b-2 border-gray-900/5">
-        <nav className="container-custom py-6">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm">
+        <nav className="container-custom py-4 lg:py-5">
           <div className="flex items-center justify-between">
-            {/* Technical Logo */}
-            <Link href="/" className="group flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center text-white font-display font-bold text-lg group-hover:rotate-12 transition-transform duration-500 shadow-xl shadow-gray-900/20">
-                K
+            {/* Logo */}
+            <Link href="/" className="group flex items-center gap-2.5">
+              <div className="relative">
+                <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-500/30 group-hover:shadow-primary-500/50 transition-all duration-300">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m0-18c-1.5 3-4 4.5-7 5m7-5c1.5 3 4 4.5 7 5M5 8c0 7 7 13 7 13s7-6 7-13" />
+                  </svg>
+                </div>
               </div>
-              <span className="font-display text-xl font-bold text-gray-900 tracking-tighter group-hover:tracking-normal transition-all duration-500">
-                Keychain<span className="text-gray-300">.</span>
+              <span className="font-logo text-2xl font-bold text-gray-900 tracking-tight">
+                Petal & Stem
               </span>
             </Link>
 
-            {/* Desktop Navigation / Protocol */}
-            <div className="hidden md:flex items-center space-x-12">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8 lg:space-x-10">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="font-sans text-sm font-semibold text-gray-400 hover:text-gray-900 tracking-[0.25em] transition-all duration-300"
+                  className="font-sans text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary-500 after:transition-all after:duration-300 hover:after:w-full pb-1"
                 >
                   {link.label}
                 </Link>
               ))}
             </div>
 
-            {/* Terminal Actions */}
-            <div className="flex items-center space-x-8">
-              {/* User Identity */}
+            {/* Right Actions */}
+            <div className="flex items-center space-x-3 lg:space-x-4">
+              {/* User Account */}
               <div className="hidden md:block">
                 {user ? (
-                  <div className="flex items-center gap-8">
+                  <div className="flex items-center gap-4">
                     <button
                       onClick={() => logout()}
-                      className="font-sans text-xs font-semibold text-gray-300 hover:text-gray-900 tracking-widest transition-colors"
+                      className="font-sans text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors"
                     >
-                      Logout_
+                      Sign Out
                     </button>
-                    <div className="w-12 h-12 rounded-2xl bg-gray-900 flex items-center justify-center text-white font-sans font-bold text-lg shadow-xl shadow-gray-900/10">
-                      {profile?.first_name?.[0] || user.email[0].toUpperCase()}
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-semibold text-sm shadow-md">
+                      {profile?.first_name?.[0] || user?.email?.[0]?.toUpperCase() || 'U'}
                     </div>
                   </div>
                 ) : (
                   <Link
                     href="/auth"
-                    className="font-sans text-[11px] font-semibold text-gray-900 tracking-[0.3em] hover:opacity-50 transition-all border-b-2 border-gray-900 pb-1"
+                    className="font-sans text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors"
                   >
-                    Access_
+                    Sign In
                   </Link>
                 )}
               </div>
 
-              {/* Manifest Trigger */}
+              {/* Shopping Cart */}
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative p-3 bg-gray-50 rounded-2xl text-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-500 shadow-lg shadow-gray-200/50 group"
+                className="relative p-2.5 lg:p-3 bg-primary-50 rounded-full text-primary-600 hover:bg-primary-100 transition-all duration-300 group"
                 aria-label="Shopping cart"
               >
-                <svg className="w-6 h-6 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                <svg className="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
                 {cartItemsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-[10px] font-semibold rounded-lg h-6 w-6 flex items-center justify-center shadow-xl shadow-gray-900/20 border-2 border-white group-hover:bg-red-600 transition-colors">
+                  <span className="absolute -top-1 -right-1 bg-primary-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
                     {cartItemsCount}
                   </span>
                 )}
               </button>
 
-              {/* Mobile Command Toggle */}
+              {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="md:hidden p-3 bg-gray-900 text-white rounded-2xl hover:bg-black transition-all shadow-xl shadow-gray-900/20"
+                className="md:hidden p-2.5 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-all"
                 aria-label="Open menu"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 6h16M4 12h16M4 18h16" />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
             </div>

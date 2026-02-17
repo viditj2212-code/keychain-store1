@@ -1,147 +1,191 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { createContext, useContext, useState, useEffect, useMemo } from 'react'
+import { createBrowserClient } from '@supabase/ssr'
 
-const AuthContext = createContext({})
+const AuthContext = createContext()
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
+  // Create a single Supabase browser client instance (cookie-based for PKCE)
+  const supabase = useMemo(() => {
+    return createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    )
+  }, [])
+
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const isCallbackRoute = typeof window !== 'undefined' && window.location.pathname === '/auth/callback'
-    if (isCallbackRoute) {
-      // Avoid concurrent auth operations while OAuth callback is exchanging code.
-      setLoading(false)
-      return
-    }
+    let isMounted = true
 
-    // Get initial session
-    const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        await fetchProfile(session.user.id)
+    const init = async () => {
+      try {
+        // Check active session
+        const { data: { session }, error } = await supabase.auth.getSession()
+        if (error) console.error('Error getting session:', error)
+
+        if (isMounted && session?.user) {
+          setUser(session.user)
+          await fetchProfile(session.user.id)
+        }
+      } catch (err) {
+        console.error('Error checking user:', err)
+      } finally {
+        if (isMounted) setLoading(false)
       }
-      setLoading(false)
     }
 
-    getInitialSession()
+    init()
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      const currentUser = session?.user ?? null
-      setUser(currentUser)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        if (!isMounted) return
 
-      if (currentUser) {
-        await fetchProfile(currentUser.id)
-      } else {
-        setProfile(null)
+        if (session?.user) {
+          setUser(session.user)
+          await fetchProfile(session.user.id)
+        } else {
+          setUser(null)
+          setProfile(null)
+        }
+        setLoading(false)
       }
-
-      setLoading(false)
-    })
+    )
 
     return () => {
+      isMounted = false
       subscription?.unsubscribe()
     }
-  }, [])
+  }, [supabase])
 
   const fetchProfile = async (userId) => {
     try {
       const { data, error } = await supabase
-        .from('users')
+        .from('profiles')
         .select('*')
         .eq('id', userId)
-        .limit(1)
+        .single()
 
-      if (error) {
+      // PGRST116 = "No rows found" (safe to ignore)
+      if (error && error.code !== 'PGRST116') {
         console.error('Error fetching profile:', error)
-        setProfile(null)
         return
       }
 
-      setProfile(Array.isArray(data) && data.length > 0 ? data[0] : null)
+      setProfile(data ?? null)
     } catch (error) {
       console.error('Error fetching profile:', error)
-      setProfile(null)
+    }
+  }
+
+  const login = async ({ email, password }) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      })
+
+      if (error) throw error
+
+      setUser(data.user)
+      await fetchProfile(data.user.id)
+      return data
+    } catch (error) {
+      console.error('Login error:', error)
+      throw new Error(error.message || 'Failed to login')
     }
   }
 
   const signup = async ({ email, password, firstName, lastName }) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-          role: 'user'
-        }
-      }
-    })
-
-    if (error) throw error
-
-    // Create user record in database
-    if (data.user) {
-      const { error: dbError } = await supabase
-        .from('users')
-        .insert([
-          {
-            id: data.user.id,
-            email: data.user.email,
+    try {
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
             first_name: firstName,
-            last_name: lastName,
-            role: 'user'
+            last_name: lastName
           }
-        ])
+        }
+      })
 
-      if (dbError) {
-        console.error('Error creating user record:', dbError)
-        // Don't throw here - auth user is created, we can retry DB insert later
+      if (signUpError) throw signUpError
+
+      // Create profile row (optional but you’re already doing it)
+      if (authData.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([
+            {
+              id: authData.user.id,
+              first_name: firstName,
+              last_name: lastName,
+              email: email
+            }
+          ])
+
+        if (profileError) {
+          console.error('Profile creation error:', profileError)
+        }
+
+        setUser(authData.user)
+        await fetchProfile(authData.user.id)
       }
+
+      return authData
+    } catch (error) {
+      console.error('Signup error:', error)
+      throw new Error(error.message || 'Failed to sign up')
     }
-
-    return data
-  }
-
-  const login = async ({ email, password }) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
-    if (error) throw error
-    return data
   }
 
   const loginWithGoogle = async () => {
-    const redirectUrl = typeof window !== 'undefined'
-      ? `${window.location.origin}/auth/callback`
-      : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          // Must match what you allowed in Supabase Redirect URLs
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      })
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: redirectUrl
-      }
-    })
-    if (error) throw error
-    return data
+      if (error) throw error
+      return data
+    } catch (error) {
+      console.error('Google login error:', error)
+      throw new Error(error.message || 'Failed to login with Google')
+    }
   }
 
   const logout = async () => {
-    const { error } = await supabase.auth.signOut()
-    if (error) throw error
+    try {
+      await supabase.auth.signOut()
+      setUser(null)
+      setProfile(null)
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signup, login, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{
+      user,
+      profile,
+      loading,
+      login,
+      logout,
+      signup,
+      loginWithGoogle
+    }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-export const useAuth = () => useContext(AuthContext)
+export function useAuth() {
+  return useContext(AuthContext)
+}

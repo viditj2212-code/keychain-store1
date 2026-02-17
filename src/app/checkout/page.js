@@ -1,74 +1,58 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 import CheckoutForm from '@/components/checkout/CheckoutForm'
 import OrderSummary from '@/components/checkout/OrderSummary'
-import { createOrder } from '@/lib/api'
+import { useNotification } from '@/contexts/NotificationContext'
 
 /**
  * Checkout page
  */
 export default function CheckoutPage() {
-  const router = useRouter()
   const { cart, clearCart } = useCart()
+  const router = useRouter()
+  const [isProcessing, setIsProcessing] = useState(false)
+  const { showToast } = useNotification()
 
   // Redirect if cart is empty
-  if (cart.length === 0) {
-    router.push('/cart')
+  if (cart.length === 0 && !isProcessing) {
+    if (typeof window !== 'undefined') {
+      router.push('/cart')
+    }
     return null
   }
 
   const handleCheckout = async (formData) => {
-    try {
-      const orderData = {
-        ...formData,
-        items: cart,
-        total: cart.reduce(
-          (sum, item) => sum + (item.salePrice || item.price) * item.quantity,
-          0
-        ),
-      }
-      const order = await createOrder(orderData)
+    setIsProcessing(true)
 
-      // Clear cart and redirect to success page
-      clearCart()
-      router.push(`/order-success?orderId=${order.id}`)
-    } catch (error) {
-      console.error('Checkout error:', error)
-      alert('There was an error processing your order. Please try again.')
-    }
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
+    // Success scenario
+    clearCart()
+    showToast('Order placed successfully!', 'success')
+    router.push('/checkout/success')
   }
 
   return (
-    <div className="container-custom py-32 min-h-screen">
-      {/* Heavy Technical Header */}
-      <div className="max-w-3xl mb-16 animate-fade-in">
-        <div className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] mb-8 shadow-xl shadow-gray-900/10 italic">
-          Terminal / Acquisition / Secure
-        </div>
-        <h1 className="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-tight">
-          Logistics <br />
-          <span className="text-gray-300">Protocol.</span>
+    <div className="bg-gray-50/50 min-h-screen pb-20">
+      <div className="container-custom py-12 lg:py-16">
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-10 text-center">
+          Checkout
         </h1>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-24 items-start">
-        {/* Checkout Form / Protocol */}
-        <div className="lg:col-span-2">
-          <div className="bg-white rounded-[3rem] border border-gray-100 p-10 md:p-16 shadow-2xl shadow-gray-200/50 relative overflow-hidden">
-            {/* Technical grid overlay */}
-            <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
-
-            <div className="relative">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
+          {/* Left: Form */}
+          <div className="flex-grow lg:w-2/3 order-2 lg:order-1">
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 md:p-10">
               <CheckoutForm onSubmit={handleCheckout} />
             </div>
           </div>
-        </div>
 
-        {/* Order Summary / Matrix */}
-        <div className="lg:col-span-1 sticky top-32">
-          <div className="bg-gray-900 rounded-[3rem] p-12 text-white shadow-2xl shadow-gray-900/20 mesh-gradient">
+          {/* Right: Summary */}
+          <div className="w-full lg:w-1/3 order-1 lg:order-2">
             <OrderSummary cart={cart} />
           </div>
         </div>

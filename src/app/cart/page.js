@@ -1,30 +1,34 @@
 'use client'
 
-import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 import CartItem from '@/components/cart/CartItem'
 import CartSummary from '@/components/cart/CartSummary'
+import Link from 'next/link'
 import Button from '@/components/common/Button'
 
 /**
- * Shopping cart page
+ * Full cart page
  */
 export default function CartPage() {
   const { cart } = useCart()
 
   if (cart.length === 0) {
     return (
-      <div className="container-custom py-32 text-center animate-fade-in">
-        <div className="w-24 h-24 mx-auto bg-gray-50 rounded-full flex items-center justify-center text-gray-400 mb-8 shadow-inner">
-          <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="container-custom py-20 lg:py-32 text-center min-h-[60vh] flex flex-col justify-center items-center">
+        <div className="w-24 h-24 bg-primary-50 rounded-full flex items-center justify-center mb-6">
+          <svg className="w-12 h-12 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
         </div>
-        <h1 className="font-display text-4xl font-extrabold text-gray-900 mb-4 tracking-tighter uppercase italic">Your Cart is Empty</h1>
-        <p className="font-sans text-gray-500 mb-10 font-medium text-lg">Your collection is currently empty. Add some masterpieces to get started.</p>
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Your Cart is Empty
+        </h1>
+        <p className="text-gray-600 text-lg mb-8 max-w-md mx-auto">
+          Looks like you haven't added any bouquets yet. Browse our collection to find the perfect arrangement.
+        </p>
         <Link href="/products">
-          <Button variant="primary" size="lg" className="px-12 py-5 rounded-[2rem] font-bold text-[11px] uppercase tracking-[0.25em]">
-            Browse Collection
+          <Button variant="primary" size="lg">
+            Start Shopping
           </Button>
         </Link>
       </div>
@@ -32,44 +36,38 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container-custom py-40 min-h-screen">
-      {/* Heavy Technical Header */}
-      <div className="max-w-3xl mb-24 animate-fade-in">
-        <div className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] mb-8 shadow-xl shadow-gray-900/10 italic">
-          Terminal / Manifest / Pending
-        </div>
-        <h1 className="font-display text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-tight">
-          Inventory <br />
-          <span className="text-gray-300">Archive.</span>
+    <div className="bg-gray-50/50 min-h-screen pb-20">
+      <div className="container-custom py-12 lg:py-16">
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-10">
+          Shopping Cart
         </h1>
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-24 items-start">
-        {/* Cart Items / Manifest */}
-        <div className="lg:col-span-2 space-y-12">
-          <div className="bg-white rounded-[3rem] border border-gray-100 p-10 md:p-16 shadow-2xl shadow-gray-200/50 relative overflow-hidden">
-            {/* Technical grid overlay */}
-            <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* Cart Items List */}
+          <div className="flex-grow lg:w-2/3">
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              <div className="p-6 md:p-8 space-y-8">
+                {cart.map((item) => (
+                  <CartItem key={item.id} item={item} />
+                ))}
+              </div>
+            </div>
 
-            <div className="relative divide-y-2 divide-gray-900/5">
-              {cart.map((item) => (
-                <CartItem key={item.id} item={item} />
-              ))}
+            <div className="mt-6 flex justify-between items-center">
+              <Link href="/products" className="text-primary-600 font-medium hover:text-primary-700 flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Continue Shopping
+              </Link>
             </div>
           </div>
 
-          <Link href="/products" className="inline-flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest hover:text-gray-900 transition-all italic">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
-            </svg>
-            Re-access Collection
-          </Link>
-        </div>
-
-        {/* Cart Summary / Logistics */}
-        <div className="lg:col-span-1 sticky top-32">
-          <div className="bg-gray-900 rounded-[3rem] p-12 text-white shadow-2xl shadow-gray-900/20 mesh-gradient">
-            <CartSummary cart={cart} />
+          {/* Checkout Summary Sidebar */}
+          <div className="lg:w-1/3">
+            <div className="sticky top-24">
+              <CartSummary cart={cart} />
+            </div>
           </div>
         </div>
       </div>

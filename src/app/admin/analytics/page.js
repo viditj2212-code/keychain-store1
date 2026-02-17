@@ -1,244 +1,250 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Loading from '@/components/common/Loading'
 
 /**
- * Admin analytics dashboard page
+ * Admin analytics page - Flower Store
  */
 export default function AdminAnalyticsPage() {
+  const router = useRouter()
   const [analytics, setAnalytics] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [timeRange, setTimeRange] = useState('30')
+  const [timeRange, setTimeRange] = useState('7days')
 
-  const loadAnalytics = useCallback(async () => {
+  useEffect(() => {
+    loadAnalytics()
+  }, [timeRange])
+
+  const loadAnalytics = async () => {
     try {
-      setLoading(true)
       const token = localStorage.getItem('adminToken')
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/analytics?days=${timeRange}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        }
-      )
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/analytics?range=${timeRange}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      if (response.status === 401) {
+        router.push('/admin/login')
+        return
+      }
+
       const data = await response.json()
-      setAnalytics(data.data)
+      setAnalytics(data.data || {})
     } catch (error) {
       console.error('Error loading analytics:', error)
     } finally {
       setLoading(false)
     }
-  }, [timeRange])
-
-  useEffect(() => {
-    loadAnalytics()
-  }, [loadAnalytics])
+  }
 
   if (loading) {
     return <Loading />
   }
 
-  const statCards = [
-    {
-      title: 'Total Revenue',
-      value: `$${analytics?.totalRevenue?.toFixed(2) || '0.00'}`,
-      change: `+${analytics?.revenueChange?.toFixed(1) || '0'}% vs last period`,
-      positive: true,
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      color: 'bg-green-500',
-    },
-    {
-      title: 'Total Orders',
-      value: analytics?.totalOrders || 0,
-      change: `${analytics?.orderChange >= 0 ? '+' : ''}${analytics?.orderChange?.toFixed(1) || '0'}% vs last period`,
-      positive: analytics?.orderChange >= 0,
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-        </svg>
-      ),
-      color: 'bg-blue-500',
-    },
-    {
-      title: 'Average Order Value',
-      value: `$${analytics?.averageOrderValue?.toFixed(2) || '0.00'}`,
-      change: `${analytics?.aovChange >= 0 ? '+' : ''}${analytics?.aovChange?.toFixed(1) || '0'}% vs last period`,
-      positive: analytics?.aovChange >= 0,
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
-      color: 'bg-purple-500',
-    },
-    {
-      title: 'Conversion Rate',
-      value: `${analytics?.conversionRate?.toFixed(2) || '0'}%`,
-      change: `${analytics?.conversionChange >= 0 ? '+' : ''}${analytics?.conversionChange?.toFixed(2) || '0'}% vs last period`,
-      positive: analytics?.conversionChange >= 0,
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      ),
-      color: 'bg-yellow-500',
-    },
-  ]
-
+  const revenueData = analytics?.revenue || {}
   const topProducts = analytics?.topProducts || []
   const topCategories = analytics?.topCategories || []
+  const customerStats = analytics?.customers || {}
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* Header */}
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-          <p className="text-gray-600 mt-2">Track your store's performance</p>
+          <h1 className="font-display text-3xl font-bold text-gray-900 mb-2">
+            Analytics & Insights
+          </h1>
+          <p className="text-gray-600">Track your flower shop performance</p>
         </div>
-        <div>
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="input-field"
+        <div className="flex gap-2">
+          <button
+            onClick={() => setTimeRange('7days')}
+            className={`px-4 py-2 rounded-xl font-semibold text-sm transition-all ${timeRange === '7days' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
           >
-            <option value="7">Last 7 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="90">Last 90 days</option>
-            <option value="365">Last year</option>
-          </select>
+            7 Days
+          </button>
+          <button
+            onClick={() => setTimeRange('30days')}
+            className={`px-4 py-2 rounded-xl font-semibold text-sm transition-all ${timeRange === '30days' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+          >
+            30 Days
+          </button>
+          <button
+            onClick={() => setTimeRange('90days')}
+            className={`px-4 py-2 rounded-xl font-semibold text-sm transition-all ${timeRange === '90days' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+          >
+            90 Days
+          </button>
         </div>
       </div>
 
-      {/* Stats grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statCards.map((card, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-md p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">{card.title}</p>
-                <p className="text-3xl font-bold text-gray-900">{card.value}</p>
-              </div>
-              <div className={`${card.color} p-3 rounded-lg text-white`}>
-                {card.icon}
-              </div>
-            </div>
-            <p className={`text-sm font-medium ${
-              card.positive ? 'text-green-600' : 'text-red-600'
-            }`}>
-              {card.change}
-            </p>
+      {/* Revenue Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-medium text-green-100">Total Revenue</p>
+            <svg className="w-8 h-8 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
           </div>
-        ))}
+          <p className="font-display text-4xl font-bold mb-2">
+            ${revenueData.total?.toLocaleString() || '0'}
+          </p>
+          <div className="flex items-center gap-2 text-green-100">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
+            </svg>
+            <span className="text-sm font-semibold">+{revenueData.growth || 0}% vs previous period</span>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-medium text-gray-600">Orders</p>
+            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+          </div>
+          <p className="font-display text-4xl font-bold text-gray-900 mb-2">
+            {analytics?.totalOrders || 0}
+          </p>
+          <p className="text-sm text-gray-600">Average: ${(revenueData.total / (analytics?.totalOrders || 1)).toFixed(2)}</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-medium text-gray-600">Customers</p>
+            <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
+              <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+          </div>
+          <p className="font-display text-4xl font-bold text-gray-900 mb-2">
+            {customerStats.total || 0}
+          </p>
+          <p className="text-sm text-gray-600">{customerStats.new || 0} new customers</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-medium text-gray-600">Conversion Rate</p>
+            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+              <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+            </div>
+          </div>
+          <p className="font-display text-4xl font-bold text-gray-900 mb-2">
+            {analytics?.conversionRate || 0}%
+          </p>
+          <p className="text-sm text-gray-600">Site visitors to buyers</p>
+        </div>
       </div>
 
-      {/* Charts section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top Products */}
-        <div className="bg-white rounded-xl shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Top Products</h2>
-          <div className="space-y-3">
-            {topProducts.length === 0 ? (
-              <p className="text-gray-600 text-center py-8">No product data available</p>
-            ) : (
+        {/* Top Selling Bouquets */}
+        <div className="bg-white rounded-2xl border border-gray-100 p-6">
+          <h2 className="font-display text-xl font-bold text-gray-900 mb-6">
+            Top Selling Bouquets
+          </h2>
+          <div className="space-y-4">
+            {topProducts.length > 0 ? (
               topProducts.map((product, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">{product.name}</p>
-                    <p className="text-sm text-gray-600">{product.sales} sales</p>
+                <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                  <div className="flex-shrink-0 w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {index + 1}
                   </div>
-                  <p className="font-semibold text-gray-900">${product.revenue?.toFixed(2)}</p>
+                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                    <img
+                      src={product.image || 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=200&auto=format&fit=crop&q=80'}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 truncate">{product.name}</p>
+                    <p className="text-sm text-gray-500">{product.sales} sold</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-gray-900">${product.revenue?.toLocaleString()}</p>
+                  </div>
                 </div>
               ))
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500">No sales data available</p>
+              </div>
             )}
           </div>
         </div>
 
         {/* Top Categories */}
-        <div className="bg-white rounded-xl shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Top Categories</h2>
-          <div className="space-y-3">
-            {topCategories.length === 0 ? (
-              <p className="text-gray-600 text-center py-8">No category data available</p>
-            ) : (
+        <div className="bg-white rounded-2xl border border-gray-100 p-6">
+          <h2 className="font-display text-xl font-bold text-gray-900 mb-6">
+            Popular Occasions
+          </h2>
+          <div className="space-y-4">
+            {topCategories.length > 0 ? (
               topCategories.map((category, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">{category.name}</p>
-                    <p className="text-sm text-gray-600">{category.orders} orders</p>
+                <div key={index} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-gray-900">{category.name}</span>
+                    <span className="text-sm text-gray-600">{category.percentage}%</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-24 bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-primary-600 h-2 rounded-full"
-                        style={{
-                          width: `${(category.percentage || 0) * 100}%`,
-                        }}
-                      />
-                    </div>
-                    <p className="text-sm font-semibold text-gray-900 w-12">
-                      {(category.percentage * 100).toFixed(0)}%
-                    </p>
+                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                    <div
+                      className="bg-gradient-to-r from-primary-500 to-primary-600 h-full rounded-full transition-all duration-500"
+                      style={{ width: `${category.percentage}%` }}
+                    ></div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>{category.orders} orders</span>
+                    <span>${category.revenue?.toLocaleString()}</span>
                   </div>
                 </div>
               ))
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500">No category data available</p>
+              </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* Customer insights */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 rounded-xl p-6">
-          <p className="text-sm text-orange-700 font-medium mb-2">New Customers</p>
-          <p className="text-3xl font-bold text-orange-900">{analytics?.newCustomers || 0}</p>
-          <p className="text-xs text-orange-600 mt-2">
-            This period
-          </p>
-        </div>
-
-        <div className="bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-200 rounded-xl p-6">
-          <p className="text-sm text-indigo-700 font-medium mb-2">Repeat Customers</p>
-          <p className="text-3xl font-bold text-indigo-900">{analytics?.repeatCustomers || 0}</p>
-          <p className="text-xs text-indigo-600 mt-2">
-            {analytics?.repeatRate?.toFixed(1) || '0'}% of total
-          </p>
-        </div>
-
-        <div className="bg-gradient-to-br from-rose-50 to-pink-50 border-2 border-rose-200 rounded-xl p-6">
-          <p className="text-sm text-rose-700 font-medium mb-2">Cart Abandonment</p>
-          <p className="text-3xl font-bold text-rose-900">{analytics?.cartAbandonmentRate?.toFixed(1) || '0'}%</p>
-          <p className="text-xs text-rose-600 mt-2">
-            {analytics?.abandonedCarts || 0} carts
-          </p>
-        </div>
-      </div>
-
-      {/* Additional metrics */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Additional Metrics</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div>
-            <p className="text-sm text-gray-600 mb-2">Total Visits</p>
-            <p className="text-2xl font-bold text-gray-900">{analytics?.totalVisits || 0}</p>
+      {/* Customer Insights */}
+      <div className="bg-gradient-to-br from-dark-950 to-dark-900 rounded-2xl p-8 text-white">
+        <h2 className="font-display text-2xl font-bold mb-6">Customer Insights</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+            <p className="text-sm text-gray-400 mb-2">Average Order Value</p>
+            <p className="font-display text-3xl font-bold mb-2">
+              ${customerStats.avgOrderValue?.toFixed(2) || '0.00'}
+            </p>
+            <p className="text-sm text-primary-400">Per customer transaction</p>
           </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-2">Total Users</p>
-            <p className="text-2xl font-bold text-gray-900">{analytics?.totalUsers || 0}</p>
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+            <p className="text-sm text-gray-400 mb-2">Repeat Customer Rate</p>
+            <p className="font-display text-3xl font-bold mb-2">
+              {customerStats.repeatRate || 0}%
+            </p>
+            <p className="text-sm text-primary-400">Return for more bouquets</p>
           </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-2">Bounce Rate</p>
-            <p className="text-2xl font-bold text-gray-900">{analytics?.bounceRate?.toFixed(1) || '0'}%</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-2">Avg Session Duration</p>
-            <p className="text-2xl font-bold text-gray-900">{analytics?.avgSessionDuration?.toFixed(0) || '0'}s</p>
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+            <p className="text-sm text-gray-400 mb-2">Customer Lifetime Value</p>
+            <p className="font-display text-3xl font-bold mb-2">
+              ${customerStats.lifetimeValue?.toFixed(2) || '0.00'}
+            </p>
+            <p className="text-sm text-primary-400">Average per customer</p>
           </div>
         </div>
       </div>

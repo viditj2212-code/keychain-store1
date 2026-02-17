@@ -1,9 +1,8 @@
-import { Inter, Poppins as QueraSub } from 'next/font/google'
+import { Inter, Poppins as QueraSub, Playfair_Display } from 'next/font/google'
 import '../styles/globals.css'
 import LayoutWrapper from '@/components/layout/LayoutWrapper'
 import { CartProvider } from '@/context/CartContext'
 import { AuthProvider } from '@/context/AuthContext'
-
 import { NotificationProvider } from '@/contexts/NotificationContext'
 
 const inter = Inter({
@@ -13,8 +12,7 @@ const inter = Inter({
   display: 'swap',
 })
 
-// Using Poppins as a stand-in for Quera (Quera not on Google Fonts, using Poppins as display font)
-// If you want to use custom Quera, replace with local font-face
+// Using Poppins as display font (Quera alternative)
 const quera = QueraSub({
   subsets: ['latin'],
   weight: ['600', '700'],
@@ -22,15 +20,23 @@ const quera = QueraSub({
   display: 'swap',
 })
 
+// Using Playfair Display as logo font (Ragika alternative - elegant serif for premium feel)
+const ragika = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-ragika',
+  display: 'swap',
+})
+
 export const metadata = {
-  title: 'KeyChain Collective - Elite Daily Carry',
-  description: 'Precision-engineered minimalist keychains for the modern collector.',
-  keywords: 'keychains, industrial design, everyday carry, minimalist accessories',
+  title: 'Petal & Stem - Premium Fresh Flowers',
+  description: 'Artisan floral arrangements crafted with the freshest blooms. Same-day delivery, custom bouquets, and seasonal collections.',
+  keywords: 'flowers, bouquets, fresh flowers, floral arrangements, flower delivery, same-day delivery, wedding flowers, occasion flowers',
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${quera.variable}`}>
+    <html lang="en" className={`${inter.variable} ${quera.variable} ${ragika.variable}`}>
       <body className="font-sans bg-white text-gray-900">
         <AuthProvider>
           <NotificationProvider>

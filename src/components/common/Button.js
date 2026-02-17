@@ -1,40 +1,41 @@
+'use client'
+
 /**
- * Reusable button component with variants
+ * Reusable Button component
+ * Variants: primary, secondary, outline, dark
  */
 export default function Button({
   children,
   variant = 'primary',
   size = 'md',
   className = '',
+  disabled = false,
   ...props
 }) {
+  const baseStyles = 'inline-flex items-center justify-center rounded-full font-semibold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100'
+
   const variants = {
-    primary: 'bg-gray-900 text-white hover:bg-black shadow-xl shadow-gray-900/20',
-    secondary: 'bg-white text-gray-900 border-2 border-gray-900 hover:bg-gray-50',
-    outline: 'bg-transparent text-gray-900 border-2 border-gray-100 hover:border-gray-900',
-    ghost: 'bg-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-50',
+    primary: 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/30',
+    secondary: 'bg-white text-primary-600 border border-primary-200 shadow-sm hover:shadow-md hover:bg-primary-50',
+    outline: 'bg-transparent border-2 border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white',
+    dark: 'bg-dark-950 text-white hover:bg-dark-900 hover:shadow-lg',
+    ghost: 'bg-transparent text-gray-600 hover:bg-gray-100',
   }
 
   const sizes = {
-    sm: 'px-6 h-12 text-[10px]',
-    md: 'px-8 h-16 text-xs',
-    lg: 'px-12 h-20 text-[14px]',
+    sm: 'px-4 py-2 text-xs',
+    md: 'px-6 py-3 text-sm',
+    lg: 'px-8 py-3.5 text-base',
+    xl: 'px-10 py-4 text-lg',
   }
 
   return (
     <button
-      className={`
-        relative overflow-hidden font-sans font-bold uppercase tracking-[0.3em] italic transition-all duration-500 flex items-center justify-center gap-2
-        disabled:opacity-30 disabled:cursor-not-allowed active:scale-95
-        ${variants[variant]} ${sizes[size]} ${className}
-      `}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      disabled={disabled}
       {...props}
     >
-      <span className="relative z-10">{children}</span>
-      {variant === 'primary' && (
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full hover:animate-shimmer pointer-events-none"></div>
-      )}
+      {children}
     </button>
   )
 }
-

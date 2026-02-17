@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from 'react'
 
 /**
- * Premium Custom Dropdown component
- * Replaces standard HTML select with an interactive, industrial-noir styled component
+ * Custom Dropdown component - Flower store design
+ * Replaces standard HTML select with an interactive, premium styled component
  */
 export default function CustomDropdown({ label, options, value, onChange, className = '' }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -25,36 +25,36 @@ export default function CustomDropdown({ label, options, value, onChange, classN
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       {label && (
-        <label className="block text-[10px] font-semibold text-gray-400 mb-3 uppercase tracking-[0.4em] italic ml-1 font-sans">
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
           {label}
         </label>
       )}
 
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className={`group relative flex items-center justify-between px-8 h-16 bg-gray-50 border-2 cursor-pointer rounded-2xl transition-all duration-500 ${isOpen
-          ? 'border-gray-900 bg-white shadow-2xl'
-          : 'border-gray-100 hover:border-gray-300'
+        className={`group relative flex items-center justify-between px-4 h-12 bg-white border-2 cursor-pointer rounded-lg transition-all duration-300 ${isOpen
+            ? 'border-primary-500 ring-2 ring-primary-200 shadow-md'
+            : 'border-gray-200 hover:border-gray-300'
           }`}
       >
-        <span className={`font-sans font-semibold uppercase tracking-widest text-xs italic truncate transition-colors ${isOpen ? 'text-gray-900' : 'text-gray-400'}`}>
+        <span className={`font-sans font-medium text-sm truncate transition-colors ${isOpen ? 'text-gray-900' : 'text-gray-700'
+          }`}>
           {selectedOption.label}
         </span>
 
-        <div className={`transition-transform duration-[0.8s] ease-in-out ${isOpen ? 'rotate-[360deg]' : ''}`}>
-          <svg className={`w-5 h-5 ${isOpen ? 'text-gray-900' : 'text-gray-400 opacity-30 group-hover:opacity-100'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+        <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+          <svg className={`w-5 h-5 ${isOpen ? 'text-primary-600' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
-
-        {/* Technical Accent line */}
-        <div className="absolute bottom-0 left-8 right-8 h-px bg-gray-900/5 group-hover:bg-gray-900/10 transition-colors"></div>
       </div>
 
-      {/* Options Dropdown / Sequence Matrix */}
-      <div className={`absolute z-[100] w-full mt-4 bg-white/98 backdrop-blur-xl border-2 border-gray-900 rounded-[2rem] shadow-2xl overflow-hidden transition-all duration-500 origin-top transform ${isOpen ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
+      {/* Options Dropdown */}
+      <div className={`absolute z-[100] w-full mt-2 bg-white border-2 border-primary-500 rounded-xl shadow-2xl overflow-hidden transition-all duration-300 origin-top ${isOpen
+          ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+          : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'
         }`}>
-        <div className="pt-4 max-h-[300px] overflow-y-auto custom-scrollbar">
+        <div className="py-2 max-h-[280px] overflow-y-auto">
           {options.map((option) => (
             <div
               key={option.value}
@@ -62,14 +62,16 @@ export default function CustomDropdown({ label, options, value, onChange, classN
                 onChange(option.value)
                 setIsOpen(false)
               }}
-              className={`px-10 py-5 font-sans font-semibold uppercase tracking-widest text-[10px] italic cursor-pointer transition-all flex items-center justify-between ${value === option.value
-                ? 'bg-gray-900 text-white'
-                : 'bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-900'
+              className={`px-4 py-3 font-sans font-medium text-sm cursor-pointer transition-all flex items-center justify-between ${value === option.value
+                  ? 'bg-primary-50 text-primary-700'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
                 }`}
             >
               <span>{option.label}</span>
               {value === option.value && (
-                <div className="w-2 h-2 rounded-full bg-white shadow-lg shadow-white/50"></div>
+                <svg className="w-4 h-4 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
               )}
             </div>
           ))}

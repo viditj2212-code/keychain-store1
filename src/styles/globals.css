@@ -2,24 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar - Industrial Noir */
+/* Custom scrollbar - Premium Flower Store */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #222;
-  border: 2px solid #000;
-  border-radius: 4px;
+  background: #E37EAF;
+  border: 2px solid #FFFFFF;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333;
+  background: #d84b8c;
 }
 
 /* Base styles */
@@ -44,46 +44,39 @@ body {
   line-height: 1.6;
 }
 
-/* Normalize text casing and style across the site per request */
-/* Use sentence case instead of forced uppercase and remove italics globally */
-body, body * {
-  text-transform: none !important;
-  font-style: normal !important;
-}
-
-/* Restore small-caps-ish visual for intentional headings if needed via a class */
-.meta-upper {
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-weight: 600;
-}
-
 /* Headings use Quera font */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-quera, var(--font-inter, system-ui, sans-serif));
   font-weight: 700;
   color: inherit;
+  letter-spacing: -0.01em;
 }
 
 h1 {
-  font-size: clamp(2.25rem, 6vw, 3.75rem);
-  line-height: 1.05;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
 h2 {
-  font-size: clamp(1.5rem, 4.5vw, 2.5rem);
-  line-height: 1.15;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
 }
 
 h3 {
-  font-size: clamp(1.25rem, 3vw, 2rem);
-  line-height: 1.2;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1.3;
 }
 
 h4 {
   font-size: 1.5rem;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 h5 {
@@ -96,63 +89,35 @@ h6 {
   line-height: 1.5;
 }
 
-/* Form elements: inherit Inter by default */
-input, textarea, select, button, optgroup {
+/* Form elements */
+input,
+textarea,
+select,
+button,
+optgroup {
   font-family: var(--font-inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
   font-size: inherit;
   font-weight: 400;
 }
 
-/* Placeholders use Inter and appropriate weight */
 input::placeholder,
 textarea::placeholder,
 select::placeholder {
   font-family: var(--font-inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif);
   font-weight: 400;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
-/* Industrial Grid Background */
+/* Subtle floral background pattern */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(to right, #f3f4f6 1px, transparent 1px),
-    linear-gradient(to bottom, #f3f4f6 1px, transparent 1px);
-  background-size: 40px 40px;
+    radial-gradient(circle at 20% 30%, rgba(227, 126, 175, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(227, 126, 175, 0.02) 0%, transparent 50%);
   z-index: -20;
-  opacity: 0.5;
   pointer-events: none;
-}
-
-/* Mesh Gradient Foundation */
-.mesh-gradient {
-  position: relative;
-  overflow: hidden;
-}
-
-.mesh-gradient::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 30%, rgba(2, 132, 199, 0.08), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(56, 189, 248, 0.05), transparent 40%);
-  z-index: -10;
-  animation: mesh-float 20s ease-in-out infinite alternate;
-}
-
-@keyframes mesh-float {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-
-  100% {
-    transform: translate(5%, 5%) rotate(5deg);
-  }
 }
 
 /* Utilities */
@@ -166,46 +131,59 @@ body::before {
   }
 
   .glass {
-    @apply backdrop-blur-2xl bg-white/70 border border-white/50 shadow-2xl;
+    @apply backdrop-blur-xl bg-white/80 border border-primary-100/50 shadow-xl;
   }
 
   .glass-dark {
-    @apply backdrop-blur-2xl bg-gray-900/80 border border-white/10 shadow-2xl;
+    @apply backdrop-blur-xl bg-dark-950/90 border border-primary-500/20 shadow-2xl;
   }
 }
 
-/* Component styles - Industrial Noir */
+/* Component styles - Premium Flower Store */
 @layer components {
   .btn-primary {
-    @apply bg-gray-900 text-white px-10 py-4 rounded-xl font-bold tracking-normal hover:bg-black transition-all duration-500 hover:shadow-2xl hover:shadow-gray-900/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm;
+    @apply bg-primary-500 text-white px-8 py-3.5 rounded-full font-semibold tracking-tight hover:bg-primary-600 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
     font-family: var(--font-inter);
   }
 
   .btn-secondary {
-    @apply bg-white text-gray-900 px-10 py-4 rounded-xl font-bold tracking-normal hover:bg-gray-50 transition-all duration-500 active:scale-95 text-sm border border-gray-100 shadow-sm hover:shadow-md;
+    @apply bg-white text-primary-600 px-8 py-3.5 rounded-full font-semibold tracking-tight hover:bg-primary-50 transition-all duration-300 active:scale-95 border border-primary-200 shadow-sm hover:shadow-md;
     font-family: var(--font-inter);
   }
 
   .btn-outline {
-    @apply border-2 border-gray-900 text-gray-900 px-10 py-4 rounded-xl font-bold tracking-normal hover:bg-gray-900 hover:text-white transition-all duration-500 active:scale-95 text-sm;
+    @apply border-2 border-primary-500 text-primary-600 px-8 py-3.5 rounded-full font-semibold tracking-tight hover:bg-primary-500 hover:text-white transition-all duration-300 active:scale-95;
+    font-family: var(--font-inter);
+  }
+
+  .btn-dark {
+    @apply bg-dark-950 text-white px-8 py-3.5 rounded-full font-semibold tracking-tight hover:bg-dark-900 transition-all duration-300 hover:shadow-lg active:scale-95;
     font-family: var(--font-inter);
   }
 
   .input-field {
-    @apply w-full px-6 py-5 border-2 border-gray-100 bg-white rounded-xl font-semibold tracking-widest text-xs focus:outline-none focus:border-gray-900 transition-all duration-300;
+    @apply w-full px-4 py-3 border-2 border-gray-200 bg-white rounded-lg font-normal text-sm focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200;
     font-family: var(--font-inter);
   }
 
   .card-premium {
-    @apply bg-white rounded-[2rem] border border-gray-100 overflow-hidden hover:border-gray-900 transition-all duration-700 hover:shadow-2xl hover:shadow-gray-200;
+    @apply bg-white rounded-2xl border border-gray-100 overflow-hidden hover:border-primary-300 transition-all duration-500 hover:shadow-xl hover:shadow-primary-100/50;
+  }
+
+  .badge-occasion {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-700;
+  }
+
+  .badge-status {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
   }
 }
 
-/* High-End Animations */
-@keyframes fade-in {
+/* Premium Animations */
+@keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
 
   to {
@@ -214,49 +192,86 @@ body::before {
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes reveal {
+@keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }
 
-.staggered-revealer>* {
-  opacity: 0;
-  animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
 }
 
-.staggered-revealer>*:nth-child(1) {
-  animation-delay: 0.1s;
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.staggered-revealer>*:nth-child(2) {
-  animation-delay: 0.2s;
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
 }
 
-.staggered-revealer>*:nth-child(3) {
-  animation-delay: 0.3s;
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-.staggered-revealer>*:nth-child(4) {
-  animation-delay: 0.4s;
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
 }
 
 .hover-lift {
-  @apply transition-all duration-700 ease-in-out;
+  @apply transition-all duration-300 ease-out;
 }
 
 .hover-lift:hover {
-  @apply -translate-y-3 shadow-2xl;
+  @apply -translate-y-2 shadow-xl;
+}
+
+.hover-scale {
+  @apply transition-transform duration-300 ease-out;
+}
+
+.hover-scale:hover {
+  @apply scale-105;
 }
 
 @keyframes add-to-cart {
@@ -265,11 +280,11 @@ body::before {
   }
 
   30% {
-    transform: scale(1.12) translateY(-8px) rotate(-1deg);
+    transform: scale(1.1) translateY(-5px);
   }
 
   60% {
-    transform: scale(0.98) translateY(-4px);
+    transform: scale(0.95) translateY(-2px);
   }
 
   100% {
@@ -278,5 +293,60 @@ body::before {
 }
 
 .animate-add-to-cart {
-  animation: add-to-cart 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: add-to-cart 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Intersection Observer reveal animations */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children animations */
+.stagger-children>* {
+  opacity: 0;
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-children>*:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stagger-children>*:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stagger-children>*:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stagger-children>*:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.stagger-children>*:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.stagger-children>*:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid #E37EAF;
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(227, 126, 175, 0.3);
+  color: inherit;
 }

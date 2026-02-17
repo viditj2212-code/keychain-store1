@@ -6,7 +6,7 @@ import Button from '@/components/common/Button'
 import { submitContactForm } from '@/lib/api'
 
 /**
- * Contact page
+ * Contact page - Flower store
  */
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -41,167 +41,247 @@ export default function ContactPage() {
     }
   }
 
-  return (
-    <div className="bg-white min-h-[95vh] relative overflow-hidden mesh-gradient">
-      {/* Background technical grid decoration */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none -z-10" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
+  const faqItems = [
+    {
+      question: 'What are your delivery hours?',
+      answer: 'We deliver Monday-Saturday from 9 AM to 8 PM. Same-day delivery is available for orders placed before 2 PM.'
+    },
+    {
+      question: 'How long will my bouquet stay fresh?',
+      answer: 'With proper care, our bouquets stay fresh for 7-10 days. We provide care instructions with every order and guarantee freshness.'
+    },
+    {
+      question: 'Can I customize a bouquet?',
+      answer: 'Absolutely! Contact us with your preferences and our expert florists will create a custom arrangement just for you.'
+    },
+    {
+      question: 'Do you offer same-day delivery?',
+      answer: 'Yes! Orders placed before 2 PM qualify for same-day delivery within our delivery zone.'
+    }
+  ]
 
-      <div className="container-custom py-40">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-32 items-center">
-          {/* Left: Branding & Info */}
-          <div className="space-y-16 animate-fade-in text-center lg:text-left">
-            <div className="space-y-10">
-              <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.45em] shadow-2xl shadow-gray-900/20 italic">
-                Communications / Protocol
-              </div>
-              <h1 className="font-display text-3xl md:text-4xl lg:text-[2.5rem] font-extrabold text-gray-900 leading-tight tracking-tighter uppercase italic">
-                Initialise <br />
-                <span className="text-gray-300">Contact.</span>
-              </h1>
-              <p className="font-sans text-base md:text-lg text-gray-400 font-medium uppercase tracking-widest leading-tight italic max-w-md mx-auto lg:mx-0">
-                Whether you have a technical query or a bespoke request, our bureau is active and ready.
-              </p>
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative py-24 lg:py-32 bg-gradient-to-b from-primary-50/30 to-white overflow-hidden">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-semibold">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Get in Touch
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 pt-12 border-t border-gray-100">
-              <div className="group space-y-4">
-                <div className="w-16 h-16 rounded-2xl bg-gray-900 flex items-center justify-center text-white shadow-xl transition-all duration-500 group-hover:bg-black group-hover:shadow-gray-900/40">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              We're Here to
+              <br />
+              <span className="text-primary-500">Help</span>
+            </h1>
+
+            <p className="font-sans text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+              Have a question about our bouquets, delivery, or custom arrangements?
+              We'd love to hear from you.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div className="container-custom py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          {/* Left: Contact Info */}
+          <div className="space-y-12">
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 flex-shrink-0 group-hover:bg-primary-200 transition-all">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm font-bold text-gray-500 mb-1 uppercase tracking-wide">Email Us</h3>
+                    <p className="font-sans text-xl font-semibold text-gray-900">hello@petalstem.com</p>
+                    <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-1">Electronic Mail</h3>
-                  <p className="font-display text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter">support@collective.io</p>
+
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 flex-shrink-0 group-hover:bg-primary-200 transition-all">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm font-bold text-gray-500 mb-1 uppercase tracking-wide">Call Us</h3>
+                    <p className="font-sans text-xl font-semibold text-gray-900">(555) 123-4567</p>
+                    <p className="text-sm text-gray-500 mt-1">Mon-Sat: 9 AM - 8 PM</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 flex-shrink-0 group-hover:bg-primary-200 transition-all">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm font-bold text-gray-500 mb-1 uppercase tracking-wide">Visit Us</h3>
+                    <p className="font-sans text-xl font-semibold text-gray-900">123 Bloom Street</p>
+                    <p className="text-sm text-gray-500 mt-1">Garden City, CA 90210</p>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div className="group space-y-4">
-                <div className="w-16 h-16 rounded-2xl bg-gray-900 flex items-center justify-center text-white shadow-xl transition-all duration-500 group-hover:bg-black group-hover:shadow-gray-900/40">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-1">Headquarters</h3>
-                  <p className="font-display text-xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Archive 1 / Lab 001</p>
-                </div>
+            {/* FAQ Section */}
+            <div className="pt-12 border-t border-gray-200">
+              <h3 className="font-display text-2xl font-bold text-gray-900 mb-6">
+                Frequently Asked Questions
+              </h3>
+              <div className="space-y-4">
+                {faqItems.map((item, index) => (
+                  <details key={index} className="group bg-gray-50 rounded-xl p-6 hover:bg-primary-50/50 transition-all">
+                    <summary className="font-display font-bold text-gray-900 cursor-pointer flex items-center justify-between gap-4">
+                      {item.question}
+                      <svg className="w-5 h-5 text-primary-600 flex-shrink-0 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </summary>
+                    <p className="mt-4 text-gray-600 leading-relaxed">
+                      {item.answer}
+                    </p>
+                  </details>
+                ))}
               </div>
             </div>
           </div>
 
           {/* Right: Contact Form */}
-          <div className="staggered-revealer">
-            <div className="bg-white/80 backdrop-blur-3xl p-12 md:p-16 rounded-[3.5rem] border border-white shadow-2xl shadow-gray-200/50 relative overflow-hidden group">
-              {/* Technical Indicator */}
-              <div className="absolute top-0 right-0 p-8">
-                <div className="w-2 h-2 rounded-full bg-gray-900 animate-pulse"></div>
-              </div>
-
+          <div className="lg:sticky lg:top-24">
+            <div className="bg-white rounded-2xl border border-gray-100 p-8 lg:p-10 shadow-xl">
               {submitted ? (
-                <div className="py-20 text-center space-y-10 animate-fade-in">
-                  <div className="w-24 h-24 bg-gray-900 rounded-full flex items-center justify-center text-white mx-auto shadow-2xl shadow-gray-900/20">
-                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="py-16 text-center space-y-8 animate-fade-in">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto">
+                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <div className="space-y-4">
-                    <h3 className="font-display text-3xl font-extrabold text-gray-900 uppercase italic tracking-tighter">Packet Delivered</h3>
-                    <p className="font-sans text-gray-400 font-bold uppercase tracking-widest leading-tight max-w-xs mx-auto italic">
-                      Transmission received. Our bureau will respond within 24 standard hours.
+                  <div className="space-y-3">
+                    <h3 className="font-display text-3xl font-bold text-gray-900">Message Sent!</h3>
+                    <p className="text-gray-600 leading-relaxed max-w-sm mx-auto">
+                      Thank you for reaching out. We'll get back to you within 24 hours.
                     </p>
                   </div>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="font-sans text-gray-900 font-bold text-xs uppercase tracking-widest hover:underline transition-all italic"
+                    className="text-primary-600 font-semibold hover:text-primary-700 transition-colors"
                   >
-                    Initiate New Transmission
+                    Send Another Message
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-10">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-                    <div className="space-y-3">
-                      <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
-                        Full Identifier
-                      </label>
-                      <input
-                        name="name"
-                        placeholder="ID"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-3">
-                      <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
-                        Comms Address
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="NAME@DOMAIN.COM"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
-                        required
-                      />
-                    </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <h3 className="font-display text-2xl font-bold text-gray-900 mb-2">
+                      Send us a Message
+                    </h3>
+                    <p className="text-sm text-gray-500">We typically respond within 24 hours</p>
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
-                      Subject Matter
-                    </label>
-                    <input
-                      name="subject"
-                      placeholder="CUSTOM_SPEC_001"
-                      value={formData.subject}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Input
+                      label="Name"
+                      name="name"
+                      placeholder="Your name"
+                      value={formData.name}
                       onChange={handleChange}
-                      className="w-full h-16 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 px-8 transition-all font-sans font-bold uppercase tracking-widest text-gray-900 text-xs italic"
+                      required
+                    />
+                    <Input
+                      label="Email"
+                      type="email"
+                      name="email"
+                      placeholder="you@example.com"
+                      value={formData.email}
+                      onChange={handleChange}
                       required
                     />
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="font-sans text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] italic ml-1">
-                      Transmission Narrative
+                  <Input
+                    label="Subject"
+                    name="subject"
+                    placeholder="How can we help?"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Message <span className="text-primary-500">*</span>
                     </label>
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       rows={5}
-                      placeholder="ENTER SPECIFICATIONS OR QUERIES..."
-                      className="w-full rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:ring-0 focus:border-gray-900 p-8 transition-all resize-none font-sans font-bold uppercase tracking-widest text-gray-900 text-xs leading-relaxed italic"
+                      placeholder="Tell us what's on your mind..."
+                      className="input-field resize-none"
                       required
                     />
                   </div>
 
-                  <button
+                  <Button
                     type="submit"
+                    variant="primary"
+                    size="lg"
                     disabled={loading}
-                    className="w-full bg-gray-900 text-white h-20 rounded-[2rem] font-display font-extrabold text-[13px] uppercase tracking-[0.4em] italic flex items-center justify-center gap-6 hover:bg-black transition-all active:scale-[0.98] disabled:opacity-30 shadow-2xl shadow-gray-900/20"
+                    className="w-full"
                   >
                     {loading ? (
-                      'TRANSMITTING...'
-                    ) : (
-                      <>
-                        Execute Transmission
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      <span className="flex items-center justify-center gap-3">
+                        <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                      </>
+                        Sending...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        Send Message
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                      </span>
                     )}
-                  </button>
+                  </Button>
                 </form>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Map / Location Section (Optional) */}
+      <section className="py-20 bg-gradient-to-b from-white to-primary-50/20">
+        <div className="container-custom">
+          <div className="bg-gray-100 rounded-3xl overflow-hidden h-96 flex items-center justify-center">
+            <div className="text-center p-12">
+              <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <h4 className="font-display text-xl font-bold text-gray-900 mb-2">Find Our Store</h4>
+              <p className="text-gray-600">123 Bloom Street, Garden City, CA 90210</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

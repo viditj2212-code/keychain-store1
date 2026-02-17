@@ -1,106 +1,145 @@
+'use client'
+
 import Link from 'next/link'
-import Button from '@/components/common/Button'
+import { useState } from 'react'
 
 /**
- * Categories section showcasing product categories
+ * Categories section - Occasion-based flower categories
  */
 export default function Categories() {
+  const [hoveredCategory, setHoveredCategory] = useState(null)
+
   const categories = [
     {
-      id: 1,
-      name: 'Minimalist Series',
-      description: 'Zero-tolerance engineering',
-      image: 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=1200&auto=format&fit=crop&q=80',
-      href: '/products?category=minimalist',
+      id: 'birthday',
+      name: 'Birthday Blooms',
+      description: 'Vibrant bouquets to celebrate another year',
+      image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&auto=format&fit=crop&q=80',
+      href: '/products?occasion=birthday',
+      color: 'from-pink-500 to-rose-500',
     },
     {
-      id: 2,
-      name: 'Leather Craft',
-      description: 'Italian full-grain precision',
-      image: 'https://images.unsplash.com/photo-1547744152-14d985cb937f?w=1200&auto=format&fit=crop&q=80',
-      href: '/products?category=leather',
+      id: 'anniversary',
+      name: 'Anniversary Flowers',
+      description: 'Romantic arrangements for your special day',
+      image: 'https://images.unsplash.com/photo-1522057306606-df6c7820122e?w=600&auto=format&fit=crop&q=80',
+      href: '/products?occasion=anniversary',
+      color: 'from-red-500 to-pink-500',
     },
     {
-      id: 3,
-      name: 'Hard Metal',
-      description: 'Grade 5 Titanium builds',
-      image: 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=1200&auto=format&fit=crop&q=80',
-      href: '/products?category=metal',
+      id: 'romantic',
+      name: 'Romantic Roses',
+      description: 'Classic elegance for your loved one',
+      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
+      href: '/products?occasion=romantic',
+      color: 'from-rose-500 to-red-600',
     },
     {
-      id: 4,
-      name: 'Bespoke / Custom',
-      description: 'Unique identifier engraving',
-      image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=1200&auto=format&fit=crop&q=80',
-      href: '/products?category=custom',
+      id: 'sympathy',
+      name: 'Sympathy & Condolence',
+      description: 'Thoughtful tributes to honor memories',
+      image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&auto=format&fit=crop&q=80',
+      href: '/products?occasion=sympathy',
+      color: 'from-white to-gray-100',
+    },
+    {
+      id: 'celebration',
+      name: 'Celebration Bouquets',
+      description: 'Joyful arrangements for any milestone',
+      image: 'https://images.unsplash.com/photo-1487070183336-b863922373d4?w=600&auto=format&fit=crop&q=80',
+      href: '/products?occasion=celebration',
+      color: 'from-yellow-400 to-orange-500',
+    },
+    {
+      id: 'seasonal',
+      name: 'Seasonal Collection',
+      description: 'Fresh picks inspired by the season',
+      image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&auto=format&fit=crop&q=80',
+      href: '/products?sort=seasonal',
+      color: 'from-primary-400 to-primary-600',
     },
   ]
 
   return (
-    <section className="py-32 bg-white relative">
+    <section className="py-20 lg:py-28 bg-white">
       <div className="container-custom">
         {/* Section Header */}
-        <div className="max-w-xl mb-24 animate-fade-in text-center md:text-left mx-auto md:mx-0">
-          <div className="inline-flex items-center gap-3 px-5 py-2 rounded-lg bg-gray-900 text-white text-[9px] font-bold uppercase tracking-[0.4em] italic shadow-xl shadow-gray-900/10 mb-8">
-            Catalogue / Series
-          </div>
-          <h2 className="font-display text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tighter uppercase italic leading-none mb-8">
-            Curated <br />
-            <span className="text-gray-300">Collections.</span>
+        <div className="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            Shop by Occasion
           </h2>
-          <p className="font-sans text-lg text-gray-400 font-bold uppercase tracking-widest leading-relaxed italic">
-            Explore our specialized categories, each defined by material excellence and tactical utility.
+          <p className="font-sans text-base md:text-lg text-gray-600">
+            Find the perfect bouquet for every meaningful moment in life
           </p>
         </div>
 
-        {/* Asymmetrical Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {categories.slice(0, 3).map((category, index) => (
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {categories.map((category, index) => (
             <Link
               key={category.id}
               href={category.href}
-              className={`relative group overflow-hidden rounded-[2.5rem] border border-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl hover:shadow-gray-200/50 ${index === 0 ? 'md:col-span-2 lg:col-span-2 aspect-[16/9]' : 'aspect-[4/5] lg:aspect-auto'
-                }`}
+              className="group relative block overflow-hidden rounded-2xl bg-white border border-gray-100 hover:border-primary-300 transition-all duration-500 hover:shadow-xl hover:shadow-primary-100/50 reveal-on-scroll"
+              style={{ animationDelay: `${index * 0.1}s` }}
+              onMouseEnter={() => setHoveredCategory(category.id)}
+              onMouseLeave={() => setHoveredCategory(null)}
             >
-              <img src={category.image} alt={category.name} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700"></div>
+              {/* Image Container */}
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
 
-              <div className="absolute inset-x-0 bottom-0 p-12 translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.4em] italic mb-2">Series {index + 1}</p>
-                <h3 className="font-display text-4xl font-extrabold text-white tracking-tighter uppercase italic">{category.name}</h3>
-                <p className="font-sans text-white/70 font-bold text-[10px] uppercase tracking-widest mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 italic">
-                  — {category.description}
-                </p>
+                {/* Gradient Overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-20 group-hover:opacity-30 transition-opacity duration-500`}></div>
+
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
               </div>
 
-              {/* Technical Marker */}
-              <div className="absolute top-10 right-10 w-12 h-px bg-white/20"></div>
-              <div className="absolute top-8 right-10 w-px h-12 bg-white/20"></div>
+              {/* Content */}
+              <div className="p-6">
+                <h3 className="font-display text-xl lg:text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  {category.name}
+                </h3>
+                <p className="font-sans text-sm text-gray-600 leading-relaxed mb-4">
+                  {category.description}
+                </p>
+
+                {/* CTA */}
+                <div className="flex items-center gap-2 text-primary-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                  <span>Shop Now</span>
+                  <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Occasion Badge */}
+              <div className="absolute top-4 right-4 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full shadow-lg">
+                <span className="text-xs font-semibold text-gray-700">
+                  {category.name.split(' ')[0]}
+                </span>
+              </div>
             </Link>
           ))}
+        </div>
 
-          {/* Custom Series Banner */}
+        {/* Bottom CTA */}
+        <div className="text-center mt-12 lg:mt-16">
           <Link
-            href={categories[3].href}
-            className="md:col-span-2 lg:col-span-3 group relative overflow-hidden rounded-[2.5rem] border border-gray-100 shadow-sm transition-all duration-700 h-64"
+            href="/products"
+            className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700 transition-colors group"
           >
-            <img src={categories[3].image} alt={categories[3].name} className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
-            <div className="absolute inset-0 bg-gray-900/40 group-hover:bg-gray-900/20 transition-colors duration-700 backdrop-blur-[1px]"></div>
-
-            <div className="absolute inset-0 flex items-center justify-between px-12 md:px-20 z-10">
-              <div className="space-y-2">
-                <p className="text-[10px] font-bold text-white/80 uppercase tracking-[0.4em] italic">Department</p>
-                <h3 className="font-display text-2xl md:text-3xl font-extrabold text-white tracking-tighter uppercase italic">{categories[3].name}</h3>
-              </div>
-              <Button variant="secondary" size="lg" className="hidden sm:flex min-w-[200px]">Define Series</Button>
-            </div>
-
-            {/* Background Grid Pattern Overlay */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+            <span>View All Bouquets</span>
+            <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
           </Link>
         </div>
       </div>
     </section>
   )
 }
-

@@ -1,158 +1,155 @@
+'use client'
+
 import Link from 'next/link'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useCart } from '@/context/CartContext'
-import { useNotification } from '@/contexts/NotificationContext'
 import Button from '@/components/common/Button'
-import Badge from '@/components/common/Badge'
-import { getImageUrl } from '@/utils/imageUrl'
 
 /**
- * Product card component for displaying individual products
- * @param {Object} product - Product data object
+ * Product Card Component
+ * Displays individual flower bouquet with image, details, and add to cart
  */
 export default function ProductCard({ product }) {
   const { addToCart } = useCart()
-  const { showToast } = useNotification()
-  const [isAnimating, setIsAnimating] = useState(false)
-  const imgRef = useRef(null)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [isAddingToCart, setIsAddingToCart] = useState(false)
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.preventDefault()
-    // Trigger small visual feedback and add to cart
-    setIsAnimating(true)
-    addToCart(product)
-    flyToCart()
-    showToast(`Added ${product.name} to cart`, 'success')
-    setTimeout(() => setIsAnimating(false), 900)
+    e.stopPropagation()
+
+    setIsAddingToCart(true)
+    await addToCart(product)
+
+    // Show animation
+    setTimeout(() => {
+      setIsAddingToCart(false)
+    }, 600)
   }
 
-  const flyToCart = () => {
-    try {
-      const cartBtn = document.querySelector('button[aria-label="Shopping cart"]')
-      const imgEl = imgRef.current
-      if (!cartBtn || !imgEl) return
-
-      const imgRect = imgEl.getBoundingClientRect()
-      const cartRect = cartBtn.getBoundingClientRect()
-
-      const clone = imgEl.cloneNode(true)
-      clone.style.position = 'fixed'
-      clone.style.left = `${imgRect.left}px`
-      clone.style.top = `${imgRect.top}px`
-      clone.style.width = `${imgRect.width}px`
-      clone.style.height = `${imgRect.height}px`
-      clone.style.transition = 'transform 700ms cubic-bezier(0.2,0.8,0.2,1), opacity 700ms'
-      clone.style.zIndex = 9999
-      clone.style.pointerEvents = 'none'
-      clone.style.borderRadius = '12px'
-      document.body.appendChild(clone)
-
-      const deltaX = cartRect.left + cartRect.width / 2 - (imgRect.left + imgRect.width / 2)
-      const deltaY = cartRect.top + cartRect.height / 2 - (imgRect.top + imgRect.height / 2)
-      const scale = 0.15
-
-      requestAnimationFrame(() => {
-        clone.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scale}) rotate(-6deg)`
-        clone.style.opacity = '0.6'
-      })
-
-      setTimeout(() => {
-        clone.remove()
-      }, 800)
-    } catch (err) {
-      // silent
-    }
-  }
-
-  const handleShare = async (e) => {
-    e.preventDefault()
-    const url = `${window.location.origin}/products/${product.id}`
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: product.name, url })
-        return
-      } catch (err) {
-        // fallback to clipboard
-      }
-    }
-    navigator.clipboard.writeText(url)
-    showToast('Product link copied to clipboard', 'success')
-  }
+  // Get occasion badge if available
+  const occasion = product.category || product.occasion
 
   return (
-    <div className="relative group bg-white rounded-[2rem] border border-gray-100 overflow-hidden hover:border-gray-900 transition-all duration-700 hover:shadow-2xl hover:shadow-gray-200">
-      <Link href={`/products/${product.id}`} className="block overflow-hidden">
-        {/* Product Image Section */}
-        <div className="relative aspect-square overflow-hidden bg-gray-50">
-          <img
-            ref={imgRef}
-            src={getImageUrl(product.image) || 'https://via.placeholder.com/400x400?text=Keychain'}
-            alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ${isAnimating ? 'animate-add-to-cart' : ''}`}
-          />
+    <div className="group">
+      <Link href={`/products/${product.id}`} className="block">
+        <div className="card-premium hover-lift">
+          {/* Image Container */}
+          <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
+            {!imageLoaded && (
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100 animate-pulse"></div>
+            )}
 
-          {/* Share button */}
-          <button
-            onClick={handleShare}
-            title="Share Product"
-            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-xl bg-white/90 flex items-center justify-center text-gray-900 hover:bg-gray-900 hover:text-white transition-colors shadow-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-            </svg>
-          </button>
+            <img
+              src={product.image_url || product.image || 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=600&auto=format&fit=crop&q=80'}
+              alt={product.name}
+              className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+              onLoad={() => setImageLoaded(true)}
+              loading="lazy"
+            />
 
-          {/* Badges - Industrial Style */}
-          <div className="absolute top-6 left-6 flex flex-col gap-2 z-10">
-            {product.isNew && <Badge variant="primary" className="shadow-lg shadow-gray-900/10">NEW</Badge>}
-            {product.isFeatured && <Badge variant="secondary" className="shadow-lg shadow-gray-900/10">LIMITED</Badge>}
-            {product.stock === 0 && <Badge variant="danger" className="shadow-lg shadow-red-900/10">DEPLETED</Badge>}
-          </div>
+            {/* Occasion Badge */}
+            {occasion && (
+              <div className="absolute top-3 left-3 badge-occasion">
+                {occasion}
+              </div>
+            )}
 
-          {/* Technical Marker Overlay */}
-          <div className="absolute inset-0 border-[20px] border-white/0 group-hover:border-white/10 transition-all duration-700 pointer-events-none"></div>
-        </div>
-
-        {/* Product Information */}
-        <div className="p-8 flex flex-col space-y-6">
-          <div className="space-y-2">
-            <p className="font-sans text-[9px] font-semibold text-gray-400 uppercase tracking-[0.3em] italic">
-              {product.category || 'Essential'} Series
-            </p>
-            <h3 className="font-sans text-2xl font-bold text-gray-900 group-hover:text-gray-900 transition-colors truncate uppercase italic tracking-tighter">
-              {product.name}
-            </h3>
-          </div>
-
-          <div className="flex items-center justify-between pt-6 border-t border-gray-50">
-            <div className="flex flex-col">
-              <p className="font-sans text-[8px] font-semibold text-gray-400 uppercase tracking-widest mb-1 italic">Unit Cost</p>
-              {product.salePrice ? (
-                <div className="flex items-center gap-3">
-                  <span className="font-sans text-2xl font-bold text-gray-900 tracking-tighter">
-                    ${product.salePrice.toFixed(2)}
-                  </span>
-                  <span className="font-sans text-sm text-gray-300 line-through font-semibold tracking-tighter">
-                    ${product.price.toFixed(2)}
-                  </span>
-                </div>
-              ) : (
-                <span className="font-sans text-2xl font-bold text-gray-900 tracking-tighter">
-                  ${product.price.toFixed(2)}
-                </span>
-              )}
+            {/* Quick View Overlay */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+              <span className="bg-white text-primary-600 px-6 py-2.5 rounded-full font-semibold text-sm shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                Quick View
+              </span>
             </div>
 
-            <button
-              onClick={handleAddToCart}
-              disabled={product.stock === 0}
-              className="w-12 h-12 rounded-xl border-2 border-gray-900 flex items-center justify-center text-gray-900 hover:bg-gray-900 hover:text-white transition-all active:scale-[0.9] disabled:opacity-20 shadow-sm"
-              aria-label="Add to cart"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
+            {/* Stock Badge */}
+            {product.stock_quantity && product.stock_quantity < 5 && product.stock_quantity > 0 && (
+              <div className="absolute top-3 right-3 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                Only {product.stock_quantity} left!
+              </div>
+            )}
+
+            {/* Out of Stock */}
+            {product.stock_quantity === 0 && (
+              <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                <span className="bg-white text-gray-900 px-6 py-3 rounded-full font-bold shadow-xl">
+                  Out of Stock
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Product Info */}
+          <div className="p-5">
+            <div className="mb-3">
+              <h3 className="font-display text-lg font-bold text-gray-900 mb-1 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                {product.name}
+              </h3>
+              <p className="font-sans text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                {product.description}
+              </p>
+            </div>
+
+            {/* Features/Tags */}
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                <svg className="w-3.5 h-3.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                Fresh Guaranteed
+              </span>
+              <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                <svg className="w-3.5 h-3.5 text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Same-Day
+              </span>
+            </div>
+
+            {/* Price and Add to Cart */}
+            <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100">
+              <div>
+                <p className="font-display text-2xl font-bold text-gray-900">
+                  ${product.salePrice || product.price}
+                </p>
+                {(product.salePrice || (product.original_price && product.original_price > product.price)) && (
+                  <p className="text-sm text-gray-400 line-through">
+                    ${product.salePrice ? product.price : product.original_price}
+                  </p>
+                )}
+              </div>
+
+              {(product.stock_quantity === undefined || product.stock_quantity > 0) ? (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={isAddingToCart}
+                  className={`flex-shrink-0 bg-primary-500 text-white px-4 py-2.5 rounded-full font-semibold text-sm hover:bg-primary-600 active:scale-95 transition-all shadow-md hover:shadow-lg disabled:opacity-50 ${isAddingToCart ? 'animate-add-to-cart' : ''
+                    }`}
+                >
+                  {isAddingToCart ? (
+                    <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : (
+                    <span className="flex items-center gap-1.5">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                      </svg>
+                      Add
+                    </span>
+                  )}
+                </button>
+              ) : (
+                <button
+                  disabled
+                  className="flex-shrink-0 bg-gray-200 text-gray-500 px-4 py-2.5 rounded-full font-semibold text-sm cursor-not-allowed"
+                >
+                  Sold Out
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </Link>

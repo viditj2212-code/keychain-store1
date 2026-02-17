@@ -1,17 +1,20 @@
+'use client'
+
 /**
- * Badge component for labels and tags
+ * Reusable Badge component
  */
 export default function Badge({ children, variant = 'primary', className = '' }) {
   const variants = {
-    primary: 'bg-gray-900 text-white',
-    secondary: 'bg-gray-50 text-gray-400 border-gray-100',
-    success: 'bg-green-50 text-green-600 border-green-100',
-    warning: 'bg-yellow-50 text-yellow-700 border-yellow-100',
-    danger: 'bg-red-50 text-red-600 border-red-100',
+    primary: 'bg-primary-100 text-primary-700',
+    secondary: 'bg-gray-100 text-gray-700',
+    success: 'bg-green-100 text-green-700',
+    warning: 'bg-yellow-100 text-yellow-700',
+    danger: 'bg-red-100 text-red-700',
+    dark: 'bg-gray-800 text-white',
   }
 
   return (
-    <span className={`inline-block px-3 py-1 text-[10px] font-medium font-sans rounded-full border border-transparent ${variants[variant]} ${className}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${variants[variant]} ${className}`}>
       {children}
     </span>
   )

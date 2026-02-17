@@ -1,50 +1,35 @@
+'use client'
+
 /**
- * Reusable input component with error handling
+ * Reusable Input component with label and validation error
  */
 export default function Input({
   label,
   error,
   className = '',
-  type = 'text',
-  children,
+  id,
+  required,
   ...props
 }) {
-  const baseClassName = `input-field ${error ? 'border-red-500 focus:ring-red-500' : ''}`
+  const inputId = id || props.name
 
   return (
-    <div className={className}>
+    <div className={`space-y-1.5 ${className}`}>
       {label && (
-        <label className="block text-[10px] font-semibold text-gray-400 mb-3 uppercase tracking-[0.4em] italic ml-1 font-sans">
-          {label}
-          {props.required && <span className="text-gray-900 ml-1 opacity-50">*</span>}
+        <label htmlFor={inputId} className="block text-sm font-semibold text-gray-700">
+          {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}
-
-      <div className="relative group">
-        {type === 'textarea' ? (
-          <textarea
-            className={`w-full bg-gray-50 border-2 border-gray-100 rounded-2xl px-8 py-5 font-sans font-semibold uppercase tracking-widest text-gray-900 text-xs italic focus:border-gray-900 focus:bg-white focus:ring-0 transition-all min-h-[120px] ${error ? 'border-red-500' : ''}`}
-            {...props}
-          />
-        ) : type === 'select' ? (
-          <select
-            className={`w-full h-16 bg-gray-50 border-2 border-gray-100 rounded-2xl px-8 font-sans font-semibold uppercase tracking-widest text-gray-900 text-xs italic focus:border-gray-900 focus:bg-white focus:ring-0 transition-all appearance-none ${error ? 'border-red-500' : ''}`}
-            {...props}
-          >
-            {children}
-          </select>
-        ) : (
-          <input
-            type={type}
-            className={`w-full h-16 bg-gray-50 border-2 border-gray-100 rounded-2xl px-8 font-sans font-semibold uppercase tracking-widest text-gray-900 text-xs italic focus:border-gray-900 focus:bg-white focus:ring-0 transition-all ${error ? 'border-red-500' : ''}`}
-            {...props}
-          />
-        )}
-
-      </div>
-
+      <input
+        id={inputId}
+        className={`w-full px-4 py-3 border-2 rounded-lg font-normal text-sm focus:outline-none focus:ring-2 transition-all duration-200 ${error
+            ? 'border-red-300 focus:border-red-500 focus:ring-red-200 bg-red-50/30'
+            : 'border-gray-200 bg-white focus:border-primary-500 focus:ring-primary-200'
+          }`}
+        {...props}
+      />
       {error && (
-        <p className="mt-2 text-[10px] font-semibold text-red-600 uppercase tracking-widest italic ml-1 font-sans">{error}</p>
+        <p className="text-xs text-red-500 mt-1 font-medium animate-pulse">{error}</p>
       )}
     </div>
   )

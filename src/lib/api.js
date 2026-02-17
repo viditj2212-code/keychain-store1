@@ -1,188 +1,204 @@
-import { mockProducts } from './mockData'
+import { supabase } from './supabase'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
-const USE_MOCK_DATA = false // Set to false when backend is ready
+
+// Mock data kept for reference/fallback if needed
+const MOCK_PRODUCTS = [
+  {
+    id: '1',
+    name: 'Blushing Beauty',
+    description: 'A romantic arrangement of soft pink roses and white lilies, perfect for expressing admiration. Wrapped in premium kraft paper with a satin ribbon.',
+    price: 89.99,
+    salePrice: null,
+    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&auto=format&fit=crop&q=80',
+    category: 'Romantic',
+    occasion: 'Anniversary',
+    stock: 12,
+    isFeatured: true,
+    features: ['12 Pink Roses', '3 White Lilies', 'Eucalyptus Greens', 'Hand-tied Bouquet'],
+    images: [
+      'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1582794543139-8ac92a9abf39?w=800&auto=format&fit=crop&q=80',
+    ]
+  },
+  // ... other mock products would go here
+]
 
 /**
- * Generic API fetch wrapper
+ * Maps Supabase product record (snake_case) to app product object (camelCase)
  */
-async function apiFetch(endpoint, options = {}) {
-  const url = `${API_URL}${endpoint}`
-  
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-    ...options,
-  }
+const mapProduct = (p) => ({
+  id: p.id,
+  name: p.name,
+  description: p.description,
+  price: Number(p.price),
+  salePrice: p.sale_price ? Number(p.sale_price) : null,
+  image: p.image || p.image_url,
+  category: p.category,
+  occasion: p.occasion,
+  stock: p.stock || p.stock_quantity,
+  isFeatured: p.is_featured,
+  isNew: p.is_new,
+  features: p.features || [],
+  images: p.images || []
+})
 
-  try {
-    const response = await fetch(url, config)
-    
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`)
-    }
-    const body = await response.json()
-
-    // If backend follows { success, message, data } shape, unwrap data
-    if (body && typeof body === 'object' && body.success && Object.prototype.hasOwnProperty.call(body, 'data')) {
-      return body.data
-    }
-
-    return body
-  } catch (error) {
-    console.error('API fetch error:', error)
-    throw error
-  }
-}
-
-/**
- * Fetch all products with optional filters
- */
 export async function fetchProducts(filters = {}) {
-  if (USE_MOCK_DATA) {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500))
-    
-    let filteredProducts = [...mockProducts]
-    
-    // Apply category filter
+  try {
+    // Fetch all products from Supabase
+    // We fetch all because the dataset is small and we want to reuse 
+    // the complex JS filtering logic (search, price ranges, effective price sorting)
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+
+    if (error) {
+      console.error('Error fetching products:', error)
+      return []
+    }
+
+    if (!data || data.length === 0) {
+      console.warn('No products found in Supabase')
+      return []
+    }
+
+    // DEBUG: Log first product to check fields
+    // console.log('Raw Supabase Product:', data[0])
+
+    // Map to app format
+    let filtered = data.map(mapProduct)
+
+    // Apply Filters (Same logic as before)
+
     if (filters.category && filters.category !== 'All') {
-      filteredProducts = filteredProducts.filter(
-        p => p.category === filters.category
+      filtered = filtered.filter(p =>
+        p.category === filters.category || p.occasion === filters.category
       )
     }
-    
-    // Apply price range filter
-    if (filters.priceRange && filters.priceRange !== 'all') {
-      const [min, max] = filters.priceRange.split('-').map(Number)
-      filteredProducts = filteredProducts.filter(p => {
-        const price = p.salePrice || p.price
-        if (max) {
-          return price >= min && price <= max
-        } else {
-          return price >= min
-        }
+
+    // Flower type filtering
+    if (filters.flowerType && filters.flowerType !== 'all') {
+      filtered = filtered.filter(p => {
+        // Check if product features contain the flower type
+        const features = p.features?.join(' ').toLowerCase() || ''
+        const name = p.name.toLowerCase()
+        const description = p.description.toLowerCase()
+        const searchTerm = filters.flowerType.toLowerCase()
+
+        return features.includes(searchTerm) || name.includes(searchTerm) || description.includes(searchTerm)
       })
     }
-    
-    // Apply sorting
-    switch (filters.sort) {
-      case 'price-low':
-        filteredProducts.sort((a, b) => 
-          (a.salePrice || a.price) - (b.salePrice || b.price)
-        )
-        break
-      case 'price-high':
-        filteredProducts.sort((a, b) => 
-          (b.salePrice || b.price) - (a.salePrice || a.price)
-        )
-        break
-      case 'newest':
-        filteredProducts.sort((a, b) => b.isNew - a.isNew)
-        break
-      case 'rating':
-        filteredProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0))
-        break
-      default:
-        // Featured first
-        filteredProducts.sort((a, b) => b.isFeatured - a.isFeatured)
+
+    // Price range filtering
+    if (filters.priceRange && filters.priceRange !== 'all') {
+      filtered = filtered.filter(p => {
+        const price = p.salePrice || p.price
+
+        if (filters.priceRange === '0-50') {
+          return price < 50
+        } else if (filters.priceRange === '50-100') {
+          return price >= 50 && price <= 100
+        } else if (filters.priceRange === '100-150') {
+          return price >= 100 && price <= 150
+        } else if (filters.priceRange === '150+') {
+          return price >= 150
+        }
+        return true
+      })
     }
-    
-    // Apply featured filter
+
     if (filters.featured) {
-      filteredProducts = filteredProducts.filter(p => p.isFeatured)
+      filtered = filtered.filter(p => p.isFeatured)
     }
-    
-    // Apply limit
+
+    if (filters.excludeId) {
+      filtered = filtered.filter(p => p.id !== filters.excludeId)
+    }
+
+    // Sorting
+    if (filters.sort) {
+      switch (filters.sort) {
+        case 'price-low':
+          // console.log('Sorting price-low')
+          filtered.sort((a, b) => {
+            const priceA = Number(a.salePrice) || Number(a.price)
+            const priceB = Number(b.salePrice) || Number(b.price)
+            return priceA - priceB
+          })
+          break
+        case 'price-high':
+          filtered.sort((a, b) => {
+            const priceA = Number(a.salePrice) || Number(a.price)
+            const priceB = Number(b.salePrice) || Number(b.price)
+            return priceB - priceA
+          })
+          break
+        case 'newest':
+          filtered.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0))
+          break
+        case 'popular':
+          filtered.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0))
+          break
+        case 'featured':
+        default:
+          // Featured items first, then by price
+          filtered.sort((a, b) => {
+            if (a.isFeatured && !b.isFeatured) return -1
+            if (!a.isFeatured && b.isFeatured) return 1
+            const priceA = Number(a.salePrice) || Number(a.price)
+            const priceB = Number(b.salePrice) || Number(b.price)
+            return priceA - priceB
+          })
+          break
+      }
+    }
+
+    // Limit (apply last)
     if (filters.limit) {
-      filteredProducts = filteredProducts.slice(0, filters.limit)
+      filtered = filtered.slice(0, filters.limit)
     }
-    
-    return filteredProducts
+
+    return filtered
+
+  } catch (err) {
+    console.error('Unexpected error in fetchProducts:', err)
+    return []
   }
-  
-  const params = new URLSearchParams()
-  
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value) params.append(key, value)
-  })
-  
-  const queryString = params.toString()
-  const endpoint = `/products${queryString ? `?${queryString}` : ''}`
-  
-  return apiFetch(endpoint)
 }
 
-/**
- * Fetch single product by ID
- */
-export async function fetchProduct(id) {
-  if (USE_MOCK_DATA) {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
-    const product = mockProducts.find(p => p.id === id)
-    if (!product) {
-      throw new Error('Product not found')
+export async function fetchProductById(id) {
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single()
+
+    if (error) {
+      // console.error(`Error fetching product ${id}:`, error)
+      return null
     }
-    return product
+
+    return mapProduct(data)
+  } catch (err) {
+    console.error(`Unexpected error fetching product ${id}:`, err)
+    return null
   }
-  
-  return apiFetch(`/products/${id}`)
 }
 
-/**
- * Create new order
- */
-export async function createOrder(orderData) {
-  if (USE_MOCK_DATA) {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // Mock successful order creation
-    return {
-      id: `ORDER-${Date.now()}`,
-      ...orderData,
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-    }
-  }
-  
-  return apiFetch('/orders', {
-    method: 'POST',
-    body: JSON.stringify(orderData),
-  })
-}
-
-/**
- * Subscribe to newsletter
- */
-export async function subscribeNewsletter(email) {
-  if (USE_MOCK_DATA) {
-    await new Promise(resolve => setTimeout(resolve, 500))
-    return { success: true, email }
-  }
-  
-  return apiFetch('/newsletter/subscribe', {
-    method: 'POST',
-    body: JSON.stringify({ email }),
-  })
-}
-
-/**
- * Submit contact form
- */
 export async function submitContactForm(formData) {
-  if (USE_MOCK_DATA) {
-    await new Promise(resolve => setTimeout(resolve, 800))
-    console.log('Contact form submitted:', formData)
-    return { success: true, message: 'Message received!' }
-  }
-  
-  return apiFetch('/contact', {
+  const response = await fetch(`${API_URL}/contact`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(formData),
   })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || 'Failed to submit contact form')
+  }
+
+  return response.json()
 }

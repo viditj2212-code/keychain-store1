@@ -1,39 +1,32 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
-import Loading from '@/components/common/Loading'
+import Button from '@/components/common/Button'
 import ImageUpload from '@/components/common/ImageUpload'
-import { useNotification } from '@/contexts/NotificationContext'
-import { getImageUrl } from '@/utils/imageUrl'
+import Loading from '@/components/common/Loading'
 
 /**
- * Edit product page
+ * Admin edit product page - Flower Store
  */
-export default function EditProductPage() {
-  const { showToast } = useNotification()
+export default function AdminEditProductPage() {
   const router = useRouter()
   const params = useParams()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [product, setProduct] = useState(null)
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     price: '',
-    salePrice: '',
-    image: '',
-    images: '',
-    category: 'Minimalist',
-    stock: '',
-    isFeatured: false,
-    isNew: false,
-    features: '',
+    sale_price: '',
+    category: 'Birthday',
+    stock_quantity: '',
+    image: null,
+    current_image_url: '',
   })
-  const [errors, setErrors] = useState({})
-  const [imagePreviews, setImagePreviews] = useState([])
+
+  const occasions = ['Birthday', 'Anniversary', 'Romantic', 'Sympathy', 'Celebration', 'Seasonal', 'Just Because']
 
   useEffect(() => {
     loadProduct()
@@ -47,120 +40,72 @@ export default function EditProductPage() {
           'Authorization': `Bearer ${token}`,
         },
       })
-      const data = await response.json()
 
-      if (data.success) {
-        const prod = data.data
-        setProduct(prod)
+      if (response.ok) {
+        const data = await response.json()
+        const product = data.data
         setFormData({
-          name: prod.name,
-          description: prod.description,
-          price: prod.price.toString(),
-          salePrice: prod.salePrice ? prod.salePrice.toString() : '',
-          image: prod.image,
-          images: prod.images ? prod.images.join('\n') : '',
-          category: prod.category,
-          stock: prod.stock.toString(),
-          isFeatured: prod.isFeatured,
-          isNew: prod.isNew,
-          features: prod.features ? prod.features.join('\n') : '',
+          name: product.name || '',
+          description: product.description || '',
+          price: product.price || '',
+          sale_price: product.sale_price || '',
+          category: product.category || 'Birthday',
+          stock_quantity: product.stock_quantity || '',
+          image: null,
+          current_image_url: product.image_url || product.image || '',
         })
-
-        // Load existing images into preview
-        if (prod.images && prod.images.length > 0) {
-          setImagePreviews(prod.images.map(url => ({ url, isNew: false })))
-        }
       }
     } catch (error) {
       console.error('Error loading product:', error)
-      showToast('Failed to load product', 'error')
-      router.push('/admin/products')
     } finally {
       setLoading(false)
     }
   }
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [e.target.name]: e.target.value,
     })
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: '' })
-    }
   }
 
-  const handleImagesChange = (previews) => {
-    setImagePreviews(previews)
-    if (errors.image) {
-      setErrors({ ...errors, image: '' })
-    }
+  const handleImageChange = (file) => {
+    setFormData({
+      ...formData,
+      image: file,
+    })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSaving(true)
-    setErrors({})
 
     try {
       const token = localStorage.getItem('adminToken')
 
-      // Create FormData
       const data = new FormData()
-      data.append('name', formData.name)
-      data.append('description', formData.description)
-      data.append('price', formData.price)
-      if (formData.salePrice) data.append('salePrice', formData.salePrice)
-
-      // Append image files (new uploads) and existing image URLs
-      imagePreviews.forEach((preview) => {
-        if (preview.file) {
-          data.append('images', preview.file)
-        } else if (preview.url) {
-          data.append('images', preview.url)
+      Object.keys(formData).forEach(key => {
+        if (key !== 'current_image_url' && formData[key] !== null && formData[key] !== '') {
+          data.append(key, formData[key])
         }
       })
-
-      // Append features array
-      const featuresArray = formData.features ? formData.features.split('\n').filter(f => f.trim()) : []
-      featuresArray.forEach(feat => data.append('features', feat))
-
-      data.append('category', formData.category)
-      data.append('stock', formData.stock)
-      data.append('isFeatured', formData.isFeatured)
-      data.append('isNew', formData.isNew)
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${params.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
-          // 'Content-Type': 'multipart/form-data', // Do NOT set manually
         },
         body: data,
       })
 
-      const responseData = await response.json()
-
-      if (!response.ok) {
-        if (responseData.errors) {
-          const errorObj = {}
-          const errorMessages = []
-          responseData.errors.forEach(err => {
-            errorObj[err.field] = err.message
-            errorMessages.push(`- ${err.message}`)
-          })
-          setErrors(errorObj)
-          throw new Error('Validation failed:\n' + errorMessages.join('\n'))
-        }
-        throw new Error(responseData.message || 'Failed to update product')
+      if (response.ok) {
+        router.push('/admin/products')
+      } else {
+        throw new Error('Failed to update bouquet')
       }
-
-      showToast('Product updated successfully!', 'success')
-      router.push('/admin/products')
     } catch (error) {
       console.error('Error updating product:', error)
-      showToast(error.message || 'Failed to update product', 'error')
+      alert('Failed to update bouquet. Please try again.')
     } finally {
       setSaving(false)
     }
@@ -171,172 +116,117 @@ export default function EditProductPage() {
   }
 
   return (
-    <div className="max-w-4xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Edit Product</h1>
-        <p className="text-gray-600 mt-2">Update product information</p>
+    <div className="max-w-4xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => router.back()}
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div>
+          <h1 className="font-display text-3xl font-bold text-gray-900">
+            Edit Bouquet
+          </h1>
+          <p className="text-gray-600 mt-1">Update bouquet details and availability</p>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 space-y-6">
-        {/* Basic Info */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Basic Information</h2>
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-8 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="md:col-span-2">
+            <Input
+              label="Bouquet Name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="e.g., Romantic Rose Bouquet"
+              required
+            />
+          </div>
 
-          <Input
-            label="Product Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            error={errors.name}
-            required
-          />
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description <span className="text-red-600">*</span>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Description <span className="text-primary-500">*</span>
             </label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               rows={4}
-              className={`input-field ${errors.description ? 'border-red-500' : ''}`}
+              className="input-field resize-none"
+              placeholder="Describe the bouquet, flowers included, and occasion..."
               required
             />
-            {errors.description && (
-              <p className="mt-1 text-sm text-red-600">{errors.description}</p>
-            )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category <span className="text-red-600">*</span>
-              </label>
-              <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="input-field"
-                required
-              >
-                <option value="Minimalist">Minimalist</option>
-                <option value="Leather">Leather</option>
-                <option value="Metal">Metal</option>
-                <option value="Custom">Custom</option>
-              </select>
-            </div>
-
-            <Input
-              label="Stock Quantity"
-              name="stock"
-              type="number"
-              value={formData.stock}
-              onChange={handleChange}
-              error={errors.stock}
-              required
-              min="0"
-            />
-          </div>
-        </div>
-
-        {/* Pricing */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Pricing</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              label="Regular Price"
-              name="price"
-              type="number"
-              step="0.01"
-              value={formData.price}
-              onChange={handleChange}
-              error={errors.price}
-              required
-              min="0"
-            />
-
-            <Input
-              label="Sale Price (Optional)"
-              name="salePrice"
-              type="number"
-              step="0.01"
-              value={formData.salePrice}
-              onChange={handleChange}
-              error={errors.salePrice}
-              min="0"
-            />
-          </div>
-        </div>
-
-        {/* Images */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Images</h2>
-
-          <ImageUpload
-            images={imagePreviews}
-            onChange={handleImagesChange}
-            maxImages={10}
+          <Input
+            label="Price"
+            type="number"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            placeholder="49.99"
+            step="0.01"
+            required
           />
-          {errors.image && (
-            <p className="mt-1 text-sm text-red-600">{errors.image}</p>
-          )}
-        </div>
-        {/* Features */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Features</h2>
+
+          <Input
+            label="Sale Price (Optional)"
+            type="number"
+            name="sale_price"
+            value={formData.sale_price}
+            onChange={handleChange}
+            placeholder="39.99"
+            step="0.01"
+          />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Features (Optional)
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Occasion <span className="text-primary-500">*</span>
             </label>
-            <textarea
-              name="features"
-              value={formData.features}
+            <select
+              name="category"
+              value={formData.category}
               onChange={handleChange}
-              rows={4}
               className="input-field"
-              placeholder="One feature per line"
+              required
+            >
+              {occasions.map(occasion => (
+                <option key={occasion} value={occasion}>{occasion}</option>
+              ))}
+            </select>
+          </div>
+
+          <Input
+            label="Stock Quantity"
+            type="number"
+            name="stock_quantity"
+            value={formData.stock_quantity}
+            onChange={handleChange}
+            placeholder="20"
+            required
+          />
+
+          <div className="md:col-span-2">
+            <ImageUpload
+              label="Bouquet Image"
+              value={formData.image || formData.current_image_url}
+              onChange={handleImageChange}
             />
           </div>
         </div>
 
-        {/* Status */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Status</h2>
-
-          <div className="space-y-3">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="isFeatured"
-                checked={formData.isFeatured}
-                onChange={handleChange}
-                className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
-              />
-              <span className="ml-2 text-sm text-gray-700">Featured Product</span>
-            </label>
-
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                name="isNew"
-                checked={formData.isNew}
-                onChange={handleChange}
-                className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
-              />
-              <span className="ml-2 text-sm text-gray-700">New Arrival</span>
-            </label>
-          </div>
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-4 pt-6 border-t">
+        <div className="flex gap-4 pt-6 border-t border-gray-200">
           <Button
             type="button"
             variant="secondary"
             onClick={() => router.back()}
+            className="flex-1"
           >
             Cancel
           </Button>
@@ -344,6 +234,7 @@ export default function EditProductPage() {
             type="submit"
             variant="primary"
             disabled={saving}
+            className="flex-1"
           >
             {saving ? 'Saving...' : 'Save Changes'}
           </Button>

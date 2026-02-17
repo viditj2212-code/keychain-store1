@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { NotificationProvider } from '@/contexts/NotificationContext'
 
 /**
- * Admin layout with sidebar navigation
+ * Admin layout with sidebar navigation - Flower Store
  * Protected - requires admin authentication
  */
 export default function AdminLayout({ children }) {
@@ -62,11 +62,11 @@ export default function AdminLayout({ children }) {
       ),
     },
     {
-      name: 'Products',
+      name: 'Bouquets',
       href: '/admin/products',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v18m0-18c-1.5 3-4 4.5-7 5m7-5c1.5 3 4 4.5 7 5M5 8c0 7 7 13 7 13s7-6 7-13" />
         </svg>
       ),
     },
@@ -112,28 +112,36 @@ export default function AdminLayout({ children }) {
   const innerContent = (isLoginPage || !user) ? (
     <>{children}</>
   ) : (
-    <div className="flex min-h-screen bg-gray-100 flex flex-col w-full">
+    <div className="flex min-h-screen bg-gray-50">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-screen w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 z-50 h-screen w-72 bg-gradient-to-b from-dark-950 to-dark-900 border-r border-primary-500/20 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-          <Link href="/admin/dashboard" className="text-xl font-bold text-primary-600">
-            KeyChain Admin
+        <div className="flex items-center justify-between h-20 px-6 border-b border-primary-500/20">
+          <Link href="/admin/dashboard" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-500/30">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m0-18c-1.5 3-4 4.5-7 5m7-5c1.5 3 4 4.5 7 5M5 8c0 7 7 13 7 13s7-6 7-13" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-logo text-lg font-bold text-white">Petal & Stem</p>
+              <p className="text-xs text-primary-400 font-medium">Admin Panel</p>
+            </div>
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-2 text-gray-600 hover:text-gray-900"
+            className="lg:hidden p-2 text-gray-400 hover:text-white transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -142,16 +150,16 @@ export default function AdminLayout({ children }) {
         </div>
 
         {/* Navigation */}
-        <nav className="px-4 py-6 space-y-1">
+        <nav className="px-4 py-6 space-y-2">
           {navigation.map((item) => {
             const isActive = pathname.startsWith(item.href)
             return (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${isActive
-                  ? 'bg-primary-50 text-primary-700'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                className={`flex items-center px-4 py-3.5 text-sm font-semibold rounded-xl transition-all ${isActive
+                    ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
+                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
                   }`}
               >
                 {item.icon}
@@ -162,22 +170,22 @@ export default function AdminLayout({ children }) {
         </nav>
 
         {/* User section */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center text-white font-semibold">
-                {user.firstName?.[0]}{user.lastName?.[0]}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-primary-500/20">
+          <div className="flex items-center justify-between bg-white/5 rounded-xl p-4">
+            <div className="flex items-center min-w-0">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold shadow-md flex-shrink-0">
+                {user?.firstName?.[0]}{user?.lastName?.[0]}
               </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900">
-                  {user.firstName} {user.lastName}
+              <div className="ml-3 min-w-0">
+                <p className="text-sm font-semibold text-white truncate">
+                  {user?.firstName} {user?.lastName}
                 </p>
-                <p className="text-xs text-gray-600">{user.email}</p>
+                <p className="text-xs text-gray-400 truncate">{user?.email}</p>
               </div>
             </div>
             <button
               onClick={handleLogout}
-              className="p-2 text-gray-600 hover:text-red-600 transition-colors"
+              className="p-2 text-gray-400 hover:text-red-400 transition-colors flex-shrink-0"
               title="Logout"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,13 +197,13 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Main content */}
-      <div className="lg:pl-64">
+      <div className="lg:pl-72 flex-1">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 h-16 bg-white border-b border-gray-200">
+        <header className="sticky top-0 z-30 h-16 bg-white border-b border-gray-200 shadow-sm">
           <div className="flex items-center justify-between h-full px-6">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 text-gray-600 hover:text-gray-900"
+              className="lg:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -206,16 +214,19 @@ export default function AdminLayout({ children }) {
               <Link
                 href="/"
                 target="_blank"
-                className="text-sm text-gray-600 hover:text-primary-600 transition-colors"
+                className="flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-primary-600 transition-colors"
               >
-                View Store →
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                View Store
               </Link>
             </div>
           </div>
         </header>
 
         {/* Page content */}
-        <main className="p-6">
+        <main className="p-6 lg:p-8">
           {children}
         </main>
       </div>
